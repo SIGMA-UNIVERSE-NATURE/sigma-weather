@@ -3,247 +3,488 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌐 SIGMA UNIVERSE – WEATHER</title>
+    <title>🌿 SIGMA FOREST – WEATHER</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background: #0a1e3f;
-            color: #fff;
+            font-family: 'Segoe UI', 'Roboto', sans-serif;
             min-height: 100vh;
+            background: linear-gradient(145deg, #1b3b1a 0%, #2e5c2a 100%);
+            color: #f0f7e6;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
         }
-        .container {
-            max-width: 900px;
+
+        /* BAMBOO FOREST BACKGROUND (CSS only) */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            background: #ffffff10;
-            backdrop-filter: blur(12px);
-            border-radius: 32px;
-            padding: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-            border: 1px solid #ffffff20;
+            height: 100%;
+            background:
+                repeating-linear-gradient(90deg,
+                    transparent 0%,
+                    transparent 5%,
+                    rgba(34, 65, 32, 0.2) 5%,
+                    rgba(34, 65, 32, 0.2) 6%,
+                    transparent 6%,
+                    transparent 12%
+                ),
+                repeating-linear-gradient(0deg,
+                    transparent 0%,
+                    transparent 50px,
+                    rgba(34, 65, 32, 0.1) 50px,
+                    rgba(34, 65, 32, 0.1) 52px,
+                    transparent 52px,
+                    transparent 100px
+                );
+            pointer-events: none;
+            z-index: 0;
         }
+
+        .bamboo-stem {
+            position: fixed;
+            bottom: 0;
+            width: 8px;
+            background: linear-gradient(180deg, #3d6b3d, #1f3a1f);
+            border-radius: 4px 4px 0 0;
+            opacity: 0.15;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 960px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            background: rgba(20, 40, 20, 0.55);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 48px;
+            padding: 30px 30px 20px;
+            border: 1px solid rgba(200, 230, 180, 0.2);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+        }
+
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
+
+        .badge {
+            display: inline-block;
+            background: #2e4d2a;
+            color: #c8e6b5;
+            padding: 6px 24px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: 1px solid #5a8f4a;
+        }
+
         .header h1 {
-            font-size: 34px;
+            font-size: 40px;
             font-weight: 700;
+            letter-spacing: 2px;
+            color: #ebf5e0;
+            margin-top: 6px;
+        }
+
+        .header h1 span {
+            color: #b8d9a0;
+            text-shadow: 0 0 20px rgba(180, 220, 140, 0.3);
+        }
+
+        .motto {
+            font-size: 15px;
+            color: #b0cba0;
+            font-style: italic;
+            margin-top: 2px;
             letter-spacing: 1px;
         }
-        .header h1 span { color: #ffd700; }
-        .header .motto {
-            font-size: 14px;
-            color: #aac;
-            margin-top: 4px;
-            font-style: italic;
-        }
+
+        /* CHARACTERS */
         .characters {
             display: flex;
-            justify-content: center;
-            gap: 30px;
             flex-wrap: wrap;
-            margin: 16px 0 24px 0;
+            justify-content: center;
+            gap: 18px 30px;
+            margin: 20px 0 28px;
         }
+
         .char-item {
-            text-align: center;
-            font-size: 13px;
-            color: #ccd;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 8px 18px 8px 12px;
+            border-radius: 60px;
+            border: 1px solid rgba(180, 220, 140, 0.15);
+            backdrop-filter: blur(4px);
+            transition: 0.3s;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
         }
+
+        .char-item:hover {
+            transform: translateY(-6px) scale(1.02);
+            background: rgba(180, 220, 140, 0.1);
+            border-color: #b8d9a0;
+        }
+
         .char-item .emoji {
-            font-size: 42px;
-            display: block;
+            font-size: 34px;
+            line-height: 1;
         }
+
+        .char-item .name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #d0e8c0;
+        }
+
+        /* SEARCH */
         .search-box {
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
-            margin-bottom: 30px;
+            margin-bottom: 28px;
             justify-content: center;
         }
-        .search-box input, .search-box select {
+
+        .search-box input,
+        .search-box select {
             flex: 1;
-            padding: 14px 18px;
-            border-radius: 40px;
+            min-width: 150px;
+            padding: 14px 20px;
+            border-radius: 60px;
             border: none;
-            background: #ffffff20;
-            color: #fff;
+            background: rgba(30, 60, 30, 0.6);
+            color: #ebf5e0;
             font-size: 16px;
             outline: none;
-            min-width: 150px;
+            border: 1px solid rgba(180, 220, 140, 0.15);
+            transition: 0.3s;
         }
-        .search-box input::placeholder { color: #aac; }
+
+        .search-box input:focus,
+        .search-box select:focus {
+            background: rgba(40, 80, 40, 0.7);
+            border-color: #8cb87a;
+        }
+
+        .search-box input::placeholder {
+            color: #88a87a;
+        }
+
         .search-box button {
-            padding: 14px 30px;
-            border-radius: 40px;
+            padding: 14px 32px;
+            border-radius: 60px;
             border: none;
-            background: #ffd700;
-            color: #0a1e3f;
+            background: #4d7a3a;
+            color: #f0f7e6;
             font-weight: 700;
             font-size: 16px;
             cursor: pointer;
             transition: 0.3s;
+            box-shadow: 0 4px 16px rgba(70, 130, 50, 0.3);
+            border: 1px solid #6a9e56;
         }
-        .search-box button:hover { background: #f0c800; }
-        .card {
-            background: #ffffff10;
-            border-radius: 24px;
-            padding: 20px;
+
+        .search-box button:hover {
+            background: #5f9248;
+            transform: scale(1.02);
+            box-shadow: 0 6px 24px rgba(80, 150, 60, 0.4);
+        }
+
+        /* WEATHER CARDS - LEAF STYLE */
+        .city-label {
+            color: #b0cba0;
+            font-size: 18px;
+            font-weight: 500;
             margin-bottom: 16px;
-            border-left: 6px solid #ffd700;
-            transition: 0.3s;
+            letter-spacing: 0.5px;
+            text-align: center;
         }
-        .card.critical { border-color: #e74c3c; }
-        .card.warning { border-color: #e67e22; }
-        .card.caution { border-color: #f1c40f; }
-        .card.normal { border-color: #2ecc71; }
-        .card .time { font-size: 14px; color: #aac; }
-        .card .temp { font-size: 28px; font-weight: 700; }
-        .card .desc { font-size: 16px; margin-top: 6px; }
-        .card .advice { font-size: 14px; color: #dde; margin-top: 8px; }
+
+        .card {
+            background: rgba(30, 60, 30, 0.5);
+            backdrop-filter: blur(4px);
+            border-radius: 24px 4px 24px 4px;
+            padding: 18px 24px;
+            margin-bottom: 14px;
+            border-left: 6px solid #6a9e56;
+            transition: 0.3s;
+            border: 1px solid rgba(180, 220, 140, 0.08);
+        }
+
+        .card:hover {
+            background: rgba(40, 80, 40, 0.6);
+            transform: translateX(6px);
+            border-left-color: #b8d9a0;
+        }
+
+        .card.critical {
+            border-left-color: #c0392b;
+        }
+        .card.warning {
+            border-left-color: #e67e22;
+        }
+        .card.caution {
+            border-left-color: #f1c40f;
+        }
+        .card.normal {
+            border-left-color: #6a9e56;
+        }
+
+        .card .time {
+            font-size: 13px;
+            color: #88a87a;
+        }
+
+        .card .temp {
+            font-size: 26px;
+            font-weight: 700;
+            margin: 2px 0;
+        }
+
+        .card .desc {
+            font-size: 15px;
+            color: #c8dcc0;
+        }
+
+        .card .advice {
+            display: inline-block;
+            font-size: 14px;
+            color: #d0e8c0;
+            background: rgba(50, 90, 50, 0.4);
+            padding: 6px 16px;
+            border-radius: 30px;
+            margin-top: 8px;
+            border: 1px solid rgba(180, 220, 140, 0.1);
+        }
+
+        /* FOOTER */
         .footer {
             text-align: center;
             font-size: 13px;
-            color: #668;
-            margin-top: 20px;
-            border-top: 1px solid #ffffff20;
-            padding-top: 20px;
+            color: #5a7a4a;
+            margin-top: 24px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(180, 220, 140, 0.08);
         }
-        .footer a { color: #ffd700; text-decoration: none; }
-        .loading { text-align: center; padding: 40px; color: #aac; }
-        .sigma-badge {
-            display: inline-block;
-            background: #ffd700;
-            color: #0a1e3f;
-            font-weight: 700;
-            padding: 4px 14px;
-            border-radius: 40px;
-            font-size: 12px;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
+
+        .footer a {
+            color: #8cb87a;
+            text-decoration: none;
+            font-weight: 500;
         }
+
+        .footer a:hover {
+            color: #b8d9a0;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: #88a87a;
+            font-size: 18px;
+        }
+
+        /* RESPONSIVE */
         @media (max-width: 600px) {
-            .container { padding: 20px; }
-            .header h1 { font-size: 24px; }
-            .characters { gap: 16px; }
-            .char-item .emoji { font-size: 32px; }
+            .container {
+                padding: 20px 16px;
+            }
+            .header h1 {
+                font-size: 28px;
+            }
+            .characters {
+                gap: 10px 14px;
+            }
+            .char-item {
+                padding: 6px 12px 6px 8px;
+            }
+            .char-item .emoji {
+                font-size: 26px;
+            }
+            .char-item .name {
+                font-size: 12px;
+            }
+            .card .temp {
+                font-size: 22px;
+            }
         }
+
+        /* Bamboo stems generated by JS */
     </style>
 </head>
 <body>
 
-<div class="container" id="app">
-    <div class="header">
-        <div class="sigma-badge">Σ SIGMA UNIVERSE</div>
-        <h1>🌤️ <span>WEATHER</span></h1>
-        <div class="motto">✨ Peaceful Mind. Kind Heart. Keep Growing.</div>
+    <!-- Bamboo stems will be injected here by JavaScript -->
+
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="badge">🌱 Sigma Nature</div>
+            <h1>🌿 SIGMA <span>FOREST</span></h1>
+            <div class="motto">✨ Peaceful Mind. Kind Heart. Keep Growing.</div>
+        </div>
+
+        <!-- CHARACTERS -->
+        <div class="characters">
+            <div class="char-item">
+                <span class="emoji">💧</span>
+                <span class="name">Sigma</span>
+            </div>
+            <div class="char-item">
+                <span class="emoji">🦗</span>
+                <span class="name">Cricket</span>
+            </div>
+            <div class="char-item">
+                <span class="emoji">🐜</span>
+                <span class="name">Little Ant</span>
+            </div>
+            <div class="char-item">
+                <span class="emoji">🦉</span>
+                <span class="name">Professor Owl</span>
+            </div>
+        </div>
+
+        <!-- SEARCH -->
+        <div class="search-box">
+            <input type="text" id="cityInput" placeholder="Nhập thành phố..." value="Hanoi">
+            <select id="daysSelect">
+                <option value="1">Hôm nay</option>
+                <option value="3">3 ngày</option>
+                <option value="5" selected>5 ngày</option>
+            </select>
+            <button onclick="getWeather()">🔍 Dự báo</button>
+        </div>
+
+        <!-- RESULT -->
+        <div id="result">
+            <div class="loading">⏳ Nhập thành phố và nhấn Dự báo...</div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            ⚡ Sigma Universe – <a href="https://sigmauniverse.net" target="_blank">sigmauniverse.net</a> &nbsp;|&nbsp; Dữ liệu từ OpenWeather
+        </div>
     </div>
 
-    <!-- NHÂN VẬT SIGMA -->
-    <div class="characters">
-        <div class="char-item"><span class="emoji">💧</span> Sigma</div>
-        <div class="char-item"><span class="emoji">🦗</span> Cricket</div>
-        <div class="char-item"><span class="emoji">🐜</span> Little Ant</div>
-        <div class="char-item"><span class="emoji">🦉</span> Professor Owl</div>
-    </div>
-
-    <div class="search-box">
-        <input type="text" id="cityInput" placeholder="Nhập thành phố..." value="Hanoi">
-        <select id="daysSelect">
-            <option value="1">Hôm nay</option>
-            <option value="3">3 ngày</option>
-            <option value="5" selected>5 ngày</option>
-        </select>
-        <button onclick="getWeather()">🔍 Dự báo</button>
-    </div>
-
-    <div id="result">
-        <div class="loading">⏳ Nhập thành phố và nhấn Dự báo...</div>
-    </div>
-
-    <div class="footer">
-        ⚡ Sigma Universe – <a href="https://sigmauniverse.net" target="_blank">sigmauniverse.net</a> &nbsp;|&nbsp; Dữ liệu từ OpenWeather
-    </div>
-</div>
-
-<script>
-const API_KEY = "3fd10b85eec53ba4d40b2f5ec0ff197c";
-
-function getWeather() {
-    const city = document.getElementById('cityInput').value.trim() || "Hanoi";
-    const days = parseInt(document.getElementById('daysSelect').value);
-    const resultDiv = document.getElementById('result');
-    resultDiv.innerHTML = `<div class="loading">⏳ Đang lấy dữ liệu cho ${city}...</div>`;
-
-    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric&lang=vi`)
-        .then(res => res.json())
-        .then(data => {
-            if (data.cod !== "200" || !data.list) {
-                resultDiv.innerHTML = `<div class="card normal">⚠️ Không tìm thấy thành phố. Vui lòng kiểm tra lại.</div>`;
-                return;
+    <script>
+        // --- BAMBOO FOREST BACKGROUND ---
+        (function createBamboo() {
+            const body = document.body;
+            for (let i = 0; i < 18; i++) {
+                const stem = document.createElement('div');
+                stem.className = 'bamboo-stem';
+                const left = 2 + Math.random() * 96;
+                const height = 40 + Math.random() * 60;
+                const width = 4 + Math.random() * 8;
+                const opacity = 0.06 + Math.random() * 0.12;
+                stem.style.left = left + '%';
+                stem.style.height = height + '%';
+                stem.style.width = width + 'px';
+                stem.style.opacity = opacity;
+                stem.style.transform = `rotate(${(Math.random() - 0.5) * 6}deg)`;
+                stem.style.background = `linear-gradient(180deg, 
+                    rgba(${60 + Math.random() * 40}, ${100 + Math.random() * 60}, ${50 + Math.random() * 30}, 0.8),
+                    rgba(${30 + Math.random() * 30}, ${60 + Math.random() * 40}, ${30 + Math.random() * 20}, 0.3)
+                )`;
+                body.appendChild(stem);
             }
+        })();
 
-            const cityName = data.city.name;
-            const items = data.list.slice(0, days * 8);
-            let html = `<div style="margin-bottom:12px;color:#aac;">📍 ${cityName.toUpperCase()} – ${days} ngày</div>`;
+        // --- WEATHER API ---
+        const API_KEY = "3fd10b85eec53ba4d40b2f5ec0ff197c";
 
-            items.forEach(item => {
-                const time = new Date(item.dt * 1000);
-                const timeStr = time.toLocaleString('vi-VN', { hour:'2-digit', minute:'2-digit', day:'2-digit', month:'2-digit' });
-                const temp = Math.round(item.main.temp);
-                const humidity = item.main.humidity;
-                const wind = item.wind.speed;
-                const desc = item.weather[0].description;
-                const level = getLevel(temp, humidity, wind, desc);
-                const advice = getAdvice(temp, humidity, wind, desc);
-                html += `
-                    <div class="card ${level.class}">
-                        <div class="time">🕐 ${timeStr}</div>
-                        <div class="temp">${temp}°C</div>
-                        <div class="desc">🌥️ ${desc} | Độ ẩm: ${humidity}% | Gió: ${wind} m/s</div>
-                        <div class="advice">💡 ${level.icon} ${advice}</div>
-                    </div>
-                `;
-            });
+        function getWeather() {
+            const city = document.getElementById('cityInput').value.trim() || "Hanoi";
+            const days = parseInt(document.getElementById('daysSelect').value);
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `<div class="loading">⏳ Đang lấy dữ liệu cho ${city}...</div>`;
 
-            resultDiv.innerHTML = html;
-        })
-        .catch(err => {
-            resultDiv.innerHTML = `<div class="card normal">⚠️ Lỗi kết nối. Vui lòng thử lại.</div>`;
-        });
-}
+            fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric&lang=vi`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.cod !== "200" || !data.list) {
+                        resultDiv.innerHTML = `<div class="card normal">⚠️ Không tìm thấy thành phố. Vui lòng kiểm tra lại.</div>`;
+                        return;
+                    }
 
-function getLevel(temp, humidity, wind, desc) {
-    const d = desc.toLowerCase();
-    if (d.includes('mưa') || d.includes('dông')) {
-        if (wind > 10) return { class: 'critical', icon: '🔴' };
-        return { class: 'warning', icon: '🟠' };
-    }
-    if (temp > 38) return { class: 'critical', icon: '🔴' };
-    if (temp > 35) return { class: 'warning', icon: '🟠' };
-    if (humidity > 85) return { class: 'caution', icon: '🟡' };
-    if (wind > 10) return { class: 'caution', icon: '🟡' };
-    return { class: 'normal', icon: '🟢' };
-}
+                    const cityName = data.city.name;
+                    const items = data.list.slice(0, days * 8);
+                    let html = `<div class="city-label">📍 ${cityName.toUpperCase()} – ${days} ngày</div>`;
 
-function getAdvice(temp, humidity, wind, desc) {
-    const d = desc.toLowerCase();
-    if (d.includes('mưa') || d.includes('dông')) {
-        if (wind > 10) return 'Bão hoặc dông mạnh. Tìm nơi trú ẩn an toàn ngay!';
-        return 'Trời sắp mưa. Mang theo ô và tránh ra đường.';
-    }
-    if (temp > 38) return 'Nắng nóng cực đoan. Hạn chế ra ngoài, uống nhiều nước.';
-    if (temp > 35) return 'Nắng nóng. Mang ô, uống đủ nước.';
-    if (humidity > 85) return 'Độ ẩm cao. Có thể mưa, mang theo ô.';
-    if (wind > 10) return 'Gió mạnh. Cẩn thận với cây cối, biển báo.';
-    return 'Thời tiết ổn định. Không có gì đáng lo.';
-}
+                    items.forEach(item => {
+                        const time = new Date(item.dt * 1000);
+                        const timeStr = time.toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit' });
+                        const temp = Math.round(item.main.temp);
+                        const humidity = item.main.humidity;
+                        const wind = item.wind.speed;
+                        const desc = item.weather[0].description;
+                        const level = getLevel(temp, humidity, wind, desc);
+                        const advice = getAdvice(temp, humidity, wind, desc);
 
-window.onload = getWeather;
-</script>
+                        html += `
+                            <div class="card ${level.class}">
+                                <div class="time">🕐 ${timeStr}</div>
+                                <div class="temp">${temp}°C</div>
+                                <div class="desc">🌥️ ${desc} | Độ ẩm: ${humidity}% | Gió: ${wind} m/s</div>
+                                <div class="advice">💡 ${level.icon} ${advice}</div>
+                            </div>
+                        `;
+                    });
+
+                    resultDiv.innerHTML = html;
+                })
+                .catch(() => {
+                    resultDiv.innerHTML = `<div class="card normal">⚠️ Lỗi kết nối. Vui lòng thử lại.</div>`;
+                });
+        }
+
+        function getLevel(temp, humidity, wind, desc) {
+            const d = desc.toLowerCase();
+            if (d.includes('mưa') || d.includes('dông')) {
+                if (wind > 10) return { class: 'critical', icon: '🔴' };
+                return { class: 'warning', icon: '🟠' };
+            }
+            if (temp > 38) return { class: 'critical', icon: '🔴' };
+            if (temp > 35) return { class: 'warning', icon: '🟠' };
+            if (humidity > 85) return { class: 'caution', icon: '🟡' };
+            if (wind > 10) return { class: 'caution', icon: '🟡' };
+            return { class: 'normal', icon: '🟢' };
+        }
+
+        function getAdvice(temp, humidity, wind, desc) {
+            const d = desc.toLowerCase();
+            if (d.includes('mưa') || d.includes('dông')) {
+                if (wind > 10) return 'Bão hoặc dông mạnh. Tìm nơi trú ẩn an toàn ngay!';
+                return 'Trời sắp mưa. Mang theo ô và tránh ra đường.';
+            }
+            if (temp > 38) return 'Nắng nóng cực đoan. Hạn chế ra ngoài, uống nhiều nước.';
+            if (temp > 35) return 'Nắng nóng. Mang ô, uống đủ nước.';
+            if (humidity > 85) return 'Độ ẩm cao. Có thể mưa, mang theo ô.';
+            if (wind > 10) return 'Gió mạnh. Cẩn thận với cây cối, biển báo.';
+            return 'Thời tiết ổn định. Không có gì đáng lo.';
+        }
+
+        // Auto load weather on page load
+        window.onload = getWeather;
+    </script>
 </body>
 </html>
