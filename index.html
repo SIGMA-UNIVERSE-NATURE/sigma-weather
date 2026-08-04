@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>🌿 SIGMA CLIMATE – Global Weather Forecast</title>
     <style>
-        /* ===== RESET & BASE ===== */
         * {
             margin: 0;
             padding: 0;
@@ -19,11 +18,11 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
-            background: #0f1f0f;
+            background: #0a1a0a;
             color: #e8f0d0;
         }
 
-        /* ===== BACKGROUND ===== */
+        /* ---- BACKGROUND RỪNG TRE + NHÂN VẬT SIGMA ---- */
         body::before {
             content: '';
             position: fixed;
@@ -31,29 +30,29 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('assets/images/background.png') center/cover no-repeat fixed;
-           /* filter: brightness(0.55) saturate(0.8); */
+            background: url('assets/images/background.jpg') center/cover no-repeat fixed;
+           /* filter: brightness(0.7) saturate(0.9); */
             z-index: 0;
         }
 
+        /* LỚP PHỦ MỜ ĐỂ NHÂN VẬT NỔI BẬT */
         .overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(10, 30, 10, 0.55);
-           /* backdrop-filter: blur(3px); */
+            background: rgba(10, 30, 10, 0.35);
+           /* backdrop-filter: blur(2px); */
             z-index: 1;
         }
 
-        /* ===== MAIN CONTAINER ===== */
         .container {
             max-width: 1100px;
             width: 100%;
             position: relative;
             z-index: 2;
-            background: rgba(20, 40, 20, 0.6);
+            background: rgba(20, 40, 20, 0.55);
             backdrop-filter: blur(12px);
             border-radius: 48px;
             padding: 30px 35px;
@@ -61,7 +60,6 @@
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
         }
 
-        /* ===== HEADER ===== */
         .header {
             text-align: center;
             margin-bottom: 16px;
@@ -101,7 +99,7 @@
             letter-spacing: 1px;
         }
 
-        /* ===== WEATHER ICONS ===== */
+        /* ---- BIỂU TƯỢNG THỜI TIẾT ---- */
         .weather-icons {
             display: flex;
             justify-content: center;
@@ -139,7 +137,7 @@
             color: #d0e8c0;
         }
 
-        /* ===== SEARCH ===== */
+        /* ---- TÌM KIẾM ---- */
         .search-section {
             margin: 16px 0 24px;
             text-align: center;
@@ -152,9 +150,10 @@
             justify-content: center;
         }
 
-        .search-box select {
+        .search-box select,
+        .search-box input {
             flex: 1;
-            min-width: 220px;
+            min-width: 180px;
             padding: 14px 20px;
             border-radius: 60px;
             border: none;
@@ -163,11 +162,10 @@
             font-size: 16px;
             outline: none;
             border: 1px solid rgba(180, 220, 140, 0.15);
-            cursor: pointer;
-            appearance: none;
         }
 
-        .search-box select:focus {
+        .search-box select:focus,
+        .search-box input:focus {
             background: rgba(40, 80, 40, 0.7);
             border-color: #8cb87a;
         }
@@ -195,7 +193,7 @@
             transform: scale(1.02);
         }
 
-        /* ===== RESULT ===== */
+        /* ---- KẾT QUẢ ---- */
         .result-container {
             margin-top: 20px;
         }
@@ -248,7 +246,51 @@
             background: rgba(180, 220, 140, 0.05);
         }
 
-        /* ===== FOOTER ===== */
+        .warning-box {
+            margin: 16px 0 20px;
+            padding: 16px 24px;
+            border-radius: 16px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .warning-box.green {
+            background: rgba(46, 204, 113, 0.2);
+            border: 1px solid #2ecc71;
+            color: #a3e4d7;
+        }
+
+        .warning-box.yellow {
+            background: rgba(241, 196, 15, 0.2);
+            border: 1px solid #f1c40f;
+            color: #f9e79f;
+        }
+
+        .warning-box.red {
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid #e74c3c;
+            color: #f1948a;
+        }
+
+        .download-btn {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 10px 24px;
+            background: #2e4d2a;
+            color: #c8e6b5;
+            border: 1px solid #5a8f4a;
+            border-radius: 40px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .download-btn:hover {
+            background: #3d6a38;
+            transform: scale(1.02);
+        }
+
         .footer {
             text-align: center;
             font-size: 13px;
@@ -281,7 +323,6 @@
             font-size: 18px;
         }
 
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 640px) {
             .container {
                 padding: 16px;
@@ -289,8 +330,9 @@
             .header h1 {
                 font-size: 28px;
             }
-            .search-box select {
-                min-width: 140px;
+            .search-box select,
+            .search-box input {
+                min-width: 120px;
             }
             .weather-icons {
                 gap: 12px;
@@ -320,27 +362,15 @@
             <div class="motto">✨ Peaceful Mind. Kind Heart. Keep Growing.</div>
         </div>
 
-        <!-- WEATHER ICONS (instead of characters) -->
+        <!-- WEATHER ICONS -->
         <div class="weather-icons">
-            <div class="weather-icon-item">
-                <span class="icon">☀️</span>
-                <span class="label">Sunny</span>
-            </div>
-            <div class="weather-icon-item">
-                <span class="icon">🌧️</span>
-                <span class="label">Rainy</span>
-            </div>
-            <div class="weather-icon-item">
-                <span class="icon">💨</span>
-                <span class="label">Windy</span>
-            </div>
-            <div class="weather-icon-item">
-                <span class="icon">⛈️</span>
-                <span class="label">Storm</span>
-            </div>
+            <div class="weather-icon-item"><span class="icon">☀️</span><span class="label">Sunny</span></div>
+            <div class="weather-icon-item"><span class="icon">🌧️</span><span class="label">Rainy</span></div>
+            <div class="weather-icon-item"><span class="icon">💨</span><span class="label">Windy</span></div>
+            <div class="weather-icon-item"><span class="icon">⛈️</span><span class="label">Storm</span></div>
         </div>
 
-        <!-- SEARCH -->
+        <!-- SEARCH + YEAR SELECTOR -->
         <div class="search-section">
             <div class="search-box">
                 <select id="citySelect">
@@ -390,6 +420,13 @@
                     <option value="Melbourne">Melbourne</option>
                     <option value="Auckland">Auckland</option>
                 </select>
+                <select id="yearSelect">
+                    <option value="1">1 Year</option>
+                    <option value="2">2 Years</option>
+                    <option value="3">3 Years</option>
+                    <option value="5" selected>5 Years</option>
+                    <option value="10">10 Years</option>
+                </select>
                 <button onclick="loadCityData()">🔍 Search</button>
             </div>
         </div>
@@ -410,8 +447,8 @@
         // LOAD CITY DATA
         // ============================================================
         function loadCityData() {
-            const select = document.getElementById('citySelect');
-            const city = select.value;
+            const city = document.getElementById('citySelect').value;
+            const years = parseInt(document.getElementById('yearSelect').value);
             const resultDiv = document.getElementById('resultContainer');
 
             const safeName = city.toLowerCase().replace(/ /g, '_').replace(/'/g, '');
@@ -423,14 +460,14 @@
             fetch(imgUrl, { method: 'HEAD' })
                 .then(res => {
                     if (res.ok) {
-                        displayResult(city, imgUrl, csvUrl);
+                        displayResult(city, imgUrl, csvUrl, years);
                     } else {
                         const altName = city.toLowerCase().replace(/ /g, '_');
                         const altImg = `data/${altName}_temperature_trend.png`;
                         fetch(altImg, { method: 'HEAD' })
                             .then(res2 => {
                                 if (res2.ok) {
-                                    displayResult(city, altImg, `data/${altName}_forecast_2025_2034.csv`);
+                                    displayResult(city, altImg, `data/${altName}_forecast_2025_2034.csv`, years);
                                 } else {
                                     resultDiv.innerHTML = `<div class="error-msg">❌ No data found for "${city}".<br>Please try another city.</div>`;
                                 }
@@ -445,42 +482,96 @@
                 });
         }
 
-        function displayResult(city, imgUrl, csvUrl) {
+        function displayResult(city, imgUrl, csvUrl, years) {
             const resultDiv = document.getElementById('resultContainer');
-
-            let html = `
-                <div class="city-title">📍 ${city.toUpperCase()}</div>
-                <div class="chart-container">
-                    <img src="${imgUrl}" alt="Temperature trend for ${city}" onerror="this.style.display='none'">
-                </div>
-                <div style="text-align:center;color:#88a87a;font-size:14px;margin-bottom:12px;">
-                    📊 Temperature trend 2015-2034 | 🔮 Forecast 2025-2034
-                </div>
-            `;
 
             fetch(csvUrl)
                 .then(res => res.text())
                 .then(text => {
                     const lines = text.trim().split('\n');
-                    if (lines.length > 1) {
+                    let forecastData = [];
+                    for (let i = 1; i < lines.length; i++) {
+                        const cols = lines[i].split(',');
+                        if (cols.length >= 2) {
+                            forecastData.push({ year: parseInt(cols[0]), temp: parseFloat(cols[1]) });
+                        }
+                    }
+
+                    // Lấy dữ liệu trong khoảng số năm đã chọn
+                    const startYear = 2025;
+                    const endYear = startYear + years - 1;
+                    const filtered = forecastData.filter(d => d.year >= startYear && d.year <= endYear);
+
+                    // Tính tốc độ tăng nhiệt độ (slope)
+                    let warningLevel = 'green';
+                    let warningMessage = '✅ Climate in this region is stable.';
+                    let slope = 0;
+                    if (forecastData.length > 1) {
+                        const n = forecastData.length;
+                        const sumX = forecastData.reduce((s, d) => s + d.year, 0);
+                        const sumY = forecastData.reduce((s, d) => s + d.temp, 0);
+                        const sumXY = forecastData.reduce((s, d) => s + d.year * d.temp, 0);
+                        const sumX2 = forecastData.reduce((s, d) => s + d.year * d.year, 0);
+                        slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+                        if (slope > 0.03) {
+                            warningLevel = 'red';
+                            warningMessage = '🔴 WARNING: This region is warming faster than the global average (> 0.03°C/year). Prepare for more extreme summers.';
+                        } else if (slope > 0.02) {
+                            warningLevel = 'yellow';
+                            warningMessage = '🟡 CAUTION: This region is showing signs of warming. Monitor closely.';
+                        } else {
+                            warningMessage = '✅ Climate in this region is stable.';
+                        }
+                    }
+
+                    let html = `
+                        <div class="city-title">📍 ${city.toUpperCase()}</div>
+                        <div class="chart-container">
+                            <img src="${imgUrl}" alt="Temperature trend for ${city}" onerror="this.style.display='none'">
+                        </div>
+                        <div style="text-align:center;color:#88a87a;font-size:14px;margin-bottom:12px;">
+                            📊 Temperature trend 2015-2034 | 🔮 Forecast ${startYear}-${endYear}
+                        </div>
+                        <div class="warning-box ${warningLevel}">
+                            ${warningMessage}
+                            ${slope !== 0 ? ` (Trend: ${slope.toFixed(4)}°C/year)` : ''}
+                        </div>
+                        <div style="text-align:center;margin-bottom:12px;">
+                            <button class="download-btn" onclick="downloadCSV('${city}', '${csvUrl}')">⬇️ Download CSV</button>
+                        </div>
+                    `;
+
+                    if (filtered.length > 0) {
                         html += `<table class="forecast-table">
                             <tr><th>Year</th><th>Forecast Temperature (°C)</th></tr>`;
-                        for (let i = 1; i < lines.length && i <= 10; i++) {
-                            const cols = lines[i].split(',');
-                            if (cols.length >= 2) {
-                                html += `<tr><td>${cols[0]}</td><td>${parseFloat(cols[1]).toFixed(2)}°C</td></tr>`;
-                            }
-                        }
+                        filtered.forEach(d => {
+                            html += `<tr><td>${d.year}</td><td>${d.temp.toFixed(2)}°C</td></tr>`;
+                        });
                         html += `</table>`;
+                    } else {
+                        html += `<div style="color:#88a87a;text-align:center;padding:12px;">ℹ️ No forecast data available for the selected time range.</div>`;
                     }
+
                     resultDiv.innerHTML = html;
                 })
                 .catch(() => {
-                    resultDiv.innerHTML = html + `<div style="color:#88a87a;text-align:center;padding:12px;">ℹ️ No forecast data available.</div>`;
+                    resultDiv.innerHTML = `<div class="error-msg">❌ No forecast data available for "${city}".</div>`;
                 });
         }
 
-        // Auto-load on page load
+        function downloadCSV(city, csvUrl) {
+            fetch(csvUrl)
+                .then(res => res.text())
+                .then(text => {
+                    const blob = new Blob([text], { type: 'text/csv' });
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = `${city.toLowerCase()}_forecast.csv`;
+                    link.click();
+                })
+                .catch(() => alert('Could not download CSV.'));
+        }
+
         window.onload = loadCityData;
     </script>
 </body>
