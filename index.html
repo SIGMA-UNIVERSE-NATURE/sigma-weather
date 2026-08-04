@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>🌿 SIGMA CLIMATE – Global Weather Forecast</title>
     <style>
-        /* ===== RESET & BASE ===== */
         * {
             margin: 0;
             padding: 0;
@@ -13,250 +12,246 @@
         }
 
         body {
-            margin: 0;
-            min-height: 100vh;
-            overflow: hidden;
-            background: #122a20;
             font-family: 'Segoe UI', Roboto, sans-serif;
-            color: #f8fff8;
-        }
-
-        .page {
-            position: relative;
             min-height: 100vh;
-            overflow: hidden;
-            display: grid;
-            place-items: center;
-            padding: clamp(18px, 4vw, 56px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: #0a1a0a;
+            color: #e8f0d0;
         }
 
-        .background {
-            position: absolute;
-            inset: 0;
+        /* ---- BACKGROUND RỪNG TRE + NHÂN VẬT SIGMA ---- */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            filter: saturate(1.06) brightness(0.88);
-            transform: scale(1.02);
+            background: url('assets/images/background.png') center/cover no-repeat fixed;
+           /* filter: brightness(0.7) saturate(0.9); */
+            z-index: 0;
         }
 
-        .page::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(circle at 18% 50%, rgba(0, 216, 255, 0.2), transparent 24%),
-                linear-gradient(90deg, rgba(3, 32, 24, 0.32), rgba(7, 35, 27, 0.08) 45%, rgba(255, 255, 255, 0.12));
-            z-index: 1;
-        }
-
-        .sun {
-            position: absolute;
+        /* LỚP PHỦ MỜ ĐỂ NHÂN VẬT NỔI BẬT */
+        .overlay {
+            position: fixed;
             top: 0;
-            right: 18%;
-            width: 34vw;
-            aspect-ratio: 1;
-            border-radius: 999px;
-            background: radial-gradient(circle, rgba(255, 237, 152, 0.44), rgba(255, 220, 111, 0.18) 34%, transparent 68%);
-            mix-blend-mode: screen;
-            animation: glow 6s ease-in-out infinite;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 30, 10, 0.35);
+          /*  backdrop-filter: blur(2px); */
             z-index: 1;
         }
 
-        .mist {
-            position: absolute;
-            width: 46vw;
-            height: 12vw;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.2);
-            filter: blur(28px);
-            z-index: 1;
-            animation: drift 18s linear infinite;
-        }
-
-        .mist-one {
-            left: 16%;
-            top: 42%;
-        }
-
-        .mist-two {
-            right: 6%;
-            top: 56%;
-            animation-duration: 25s;
-            animation-direction: reverse;
-        }
-
-        .layout {
+        .container {
+            max-width: 1100px;
+            width: 100%;
             position: relative;
             z-index: 2;
-            width: min(1180px, 100%);
-            display: grid;
-            grid-template-columns: minmax(320px, 0.9fr) minmax(360px, 1.1fr);
-            gap: clamp(18px, 3vw, 34px);
-            align-items: center;
+            background: rgba(20, 40, 20, 0.2);
+            backdrop-filter: blur(12px);
+            border-radius: 48px;
+            padding: 30px 35px;
+            border: 1px solid rgba(180, 220, 140, 0.15);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
         }
 
-        .panel {
-            border: 1px solid rgba(255, 255, 255, 0.34);
-            border-radius: 26px;
-            background: linear-gradient(140deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.08));
-            box-shadow: 0 30px 90px rgba(0, 24, 18, 0.34);
-            backdrop-filter: blur(20px) saturate(1.18);
+        .header {
+            text-align: center;
+            margin-bottom: 16px;
         }
 
-        .weather-card {
-            padding: clamp(24px, 3vw, 38px);
-        }
-
-        .kicker {
-            margin: 0 0 12px;
-            color: rgba(220, 255, 231, 0.78);
+        .badge {
+            display: inline-block;
+            background: #2e4d2a;
+            color: #c8e6b5;
+            padding: 6px 24px;
+            border-radius: 40px;
             font-size: 12px;
-            font-weight: 800;
-            letter-spacing: 0.1em;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: 1px solid #5a8f4a;
         }
 
-        h1 {
-            margin: 0;
-            max-width: 520px;
-            font-size: clamp(38px, 5vw, 74px);
-            line-height: 0.98;
-            letter-spacing: 0;
-            color: #f8fff8;
+        .header h1 {
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #ebf5e0;
+            margin-top: 6px;
         }
 
+        .header h1 span {
+            color: #b8d9a0;
+            text-shadow: 0 0 20px rgba(180, 220, 140, 0.3);
+        }
+
+        .motto {
+            font-size: 15px;
+            color: #b0cba0;
+            font-style: italic;
+            margin-top: 2px;
+            letter-spacing: 1px;
+        }
+
+        /* ---- BIỂU TƯỢNG THỜI TIẾT ---- */
+        .weather-icons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin: 20px 0 28px;
+        }
+
+        .weather-icon-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 8px 20px;
+            border-radius: 40px;
+            border: 1px solid rgba(180, 220, 140, 0.15);
+            transition: 0.3s;
+        }
+
+        .weather-icon-item:hover {
+            transform: translateY(-4px);
+            background: rgba(180, 220, 140, 0.1);
+            border-color: #b8d9a0;
+        }
+
+        .weather-icon-item .icon {
+            font-size: 32px;
+            line-height: 1;
+        }
+
+        .weather-icon-item .label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #d0e8c0;
+        }
+
+        /* ---- TÌM KIẾM ---- */
         .search-section {
-            margin: 18px 0 12px;
+            margin: 16px 0 24px;
+            text-align: center;
         }
 
         .search-box {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 12px;
+            justify-content: center;
         }
 
-        .search-box select {
+        .search-box select,
+        .search-box input {
             flex: 1;
-            min-width: 140px;
-            padding: 12px 16px;
-            border-radius: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.1);
-            color: #f8fff8;
-            font-size: 14px;
+            min-width: 180px;
+            padding: 14px 20px;
+            border-radius: 60px;
+            border: none;
+            background: rgba(30, 60, 30, 0.6);
+            color: #ebf5e0;
+            font-size: 16px;
             outline: none;
-            backdrop-filter: blur(4px);
+            border: 1px solid rgba(180, 220, 140, 0.15);
+        }
+
+        .search-box select:focus,
+        .search-box input:focus {
+            background: rgba(40, 80, 40, 0.7);
+            border-color: #8cb87a;
         }
 
         .search-box select option {
-            background: #122a20;
-            color: #f8fff8;
+            background: #1a3a1a;
+            color: #ebf5e0;
         }
 
         .search-box button {
-            padding: 12px 28px;
-            border-radius: 40px;
+            padding: 14px 32px;
+            border-radius: 60px;
             border: none;
-            background: rgba(255, 255, 255, 0.15);
-            color: #f8fff8;
+            background: #4d7a3a;
+            color: #f0f7e6;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 16px;
             cursor: pointer;
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
             transition: 0.3s;
+            border: 1px solid #6a9e56;
         }
 
         .search-box button:hover {
-            background: rgba(255, 255, 255, 0.25);
+            background: #5f9248;
+            transform: scale(1.02);
         }
 
-        .weather-now {
-            display: flex;
-            justify-content: space-between;
-            gap: 18px;
-            align-items: flex-end;
+        /* ---- KẾT QUẢ ---- */
+        .result-container {
             margin-top: 20px;
-            padding: 20px;
-            border-radius: 20px;
-            background: rgba(5, 46, 40, 0.32);
         }
 
-        .city {
-            display: block;
-            color: rgba(241, 255, 246, 0.78);
-            font-weight: 700;
-            font-size: 18px;
-        }
-
-        .temp {
-            display: block;
-            margin-top: 4px;
-            font-size: clamp(48px, 6vw, 82px);
-            line-height: 0.9;
-            font-weight: 700;
-            color: #f8fff8;
-        }
-
-        .condition {
-            font-size: 16px;
+        .city-title {
+            font-size: 24px;
             font-weight: 600;
-            color: rgba(241, 255, 246, 0.78);
-        }
-
-        .metrics {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 14px;
-        }
-
-        .metrics span {
-            padding: 14px 12px;
-            border-radius: 16px;
-            background: rgba(255, 255, 255, 0.16);
-            color: rgba(248, 255, 248, 0.82);
+            color: #c8e0b8;
             text-align: center;
-            font-size: 14px;
+            margin-bottom: 16px;
         }
 
-        .metrics span b {
-            color: #fff;
-            display: block;
-            font-size: 20px;
-            margin-top: 4px;
-        }
-
-        .forecast {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-top: 14px;
-        }
-
-        .forecast span {
-            padding: 14px 12px;
-            border-radius: 16px;
-            background: rgba(255, 255, 255, 0.16);
-            color: rgba(248, 255, 248, 0.82);
+        .chart-container {
             text-align: center;
-            font-size: 14px;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
         }
 
-        .forecast span b {
-            color: #fff;
-            display: block;
-            font-size: 20px;
-            margin-top: 4px;
+        .chart-container img {
+            max-width: 100%;
+            border-radius: 16px;
+            border: 1px solid rgba(180, 220, 140, 0.1);
+        }
+
+        .forecast-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(20, 40, 20, 0.4);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .forecast-table th {
+            background: #2a4a2a;
+            color: #d0e8c0;
+            padding: 12px;
+            font-weight: 600;
+        }
+
+        .forecast-table td {
+            padding: 10px 12px;
+            text-align: center;
+            border-bottom: 1px solid rgba(180, 220, 140, 0.05);
+            color: #d0e0c0;
+        }
+
+        .forecast-table tr:hover td {
+            background: rgba(180, 220, 140, 0.05);
         }
 
         .warning-box {
-            margin: 16px 0 12px;
-            padding: 14px 18px;
+            margin: 16px 0 20px;
+            padding: 16px 24px;
             border-radius: 16px;
             font-weight: 600;
             text-align: center;
-            font-size: 14px;
         }
 
         .warning-box.green {
@@ -279,213 +274,173 @@
 
         .download-btn {
             display: inline-block;
-            margin-top: 8px;
-            padding: 8px 20px;
+            margin-top: 12px;
+            padding: 10px 24px;
+            background: #2e4d2a;
+            color: #c8e6b5;
+            border: 1px solid #5a8f4a;
             border-radius: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.05);
-            color: #f8fff8;
-            font-size: 13px;
+            font-size: 14px;
             cursor: pointer;
             transition: 0.3s;
-            backdrop-filter: blur(4px);
+            text-decoration: none;
         }
 
         .download-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .background-card {
-            padding: 22px;
-        }
-
-        .background-card h2 {
-            margin: 0 0 8px;
-            font-size: clamp(28px, 3vw, 42px);
-            letter-spacing: 0;
-            color: #f8fff8;
-        }
-
-        .preview-window {
-            overflow: hidden;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.24);
-            aspect-ratio: 16 / 9;
-        }
-
-        .preview-window img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .note {
-            margin: 12px 4px 2px;
-            color: rgba(241, 255, 246, 0.76);
-            line-height: 1.55;
-            font-size: 14px;
+            background: #3d6a38;
+            transform: scale(1.02);
         }
 
         .footer {
             text-align: center;
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.4);
-            margin-top: 18px;
-            padding-top: 14px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 13px;
+            color: #5a7a4a;
+            margin-top: 24px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(180, 220, 140, 0.08);
         }
 
         .footer a {
-            color: rgba(255, 255, 255, 0.5);
+            color: #8cb87a;
             text-decoration: none;
         }
 
         .footer a:hover {
-            color: rgba(255, 255, 255, 0.8);
+            color: #b8d9a0;
         }
 
         .loading {
             text-align: center;
-            padding: 20px;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 16px;
+            padding: 30px;
+            color: #88a87a;
+            font-size: 18px;
         }
 
         .error-msg {
             text-align: center;
-            padding: 20px;
-            color: #f1948a;
-            font-size: 16px;
+            padding: 30px;
+            color: #e8b0a0;
+            font-size: 18px;
         }
 
-        @keyframes glow {
-            0%, 100% { opacity: 0.55; transform: scale(0.96); }
-            50% { opacity: 0.92; transform: scale(1.08); }
-        }
-
-        @keyframes drift {
-            from { translate: -4vw 0; }
-            to { translate: 8vw 0; }
-        }
-
-        @media (max-width: 860px) {
-            body {
-                overflow: auto;
+        @media (max-width: 640px) {
+            .container {
+                padding: 16px;
             }
-            .page {
-                min-height: auto;
+            .header h1 {
+                font-size: 28px;
             }
-            .layout {
-                grid-template-columns: 1fr;
+            .search-box select,
+            .search-box input {
+                min-width: 120px;
             }
-            .metrics,
-            .forecast {
-                grid-template-columns: repeat(2, 1fr);
+            .weather-icons {
+                gap: 12px;
+            }
+            .weather-icon-item {
+                padding: 4px 12px;
+            }
+            .weather-icon-item .icon {
+                font-size: 24px;
+            }
+            .weather-icon-item .label {
+                font-size: 11px;
             }
         }
     </style>
 </head>
 <body>
 
-    <main class="page">
-        <img class="background" src="assets/images/background.jpg" alt="Sigma bamboo forest" />
+    <div class="overlay"></div>
 
-        <div class="sun"></div>
-        <div class="mist mist-one"></div>
-        <div class="mist mist-two"></div>
+    <div class="container">
 
-        <section class="layout" aria-label="Sigma climate forecast">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="badge">🌱 Sigma Climate</div>
+            <h1>🌿 SIGMA <span>FOREST</span></h1>
+            <div class="motto">✨ Peaceful Mind. Kind Heart. Keep Growing.</div>
+        </div>
 
-            <!-- PANEL 1: WEATHER CARD -->
-            <article class="panel weather-card">
-                <p class="kicker">🌱 SIGMA CLIMATE</p>
-                <h1>Global Weather Forecast</h1>
+        <!-- WEATHER ICONS -->
+        <div class="weather-icons">
+            <div class="weather-icon-item"><span class="icon">☀️</span><span class="label">Sunny</span></div>
+            <div class="weather-icon-item"><span class="icon">🌧️</span><span class="label">Rainy</span></div>
+            <div class="weather-icon-item"><span class="icon">💨</span><span class="label">Windy</span></div>
+            <div class="weather-icon-item"><span class="icon">⛈️</span><span class="label">Storm</span></div>
+        </div>
 
-                <div class="search-section">
-                    <div class="search-box">
-                        <select id="citySelect">
-                            <option value="Hanoi">Hanoi</option>
-                            <option value="Ho Chi Minh City">Ho Chi Minh City</option>
-                            <option value="Da Nang">Da Nang</option>
-                            <option value="Hai Phong">Hai Phong</option>
-                            <option value="Can Tho">Can Tho</option>
-                            <option value="Tokyo">Tokyo</option>
-                            <option value="Osaka">Osaka</option>
-                            <option value="Seoul">Seoul</option>
-                            <option value="Busan">Busan</option>
-                            <option value="Beijing">Beijing</option>
-                            <option value="Shanghai">Shanghai</option>
-                            <option value="Hong Kong">Hong Kong</option>
-                            <option value="Singapore">Singapore</option>
-                            <option value="Kuala Lumpur">Kuala Lumpur</option>
-                            <option value="Jakarta">Jakarta</option>
-                            <option value="Bangkok">Bangkok</option>
-                            <option value="Manila">Manila</option>
-                            <option value="Mumbai">Mumbai</option>
-                            <option value="Delhi">Delhi</option>
-                            <option value="Dubai">Dubai</option>
-                            <option value="Istanbul">Istanbul</option>
-                            <option value="London">London</option>
-                            <option value="Paris">Paris</option>
-                            <option value="Berlin">Berlin</option>
-                            <option value="Madrid">Madrid</option>
-                            <option value="Rome">Rome</option>
-                            <option value="Moscow">Moscow</option>
-                            <option value="New York">New York</option>
-                            <option value="Los Angeles">Los Angeles</option>
-                            <option value="Chicago">Chicago</option>
-                            <option value="Toronto">Toronto</option>
-                            <option value="Mexico City">Mexico City</option>
-                            <option value="Sao Paulo">Sao Paulo</option>
-                            <option value="Rio de Janeiro">Rio de Janeiro</option>
-                            <option value="Buenos Aires">Buenos Aires</option>
-                            <option value="Lima">Lima</option>
-                            <option value="Bogota">Bogota</option>
-                            <option value="Cairo">Cairo</option>
-                            <option value="Lagos">Lagos</option>
-                            <option value="Nairobi">Nairobi</option>
-                            <option value="Cape Town">Cape Town</option>
-                            <option value="Johannesburg">Johannesburg</option>
-                            <option value="Sydney">Sydney</option>
-                            <option value="Melbourne">Melbourne</option>
-                            <option value="Auckland">Auckland</option>
-                        </select>
-                        <select id="yearSelect">
-                            <option value="1">1 Year</option>
-                            <option value="2">2 Years</option>
-                            <option value="3">3 Years</option>
-                            <option value="5" selected>5 Years</option>
-                            <option value="10">10 Years</option>
-                        </select>
-                        <button onclick="loadCityData()">🔍 Search</button>
-                    </div>
-                </div>
+        <!-- SEARCH + YEAR SELECTOR -->
+        <div class="search-section">
+            <div class="search-box">
+                <select id="citySelect">
+                    <option value="Hanoi">Hanoi</option>
+                    <option value="Ho Chi Minh City">Ho Chi Minh City</option>
+                    <option value="Da Nang">Da Nang</option>
+                    <option value="Hai Phong">Hai Phong</option>
+                    <option value="Can Tho">Can Tho</option>
+                    <option value="Tokyo">Tokyo</option>
+                    <option value="Osaka">Osaka</option>
+                    <option value="Seoul">Seoul</option>
+                    <option value="Busan">Busan</option>
+                    <option value="Beijing">Beijing</option>
+                    <option value="Shanghai">Shanghai</option>
+                    <option value="Hong Kong">Hong Kong</option>
+                    <option value="Singapore">Singapore</option>
+                    <option value="Kuala Lumpur">Kuala Lumpur</option>
+                    <option value="Jakarta">Jakarta</option>
+                    <option value="Bangkok">Bangkok</option>
+                    <option value="Manila">Manila</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Dubai">Dubai</option>
+                    <option value="Istanbul">Istanbul</option>
+                    <option value="London">London</option>
+                    <option value="Paris">Paris</option>
+                    <option value="Berlin">Berlin</option>
+                    <option value="Madrid">Madrid</option>
+                    <option value="Rome">Rome</option>
+                    <option value="Moscow">Moscow</option>
+                    <option value="New York">New York</option>
+                    <option value="Los Angeles">Los Angeles</option>
+                    <option value="Chicago">Chicago</option>
+                    <option value="Toronto">Toronto</option>
+                    <option value="Mexico City">Mexico City</option>
+                    <option value="Sao Paulo">Sao Paulo</option>
+                    <option value="Rio de Janeiro">Rio de Janeiro</option>
+                    <option value="Buenos Aires">Buenos Aires</option>
+                    <option value="Lima">Lima</option>
+                    <option value="Bogota">Bogota</option>
+                    <option value="Cairo">Cairo</option>
+                    <option value="Lagos">Lagos</option>
+                    <option value="Nairobi">Nairobi</option>
+                    <option value="Cape Town">Cape Town</option>
+                    <option value="Johannesburg">Johannesburg</option>
+                    <option value="Sydney">Sydney</option>
+                    <option value="Melbourne">Melbourne</option>
+                    <option value="Auckland">Auckland</option>
+                </select>
+                <select id="yearSelect">
+                    <option value="1">1 Year</option>
+                    <option value="2">2 Years</option>
+                    <option value="3">3 Years</option>
+                    <option value="5" selected>5 Years</option>
+                    <option value="10">10 Years</option>
+                </select>
+                <button onclick="loadCityData()">🔍 Search</button>
+            </div>
+        </div>
 
-                <div id="resultContainer">
-                    <div class="loading">🌿 Select a city and click "Search"</div>
-                </div>
+        <!-- RESULT -->
+        <div class="result-container" id="resultContainer">
+            <div class="loading">🌿 Select a city and click "Search"</div>
+        </div>
 
-                <div class="footer">
-                    ⚡ <a href="https://sigmauniverse.net" target="_blank">Sigma Universe</a> – <a href="https://sigmaclimate.net" target="_blank">sigmaclimate.net</a> &nbsp;|&nbsp; Data from Open-Meteo & NOAA
-                </div>
-            </article>
-
-            <!-- PANEL 2: BACKGROUND CARD -->
-            <article class="panel background-card">
-                <p class="kicker">🌿 SIGMA FOREST</p>
-                <h2>Rừng tre Sigma</h2>
-                <div class="preview-window">
-                    <img src="assets/images/background.jpg" alt="Sigma bamboo forest background preview" />
-                </div>
-                <p class="note">
-                    🌱 Nền rừng tre mang đến cảm giác bình an, trí tuệ và sự kết nối với thiên nhiên. 
-                    Ô thời tiết phía trước cung cấp dữ liệu khí hậu thực tế và dự báo dài hạn.
-                </p>
-            </article>
-
-        </section>
-    </main>
+        <!-- FOOTER -->
+        <div class="footer">
+            ⚡ <a href="https://sigmauniverse.net" target="_blank">Sigma Universe</a> – <a href="https://sigmaclimate.net" target="_blank">sigmaclimate.net</a> &nbsp;|&nbsp; Data from Open-Meteo & NOAA
+        </div>
+    </div>
 
     <script>
         // ============================================================
@@ -542,10 +497,12 @@
                         }
                     }
 
+                    // Lấy dữ liệu trong khoảng số năm đã chọn
                     const startYear = 2025;
                     const endYear = startYear + years - 1;
                     const filtered = forecastData.filter(d => d.year >= startYear && d.year <= endYear);
 
+                    // Tính tốc độ tăng nhiệt độ (slope)
                     let warningLevel = 'green';
                     let warningMessage = '✅ Climate in this region is stable.';
                     let slope = 0;
@@ -568,28 +525,29 @@
                     }
 
                     let html = `
-                        <div class="weather-now">
-                            <div>
-                                <span class="city">${city}</span>
-                                <span class="temp">--°C</span>
-                            </div>
-                            <span class="condition">${slope > 0.03 ? '⚠️ Warming' : '🌿 Stable'}</span>
+                        <div class="city-title">📍 ${city.toUpperCase()}</div>
+                        <div class="chart-container">
+                            <img src="${imgUrl}" alt="Temperature trend for ${city}" onerror="this.style.display='none'">
+                        </div>
+                        <div style="text-align:center;color:#88a87a;font-size:14px;margin-bottom:12px;">
+                            📊 Temperature trend 2015-2034 | 🔮 Forecast ${startYear}-${endYear}
                         </div>
                         <div class="warning-box ${warningLevel}">
                             ${warningMessage}
                             ${slope !== 0 ? ` (Trend: ${slope.toFixed(4)}°C/year)` : ''}
                         </div>
-                        <div style="text-align:right;">
+                        <div style="text-align:center;margin-bottom:12px;">
                             <button class="download-btn" onclick="downloadCSV('${city}', '${csvUrl}')">⬇️ Download CSV</button>
                         </div>
                     `;
 
                     if (filtered.length > 0) {
-                        html += `<div class="forecast">`;
+                        html += `<table class="forecast-table">
+                            <tr><th>Year</th><th>Forecast Temperature (°C)</th></tr>`;
                         filtered.forEach(d => {
-                            html += `<span>${d.year}<br /><b>${d.temp.toFixed(1)}°</b></span>`;
+                            html += `<tr><td>${d.year}</td><td>${d.temp.toFixed(2)}°C</td></tr>`;
                         });
-                        html += `</div>`;
+                        html += `</table>`;
                     } else {
                         html += `<div style="color:#88a87a;text-align:center;padding:12px;">ℹ️ No forecast data available for the selected time range.</div>`;
                     }
