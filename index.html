@@ -1,225 +1,190 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🌿 Sigma Climate – sigmaclimate.net</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>🌿 SIGMA CLIMATE – Global Weather Forecast</title>
     <style>
-        /* ============================================================
-           CSS CỦA BẠN (GIỮ NGUYÊN)
-           ============================================================ */
-        :root {
-            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            color: #f8fff8;
-        }
-
+        /* ===== RESET & BASE ===== */
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
 
         body {
-            margin: 0;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             min-height: 100vh;
-            overflow: hidden;
-            background: #122a20;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: #0f1f0f;
+            color: #e8f0d0;
         }
 
-        .page {
-            position: relative;
-            min-height: 100vh;
-            overflow: hidden;
-            display: grid;
-            place-items: center;
-            padding: clamp(18px, 4vw, 56px);
-        }
-
-        .background {
-            position: absolute;
-            inset: 0;
+        /* ===== BACKGROUND ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            filter: saturate(1.06) brightness(0.88);
-            transform: scale(1.02);
+            background: url('assets/images/background.jpg') center/cover no-repeat fixed;
+            filter: brightness(0.55) saturate(0.8);
+            z-index: 0;
         }
 
-        .page::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(circle at 18% 50%, rgba(0, 216, 255, 0.2), transparent 24%),
-                linear-gradient(90deg, rgba(3, 32, 24, 0.32), rgba(7, 35, 27, 0.08) 45%, rgba(255, 255, 255, 0.12));
-        }
-
-        .sun {
-            position: absolute;
+        .overlay {
+            position: fixed;
             top: 0;
-            right: 18%;
-            width: 34vw;
-            aspect-ratio: 1;
-            border-radius: 999px;
-            background: radial-gradient(circle, rgba(255, 237, 152, 0.44), rgba(255, 220, 111, 0.18) 34%, transparent 68%);
-            mix-blend-mode: screen;
-            animation: glow 6s ease-in-out infinite;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 30, 10, 0.55);
+            backdrop-filter: blur(3px);
             z-index: 1;
         }
 
-        .mist {
-            position: absolute;
-            width: 46vw;
-            height: 12vw;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.2);
-            filter: blur(28px);
-            z-index: 1;
-            animation: drift 18s linear infinite;
-        }
-
-        .mist-one {
-            left: 16%;
-            top: 42%;
-        }
-
-        .mist-two {
-            right: 6%;
-            top: 56%;
-            animation-duration: 25s;
-            animation-direction: reverse;
-        }
-
-        .layout {
+        /* ===== MAIN CONTAINER ===== */
+        .container {
+            max-width: 1100px;
+            width: 100%;
             position: relative;
             z-index: 2;
-            width: min(1180px, 100%);
-            display: grid;
-            grid-template-columns: minmax(320px, 0.9fr) minmax(360px, 1.1fr);
-            gap: clamp(18px, 3vw, 34px);
-            align-items: center;
+            background: rgba(20, 40, 20, 0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 48px;
+            padding: 30px 35px;
+            border: 1px solid rgba(180, 220, 140, 0.15);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
         }
 
-        .panel {
-            border: 1px solid rgba(255, 255, 255, 0.34);
-            border-radius: 26px;
-            background: linear-gradient(140deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.08));
-            box-shadow: 0 30px 90px rgba(0, 24, 18, 0.34);
-            backdrop-filter: blur(20px) saturate(1.18);
-        }
-
-        .weather-card {
-            padding: clamp(24px, 3vw, 38px);
-        }
-
-        .kicker {
-            margin: 0 0 12px;
-            color: rgba(220, 255, 231, 0.78);
-            font-size: 12px;
-            font-weight: 800;
-            letter-spacing: 0.1em;
-        }
-
-        h1 {
-            margin: 0;
-            max-width: 520px;
-            font-size: clamp(38px, 5vw, 74px);
-            line-height: 0.98;
-            letter-spacing: 0;
-        }
-
-        h2 {
-            margin: 0 0 18px;
-            font-size: clamp(28px, 3vw, 42px);
-            letter-spacing: 0;
-        }
-
-        .weather-now {
-            display: flex;
-            justify-content: space-between;
-            gap: 18px;
-            align-items: flex-end;
-            margin-top: 34px;
-            padding: 20px;
-            border-radius: 20px;
-            background: rgba(5, 46, 40, 0.32);
-        }
-
-        .city,
-        .condition {
-            display: block;
-            color: rgba(241, 255, 246, 0.78);
-            font-weight: 700;
-        }
-
-        .temp-display {
-            display: block;
-            margin-top: 8px;
-            font-size: clamp(48px, 6vw, 82px);
-            line-height: 0.9;
-            color: #fff;
-        }
-
-        .metrics,
-        .forecast {
-            display: grid;
-            gap: 10px;
-            margin-top: 14px;
-        }
-
-        .metrics {
-            grid-template-columns: repeat(3, 1fr);
-        }
-
-        .forecast {
-            grid-template-columns: repeat(4, 1fr);
-        }
-
-        .metrics span,
-        .forecast span {
-            padding: 14px 12px;
-            border-radius: 16px;
-            background: rgba(255, 255, 255, 0.16);
-            color: rgba(248, 255, 248, 0.82);
+        /* ===== HEADER ===== */
+        .header {
             text-align: center;
+            margin-bottom: 16px;
         }
 
-        .metrics b,
-        .forecast b {
-            color: #fff;
+        .badge {
+            display: inline-block;
+            background: #2e4d2a;
+            color: #c8e6b5;
+            padding: 6px 24px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: 1px solid #5a8f4a;
+        }
+
+        .header h1 {
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #ebf5e0;
+            margin-top: 6px;
+        }
+
+        .header h1 span {
+            color: #b8d9a0;
+            text-shadow: 0 0 20px rgba(180, 220, 140, 0.3);
+        }
+
+        .motto {
+            font-size: 15px;
+            color: #b0cba0;
+            font-style: italic;
+            margin-top: 2px;
+            letter-spacing: 1px;
+        }
+
+        /* ===== WEATHER ICONS ===== */
+        .weather-icons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin: 20px 0 28px;
+        }
+
+        .weather-icon-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 8px 20px;
+            border-radius: 40px;
+            border: 1px solid rgba(180, 220, 140, 0.15);
+            transition: 0.3s;
+        }
+
+        .weather-icon-item:hover {
+            transform: translateY(-4px);
+            background: rgba(180, 220, 140, 0.1);
+            border-color: #b8d9a0;
+        }
+
+        .weather-icon-item .icon {
+            font-size: 32px;
+            line-height: 1;
+        }
+
+        .weather-icon-item .label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #d0e8c0;
+        }
+
+        /* ===== SEARCH ===== */
+        .search-section {
+            margin: 16px 0 24px;
+            text-align: center;
         }
 
         .search-box {
             display: flex;
+            flex-wrap: wrap;
             gap: 12px;
-            margin-top: 18px;
+            justify-content: center;
         }
 
-        .search-box input {
+        .search-box select {
             flex: 1;
-            padding: 12px 16px;
-            border-radius: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.08);
-            color: #f8fff8;
-            font-size: 15px;
+            min-width: 220px;
+            padding: 14px 20px;
+            border-radius: 60px;
+            border: none;
+            background: rgba(30, 60, 30, 0.6);
+            color: #ebf5e0;
+            font-size: 16px;
             outline: none;
+            border: 1px solid rgba(180, 220, 140, 0.15);
+            cursor: pointer;
+            appearance: none;
         }
 
-        .search-box input::placeholder {
-            color: rgba(248, 255, 248, 0.5);
+        .search-box select:focus {
+            background: rgba(40, 80, 40, 0.7);
+            border-color: #8cb87a;
         }
 
-        .search-box input:focus {
-            border-color: rgba(255, 255, 255, 0.4);
-            background: rgba(255, 255, 255, 0.14);
+        .search-box select option {
+            background: #1a3a1a;
+            color: #ebf5e0;
         }
 
         .search-box button {
-            padding: 12px 24px;
-            border-radius: 40px;
+            padding: 14px 32px;
+            border-radius: 60px;
             border: none;
             background: #4d7a3a;
             color: #f0f7e6;
             font-weight: 700;
+            font-size: 16px;
             cursor: pointer;
             transition: 0.3s;
             border: 1px solid #6a9e56;
@@ -230,63 +195,67 @@
             transform: scale(1.02);
         }
 
-        .characters {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 16px;
+        /* ===== RESULT ===== */
+        .result-container {
+            margin-top: 20px;
         }
 
-        .char-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(255, 255, 255, 0.08);
-            padding: 4px 14px 4px 8px;
-            border-radius: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 13px;
+        .city-title {
+            font-size: 24px;
+            font-weight: 600;
             color: #c8e0b8;
+            text-align: center;
+            margin-bottom: 16px;
         }
 
-        .char-item img {
-            width: 28px;
-            height: 28px;
-            object-fit: contain;
+        .chart-container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
         }
 
-        .background-card {
-            padding: 22px;
+        .chart-container img {
+            max-width: 100%;
+            border-radius: 16px;
+            border: 1px solid rgba(180, 220, 140, 0.1);
         }
 
-        .preview-window {
-            overflow: hidden;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.24);
-            aspect-ratio: 16 / 9;
-        }
-
-        .preview-window img {
+        .forecast-table {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
+            border-collapse: collapse;
+            background: rgba(20, 40, 20, 0.4);
+            border-radius: 16px;
+            overflow: hidden;
         }
 
-        .note {
-            margin: 16px 4px 2px;
-            color: rgba(241, 255, 246, 0.76);
-            line-height: 1.55;
-            font-size: 14px;
+        .forecast-table th {
+            background: #2a4a2a;
+            color: #d0e8c0;
+            padding: 12px;
+            font-weight: 600;
         }
 
+        .forecast-table td {
+            padding: 10px 12px;
+            text-align: center;
+            border-bottom: 1px solid rgba(180, 220, 140, 0.05);
+            color: #d0e0c0;
+        }
+
+        .forecast-table tr:hover td {
+            background: rgba(180, 220, 140, 0.05);
+        }
+
+        /* ===== FOOTER ===== */
         .footer {
             text-align: center;
-            font-size: 12px;
-            color: rgba(200, 220, 180, 0.5);
-            margin-top: 18px;
-            padding-top: 14px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 13px;
+            color: #5a7a4a;
+            margin-top: 24px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(180, 220, 140, 0.08);
         }
 
         .footer a {
@@ -298,186 +267,221 @@
             color: #b8d9a0;
         }
 
-        @keyframes glow {
-            0%, 100% { opacity: 0.55; transform: scale(0.96); }
-            50% { opacity: 0.92; transform: scale(1.08); }
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: #88a87a;
+            font-size: 18px;
         }
 
-        @keyframes drift {
-            from { translate: -4vw 0; }
-            to { translate: 8vw 0; }
+        .error-msg {
+            text-align: center;
+            padding: 30px;
+            color: #e8b0a0;
+            font-size: 18px;
         }
 
-        @media (max-width: 860px) {
-            body {
-                overflow: auto;
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .container {
+                padding: 16px;
             }
-            .page {
-                min-height: auto;
+            .header h1 {
+                font-size: 28px;
             }
-            .layout {
-                grid-template-columns: 1fr;
+            .search-box select {
+                min-width: 140px;
             }
-            .metrics,
-            .forecast {
-                grid-template-columns: repeat(2, 1fr);
+            .weather-icons {
+                gap: 12px;
+            }
+            .weather-icon-item {
+                padding: 4px 12px;
+            }
+            .weather-icon-item .icon {
+                font-size: 24px;
+            }
+            .weather-icon-item .label {
+                font-size: 11px;
             }
         }
     </style>
 </head>
 <body>
-    <main class="page">
-        <!-- BACKGROUND -->
-        <img class="background" src="assets/images/background.jpg" alt="Sigma Bamboo Forest" />
-        <div class="sun"></div>
-        <div class="mist mist-one"></div>
-        <div class="mist mist-two"></div>
 
-        <!-- LAYOUT -->
-        <section class="layout">
-            <!-- LEFT: WEATHER CARD -->
-            <article class="panel weather-card">
-                <p class="kicker">🌱 Sigma Climate</p>
-                <h1>Báo thời tiết toàn cầu</h1>
+    <div class="overlay"></div>
 
-                <div class="weather-now" id="weatherNow">
-                    <div>
-                        <span class="city" id="cityName">Ho Chi Minh City</span>
-                        <span class="temp-display" id="tempDisplay">29°C</span>
-                    </div>
-                    <span class="condition" id="conditionDisplay">Mưa nhẹ</span>
-                </div>
+    <div class="container">
 
-                <div class="metrics" id="metricsDisplay">
-                    <span>Độ ẩm <b id="humidityDisplay">78%</b></span>
-                    <span>Gió <b id="windDisplay">12 km/h</b></span>
-                    <span>UV <b id="uvDisplay">4</b></span>
-                </div>
+        <!-- HEADER -->
+        <div class="header">
+            <div class="badge">🌱 Sigma Climate</div>
+            <h1>🌿 SIGMA <span>FOREST</span></h1>
+            <div class="motto">✨ Peaceful Mind. Kind Heart. Keep Growing.</div>
+        </div>
 
-                <div class="forecast" id="forecastDisplay">
-                    <span>Mon<br /><b>30°</b></span>
-                    <span>Tue<br /><b>29°</b></span>
-                    <span>Wed<br /><b>31°</b></span>
-                    <span>Thu<br /><b>28°</b></span>
-                </div>
+        <!-- WEATHER ICONS (instead of characters) -->
+        <div class="weather-icons">
+            <div class="weather-icon-item">
+                <span class="icon">☀️</span>
+                <span class="label">Sunny</span>
+            </div>
+            <div class="weather-icon-item">
+                <span class="icon">🌧️</span>
+                <span class="label">Rainy</span>
+            </div>
+            <div class="weather-icon-item">
+                <span class="icon">💨</span>
+                <span class="label">Windy</span>
+            </div>
+            <div class="weather-icon-item">
+                <span class="icon">⛈️</span>
+                <span class="label">Storm</span>
+            </div>
+        </div>
 
-                <div class="search-box">
-                    <input type="text" id="cityInput" placeholder="Nhập thành phố..." value="Ho Chi Minh City">
-                    <button onclick="fetchWeather()">🔍 Tra cứu</button>
-                </div>
+        <!-- SEARCH -->
+        <div class="search-section">
+            <div class="search-box">
+                <select id="citySelect">
+                    <option value="Hanoi">Hanoi</option>
+                    <option value="Ho Chi Minh City">Ho Chi Minh City</option>
+                    <option value="Da Nang">Da Nang</option>
+                    <option value="Hai Phong">Hai Phong</option>
+                    <option value="Can Tho">Can Tho</option>
+                    <option value="Tokyo">Tokyo</option>
+                    <option value="Osaka">Osaka</option>
+                    <option value="Seoul">Seoul</option>
+                    <option value="Busan">Busan</option>
+                    <option value="Beijing">Beijing</option>
+                    <option value="Shanghai">Shanghai</option>
+                    <option value="Hong Kong">Hong Kong</option>
+                    <option value="Singapore">Singapore</option>
+                    <option value="Kuala Lumpur">Kuala Lumpur</option>
+                    <option value="Jakarta">Jakarta</option>
+                    <option value="Bangkok">Bangkok</option>
+                    <option value="Manila">Manila</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Dubai">Dubai</option>
+                    <option value="Istanbul">Istanbul</option>
+                    <option value="London">London</option>
+                    <option value="Paris">Paris</option>
+                    <option value="Berlin">Berlin</option>
+                    <option value="Madrid">Madrid</option>
+                    <option value="Rome">Rome</option>
+                    <option value="Moscow">Moscow</option>
+                    <option value="New York">New York</option>
+                    <option value="Los Angeles">Los Angeles</option>
+                    <option value="Chicago">Chicago</option>
+                    <option value="Toronto">Toronto</option>
+                    <option value="Mexico City">Mexico City</option>
+                    <option value="Sao Paulo">Sao Paulo</option>
+                    <option value="Rio de Janeiro">Rio de Janeiro</option>
+                    <option value="Buenos Aires">Buenos Aires</option>
+                    <option value="Lima">Lima</option>
+                    <option value="Bogota">Bogota</option>
+                    <option value="Cairo">Cairo</option>
+                    <option value="Lagos">Lagos</option>
+                    <option value="Nairobi">Nairobi</option>
+                    <option value="Cape Town">Cape Town</option>
+                    <option value="Johannesburg">Johannesburg</option>
+                    <option value="Sydney">Sydney</option>
+                    <option value="Melbourne">Melbourne</option>
+                    <option value="Auckland">Auckland</option>
+                </select>
+                <button onclick="loadCityData()">🔍 Search</button>
+            </div>
+        </div>
 
-                <div class="characters">
-                    <div class="char-item"><img src="assets/images/sigma.png" alt="Sigma"><span>Sigma</span></div>
-                    <div class="char-item"><img src="assets/images/cricket.png" alt="Cricket"><span>Cricket</span></div>
-                    <div class="char-item"><img src="assets/images/little_ant.png" alt="Little Ant"><span>Little Ant</span></div>
-                    <div class="char-item"><img src="assets/images/professor_owl.png" alt="Professor Owl"><span>Professor Owl</span></div>
-                </div>
+        <!-- RESULT -->
+        <div class="result-container" id="resultContainer">
+            <div class="loading">🌿 Select a city and click "Search"</div>
+        </div>
 
-                <div class="footer">
-                    ⚡ Sigma Universe – <a href="https://sigmaclimate.net" target="_blank">sigmaclimate.net</a> &nbsp;|&nbsp; Dữ liệu từ Open-Meteo
-                </div>
-            </article>
-
-            <!-- RIGHT: BACKGROUND CARD -->
-            <article class="panel background-card">
-                <p class="kicker">🌿 BACKGROUND</p>
-                <h2>Rừng tre Sigma</h2>
-                <div class="preview-window">
-                    <img src="assets/images/background.jpg" alt="Sigma bamboo forest background" />
-                </div>
-                <p class="note">
-                    Nền phía sau dùng cho cảm giác sống, trí tuệ, bình an.<br>
-                    Ô thời tiết phía trước dùng cho dữ liệu thật.
-                </p>
-                <div style="margin-top:12px;color:rgba(200,220,180,0.6);font-size:13px;">
-                    📍 <span id="locationInfo">Ho Chi Minh City, Vietnam</span>
-                </div>
-            </article>
-        </section>
-    </main>
+        <!-- FOOTER -->
+        <div class="footer">
+            ⚡ Sigma Universe – <a href="https://sigmaclimate.net" target="_blank">sigmaclimate.net</a> &nbsp;|&nbsp; Data from Open-Meteo & NOAA
+        </div>
+    </div>
 
     <script>
         // ============================================================
-        // DỮ LIỆU THỜI TIẾT TỪ OPEN-METEO API
+        // LOAD CITY DATA
         // ============================================================
-        const API_URL = 'https://api.open-meteo.com/v1/forecast';
+        function loadCityData() {
+            const select = document.getElementById('citySelect');
+            const city = select.value;
+            const resultDiv = document.getElementById('resultContainer');
 
-        // Tọa độ các thành phố
-        const CITY_COORDS = {
-            'ho chi minh city': { lat: 10.8231, lon: 106.6297 },
-            'hanoi': { lat: 21.0285, lon: 105.8542 },
-            'da nang': { lat: 16.0544, lon: 108.2022 },
-            'tokyo': { lat: 35.6762, lon: 139.6503 },
-            'london': { lat: 51.5074, lon: -0.1278 },
-            'new york': { lat: 40.7128, lon: -74.0060 },
-            'paris': { lat: 48.8566, lon: 2.3522 },
-            'berlin': { lat: 52.5200, lon: 13.4050 },
-            'seoul': { lat: 37.5665, lon: 126.9780 },
-            'beijing': { lat: 39.9042, lon: 116.4074 },
-            'singapore': { lat: 1.3521, lon: 103.8198 },
-            'bangkok': { lat: 13.7563, lon: 100.5018 },
-            'mumbai': { lat: 19.0760, lon: 72.8777 },
-            'dubai': { lat: 25.2048, lon: 55.2708 },
-            'sydney': { lat: -33.8688, lon: 151.2093 },
-        };
+            const safeName = city.toLowerCase().replace(/ /g, '_').replace(/'/g, '');
+            const imgUrl = `data/${safeName}_temperature_trend.png`;
+            const csvUrl = `data/${safeName}_forecast_2025_2034.csv`;
 
-        function getCoords(cityName) {
-            const key = cityName.toLowerCase().trim();
-            if (CITY_COORDS[key]) {
-                return CITY_COORDS[key];
-            }
-            return { lat: 10.8231, lon: 106.6297 }; // Mặc định TP.HCM
-        }
+            resultDiv.innerHTML = `<div class="loading">⏳ Loading data for ${city}...</div>`;
 
-        async function fetchWeather() {
-            const input = document.getElementById('cityInput');
-            const cityName = input.value.trim() || 'Ho Chi Minh City';
-            const coords = getCoords(cityName);
-
-            document.getElementById('cityName').textContent = cityName;
-            document.getElementById('locationInfo').textContent = `${cityName}, Vietnam`;
-
-            try {
-                const url = `${API_URL}?latitude=${coords.lat}&longitude=${coords.lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=4`;
-                const response = await fetch(url);
-                const data = await response.json();
-
-                if (data.current) {
-                    const temp = Math.round(data.current.temperature_2m);
-                    const humidity = data.current.relative_humidity_2m;
-                    const wind = Math.round(data.current.wind_speed_10m);
-
-                    document.getElementById('tempDisplay').textContent = `${temp}°C`;
-                    document.getElementById('humidityDisplay').textContent = `${humidity}%`;
-                    document.getElementById('windDisplay').textContent = `${wind} km/h`;
-
-                    let condition = 'Trời quang';
-                    if (humidity > 80) condition = 'Mưa nhẹ';
-                    else if (humidity > 70) condition = 'Có mây';
-                    else if (temp > 30) condition = 'Nắng nóng';
-                    document.getElementById('conditionDisplay').textContent = condition;
-                }
-
-                if (data.daily && data.daily.temperature_2m_max) {
-                    const maxTemps = data.daily.temperature_2m_max;
-                    const days = ['Mon', 'Tue', 'Wed', 'Thu'];
-                    const forecastDiv = document.getElementById('forecastDisplay');
-                    let html = '';
-                    for (let i = 0; i < Math.min(4, maxTemps.length); i++) {
-                        const day = days[i] || `Day${i+1}`;
-                        const temp = Math.round(maxTemps[i]);
-                        html += `<span>${day}<br><b>${temp}°</b></span>`;
+            fetch(imgUrl, { method: 'HEAD' })
+                .then(res => {
+                    if (res.ok) {
+                        displayResult(city, imgUrl, csvUrl);
+                    } else {
+                        const altName = city.toLowerCase().replace(/ /g, '_');
+                        const altImg = `data/${altName}_temperature_trend.png`;
+                        fetch(altImg, { method: 'HEAD' })
+                            .then(res2 => {
+                                if (res2.ok) {
+                                    displayResult(city, altImg, `data/${altName}_forecast_2025_2034.csv`);
+                                } else {
+                                    resultDiv.innerHTML = `<div class="error-msg">❌ No data found for "${city}".<br>Please try another city.</div>`;
+                                }
+                            })
+                            .catch(() => {
+                                resultDiv.innerHTML = `<div class="error-msg">❌ No data found for "${city}".</div>`;
+                            });
                     }
-                    forecastDiv.innerHTML = html;
-                }
-
-            } catch (error) {
-                console.error('Lỗi lấy dữ liệu thời tiết:', error);
-            }
+                })
+                .catch(() => {
+                    resultDiv.innerHTML = `<div class="error-msg">❌ No data found for "${city}".</div>`;
+                });
         }
 
-        // Tải dữ liệu khi trang load
-        window.onload = fetchWeather;
+        function displayResult(city, imgUrl, csvUrl) {
+            const resultDiv = document.getElementById('resultContainer');
+
+            let html = `
+                <div class="city-title">📍 ${city.toUpperCase()}</div>
+                <div class="chart-container">
+                    <img src="${imgUrl}" alt="Temperature trend for ${city}" onerror="this.style.display='none'">
+                </div>
+                <div style="text-align:center;color:#88a87a;font-size:14px;margin-bottom:12px;">
+                    📊 Temperature trend 2015-2034 | 🔮 Forecast 2025-2034
+                </div>
+            `;
+
+            fetch(csvUrl)
+                .then(res => res.text())
+                .then(text => {
+                    const lines = text.trim().split('\n');
+                    if (lines.length > 1) {
+                        html += `<table class="forecast-table">
+                            <tr><th>Year</th><th>Forecast Temperature (°C)</th></tr>`;
+                        for (let i = 1; i < lines.length && i <= 10; i++) {
+                            const cols = lines[i].split(',');
+                            if (cols.length >= 2) {
+                                html += `<tr><td>${cols[0]}</td><td>${parseFloat(cols[1]).toFixed(2)}°C</td></tr>`;
+                            }
+                        }
+                        html += `</table>`;
+                    }
+                    resultDiv.innerHTML = html;
+                })
+                .catch(() => {
+                    resultDiv.innerHTML = html + `<div style="color:#88a87a;text-align:center;padding:12px;">ℹ️ No forecast data available.</div>`;
+                });
+        }
+
+        // Auto-load on page load
+        window.onload = loadCityData;
     </script>
 </body>
 </html>
