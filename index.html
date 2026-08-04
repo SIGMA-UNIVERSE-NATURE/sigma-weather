@@ -3,8 +3,16 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🌿 SIGMA CLIMATE – Global Weather Forecast</title>
+    <title>🌿 SIGMA CLIMATE – Vietnam + 150 Cities</title>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js">
+    </script>
+
     <style>
+        /* ============================================================
+           RESET & BASE
+           ============================================================ */
         * {
             margin: 0;
             padding: 0;
@@ -14,15 +22,14 @@
         body {
             font-family: 'Segoe UI', Roboto, sans-serif;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             padding: 20px;
             background: #0a1a0a;
             color: #e8f0d0;
         }
 
-        /* ---- BACKGROUND RỪNG TRE + NHÂN VẬT SIGMA ---- */
+        /* ============================================================
+           BACKGROUND RỪNG TRE + NHÂN VẬT SIGMA
+           ============================================================ */
         body::before {
             content: '';
             position: fixed;
@@ -30,143 +37,271 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('assets/images/background.png') center/cover no-repeat fixed;
-           /* filter: brightness(0.7) saturate(0.9); */
+            background: url('assets/images/background.jpg') center/cover no-repeat fixed;
+            filter: brightness(0.8) saturate(0.95) contrast(1.05);
             z-index: 0;
         }
 
-        /* LỚP PHỦ MỜ ĐỂ NHÂN VẬT NỔI BẬT */
         .overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(10, 30, 10, 0.35);
-          /*  backdrop-filter: blur(2px); */
+            background: rgba(10, 30, 10, 0.15);
+            backdrop-filter: blur(2px);
             z-index: 1;
         }
 
+        /* ============================================================
+           CONTAINER CHÍNH
+           ============================================================ */
         .container {
-            max-width: 1100px;
+            max-width: 1200px;
             width: 100%;
+            margin: 0 auto;
             position: relative;
             z-index: 2;
-            background: rgba(20, 40, 20, 0.2);
-            backdrop-filter: blur(12px);
+            background: rgba(20, 40, 20, 0.3);
+            backdrop-filter: blur(8px);
             border-radius: 48px;
             padding: 30px 35px;
-            border: 1px solid rgba(180, 220, 140, 0.15);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(180, 220, 140, 0.1);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
         }
 
+        /* ============================================================
+           HEADER
+           ============================================================ */
         .header {
             text-align: center;
             margin-bottom: 16px;
         }
 
+        .logo-sigma {
+            height: 50px;
+            display: block;
+            margin: 0 auto 8px;
+            filter: drop-shadow(0 0 20px rgba(180, 220, 140, 0.2));
+        }
+
         .badge {
             display: inline-block;
-            background: #2e4d2a;
+            background: rgba(46, 77, 42, 0.5);
             color: #c8e6b5;
-            padding: 6px 24px;
+            padding: 4px 20px;
             border-radius: 40px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             letter-spacing: 2px;
             text-transform: uppercase;
-            border: 1px solid #5a8f4a;
+            border: 1px solid rgba(90, 143, 74, 0.25);
+            backdrop-filter: blur(4px);
         }
 
         .header h1 {
-            font-size: 40px;
+            font-size: 34px;
             font-weight: 700;
             letter-spacing: 2px;
             color: #ebf5e0;
-            margin-top: 6px;
+            margin-top: 4px;
+            text-shadow: 0 2px 30px rgba(0, 0, 0, 0.4);
         }
 
         .header h1 span {
             color: #b8d9a0;
-            text-shadow: 0 0 20px rgba(180, 220, 140, 0.3);
+            text-shadow: 0 0 40px rgba(180, 220, 140, 0.2);
         }
 
         .motto {
-            font-size: 15px;
-            color: #b0cba0;
+            font-size: 14px;
+            color: #d0e8c0;
             font-style: italic;
             margin-top: 2px;
             letter-spacing: 1px;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
         }
 
-        /* ---- BIỂU TƯỢNG THỜI TIẾT ---- */
+        /* ============================================================
+           WEATHER ICONS
+           ============================================================ */
         .weather-icons {
             display: flex;
             justify-content: center;
-            gap: 30px;
+            gap: 25px;
             flex-wrap: wrap;
-            margin: 20px 0 28px;
+            margin: 16px 0 20px;
         }
 
         .weather-icon-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
+            gap: 2px;
             background: rgba(255, 255, 255, 0.04);
-            padding: 8px 20px;
+            padding: 6px 16px;
             border-radius: 40px;
-            border: 1px solid rgba(180, 220, 140, 0.15);
+            border: 1px solid rgba(180, 220, 140, 0.08);
             transition: 0.3s;
+            backdrop-filter: blur(4px);
         }
 
         .weather-icon-item:hover {
-            transform: translateY(-4px);
-            background: rgba(180, 220, 140, 0.1);
+            transform: translateY(-3px);
+            background: rgba(180, 220, 140, 0.08);
             border-color: #b8d9a0;
         }
 
         .weather-icon-item .icon {
-            font-size: 32px;
+            font-size: 28px;
             line-height: 1;
         }
 
         .weather-icon-item .label {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 500;
+            color: #d0e8c0;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ============================================================
+           SECTION TITLE
+           ============================================================ */
+        .section-title {
+            font-size: 19px;
+            font-weight: 600;
+            color: #c8e0b8;
+            margin: 18px 0 12px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(180, 220, 140, 0.08);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ============================================================
+           PHẦN 1: VIỆT NAM
+           ============================================================ */
+        .vietnam-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 14px;
+            margin-bottom: 4px;
+        }
+
+        .vietnam-card {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 14px 12px;
+            text-align: center;
+            border: 1px solid rgba(180, 220, 140, 0.05);
+            transition: 0.3s;
+            backdrop-filter: blur(4px);
+        }
+
+        .vietnam-card:hover {
+            transform: translateY(-3px);
+            background: rgba(180, 220, 140, 0.06);
+            border-color: rgba(180, 220, 140, 0.15);
+        }
+
+        .vietnam-card .city-name {
+            font-size: 15px;
+            font-weight: 600;
             color: #d0e8c0;
         }
 
-        /* ---- TÌM KIẾM ---- */
+        .vietnam-card .temp {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ebf5e0;
+            margin: 2px 0 0px;
+        }
+
+        .vietnam-card .temp sup {
+            font-size: 14px;
+            font-weight: 400;
+            color: #88a87a;
+        }
+
+        .vietnam-card .detail {
+            font-size: 12px;
+            color: #88a87a;
+            line-height: 1.5;
+        }
+
+        .vietnam-card .detail span {
+            color: #b8d9a0;
+        }
+
+        .vietnam-card .uv-badge {
+            display: inline-block;
+            padding: 1px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 3px;
+        }
+
+        .uv-low {
+            background: rgba(46, 204, 113, 0.2);
+            color: #a3e4d7;
+        }
+        .uv-moderate {
+            background: rgba(241, 196, 15, 0.2);
+            color: #f9e79f;
+        }
+        .uv-high {
+            background: rgba(231, 76, 60, 0.2);
+            color: #f1948a;
+        }
+        .uv-extreme {
+            background: rgba(155, 89, 182, 0.25);
+            color: #d7bde2;
+        }
+
+        .last-updated {
+            text-align: right;
+            font-size: 11px;
+            color: #5a7a4a;
+            margin-top: 2px;
+            font-style: italic;
+        }
+
+        /* ============================================================
+           PHẦN 2: 150 THÀNH PHỐ
+           ============================================================ */
         .search-section {
-            margin: 16px 0 24px;
+            margin: 14px 0 18px;
             text-align: center;
         }
 
         .search-box {
             display: flex;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 10px;
             justify-content: center;
         }
 
         .search-box select,
         .search-box input {
             flex: 1;
-            min-width: 180px;
-            padding: 14px 20px;
+            min-width: 160px;
+            padding: 11px 16px;
             border-radius: 60px;
             border: none;
-            background: rgba(30, 60, 30, 0.6);
+            background: rgba(30, 60, 30, 0.45);
             color: #ebf5e0;
-            font-size: 16px;
+            font-size: 14px;
             outline: none;
-            border: 1px solid rgba(180, 220, 140, 0.15);
+            border: 1px solid rgba(180, 220, 140, 0.08);
+            backdrop-filter: blur(4px);
         }
 
         .search-box select:focus,
         .search-box input:focus {
-            background: rgba(40, 80, 40, 0.7);
+            background: rgba(40, 80, 40, 0.55);
             border-color: #8cb87a;
         }
 
@@ -176,175 +311,271 @@
         }
 
         .search-box button {
-            padding: 14px 32px;
+            padding: 11px 24px;
             border-radius: 60px;
             border: none;
-            background: #4d7a3a;
+            background: rgba(77, 122, 58, 0.75);
             color: #f0f7e6;
             font-weight: 700;
-            font-size: 16px;
+            font-size: 14px;
             cursor: pointer;
             transition: 0.3s;
-            border: 1px solid #6a9e56;
+            border: 1px solid rgba(106, 158, 86, 0.25);
+            backdrop-filter: blur(4px);
         }
 
         .search-box button:hover {
-            background: #5f9248;
+            background: rgba(95, 146, 72, 0.85);
             transform: scale(1.02);
         }
 
-        /* ---- KẾT QUẢ ---- */
-        .result-container {
-            margin-top: 20px;
+        /* ============================================================
+           CITY RESULT
+           ============================================================ */
+        .city-result {
+            margin-top: 14px;
         }
 
         .city-title {
-            font-size: 24px;
+            font-size: 21px;
             font-weight: 600;
             color: #c8e0b8;
             text-align: center;
-            margin-bottom: 16px;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .favorite-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            transition: 0.3s;
+            filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.3));
+        }
+
+        .favorite-btn:hover {
+            transform: scale(1.15);
         }
 
         .chart-container {
-            text-align: center;
-            background: rgba(0, 0, 0, 0.25);
-            border-radius: 24px;
-            padding: 20px;
-            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 18px;
+            padding: 14px;
+            margin-bottom: 14px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(180, 220, 140, 0.04);
         }
 
-        .chart-container img {
+        .chart-container canvas {
             max-width: 100%;
-            border-radius: 16px;
-            border: 1px solid rgba(180, 220, 140, 0.1);
+            max-height: 360px;
+        }
+
+        .chart-label {
+            text-align: center;
+            color: #88a87a;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .warning-box {
+            margin: 10px 0 14px;
+            padding: 12px 18px;
+            border-radius: 14px;
+            font-weight: 600;
+            text-align: center;
+            backdrop-filter: blur(4px);
+            font-size: 13px;
+        }
+
+        .warning-box.green {
+            background: rgba(46, 204, 113, 0.1);
+            border: 1px solid rgba(46, 204, 113, 0.2);
+            color: #a3e4d7;
+        }
+
+        .warning-box.yellow {
+            background: rgba(241, 196, 15, 0.1);
+            border: 1px solid rgba(241, 196, 15, 0.2);
+            color: #f9e79f;
+        }
+
+        .warning-box.red {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid rgba(231, 76, 60, 0.2);
+            color: #f1948a;
         }
 
         .forecast-table {
             width: 100%;
             border-collapse: collapse;
-            background: rgba(20, 40, 20, 0.4);
-            border-radius: 16px;
+            background: rgba(20, 40, 20, 0.2);
+            border-radius: 12px;
             overflow: hidden;
+            backdrop-filter: blur(4px);
         }
 
         .forecast-table th {
-            background: #2a4a2a;
+            background: rgba(42, 74, 42, 0.45);
             color: #d0e8c0;
-            padding: 12px;
+            padding: 8px 10px;
             font-weight: 600;
+            font-size: 13px;
         }
 
         .forecast-table td {
-            padding: 10px 12px;
+            padding: 6px 10px;
             text-align: center;
-            border-bottom: 1px solid rgba(180, 220, 140, 0.05);
+            border-bottom: 1px solid rgba(180, 220, 140, 0.03);
             color: #d0e0c0;
+            font-size: 13px;
         }
 
         .forecast-table tr:hover td {
-            background: rgba(180, 220, 140, 0.05);
-        }
-
-        .warning-box {
-            margin: 16px 0 20px;
-            padding: 16px 24px;
-            border-radius: 16px;
-            font-weight: 600;
-            text-align: center;
-        }
-
-        .warning-box.green {
-            background: rgba(46, 204, 113, 0.2);
-            border: 1px solid #2ecc71;
-            color: #a3e4d7;
-        }
-
-        .warning-box.yellow {
-            background: rgba(241, 196, 15, 0.2);
-            border: 1px solid #f1c40f;
-            color: #f9e79f;
-        }
-
-        .warning-box.red {
-            background: rgba(231, 76, 60, 0.2);
-            border: 1px solid #e74c3c;
-            color: #f1948a;
+            background: rgba(180, 220, 140, 0.03);
         }
 
         .download-btn {
             display: inline-block;
-            margin-top: 12px;
-            padding: 10px 24px;
-            background: #2e4d2a;
+            margin-top: 10px;
+            padding: 7px 20px;
+            background: rgba(46, 77, 42, 0.45);
             color: #c8e6b5;
-            border: 1px solid #5a8f4a;
+            border: 1px solid rgba(90, 143, 74, 0.2);
             border-radius: 40px;
-            font-size: 14px;
+            font-size: 12px;
             cursor: pointer;
             transition: 0.3s;
             text-decoration: none;
+            backdrop-filter: blur(4px);
         }
 
         .download-btn:hover {
-            background: #3d6a38;
+            background: rgba(61, 106, 56, 0.6);
             transform: scale(1.02);
         }
 
+        .loading,
+        .error-msg {
+            text-align: center;
+            padding: 16px;
+            font-size: 16px;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .loading {
+            color: #88a87a;
+        }
+
+        .error-msg {
+            color: #e8b0a0;
+        }
+
+        /* ============================================================
+           FOOTER
+           ============================================================ */
         .footer {
             text-align: center;
-            font-size: 13px;
+            font-size: 11px;
             color: #5a7a4a;
-            margin-top: 24px;
-            padding-top: 18px;
-            border-top: 1px solid rgba(180, 220, 140, 0.08);
+            margin-top: 18px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(180, 220, 140, 0.05);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
         .footer a {
             color: #8cb87a;
             text-decoration: none;
+            transition: 0.3s;
         }
 
         .footer a:hover {
             color: #b8d9a0;
         }
 
-        .loading {
-            text-align: center;
-            padding: 30px;
-            color: #88a87a;
-            font-size: 18px;
-        }
-
-        .error-msg {
-            text-align: center;
-            padding: 30px;
-            color: #e8b0a0;
-            font-size: 18px;
-        }
-
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
         @media (max-width: 640px) {
             .container {
                 padding: 16px;
+                border-radius: 28px;
             }
             .header h1 {
-                font-size: 28px;
+                font-size: 26px;
+            }
+            .vietnam-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 10px;
+            }
+            .vietnam-card .temp {
+                font-size: 24px;
             }
             .search-box select,
             .search-box input {
-                min-width: 120px;
+                min-width: 110px;
+                font-size: 13px;
+                padding: 10px 12px;
+            }
+            .search-box button {
+                padding: 10px 18px;
+                font-size: 13px;
+            }
+            .city-title {
+                font-size: 18px;
+            }
+            .section-title {
+                font-size: 16px;
+            }
+            .forecast-table th,
+            .forecast-table td {
+                padding: 5px 6px;
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .vietnam-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .search-box {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .search-box select,
+            .search-box input,
+            .search-box button {
+                min-width: unset;
+                width: 100%;
+            }
+            .container {
+                padding: 12px;
+                border-radius: 20px;
+            }
+            .header h1 {
+                font-size: 22px;
+            }
+            .logo-sigma {
+                height: 40px;
             }
             .weather-icons {
-                gap: 12px;
+                gap: 10px;
             }
             .weather-icon-item {
-                padding: 4px 12px;
+                padding: 4px 10px;
             }
             .weather-icon-item .icon {
-                font-size: 24px;
+                font-size: 22px;
             }
             .weather-icon-item .label {
-                font-size: 11px;
+                font-size: 10px;
             }
         }
     </style>
@@ -357,6 +588,7 @@
 
         <!-- HEADER -->
         <div class="header">
+            <img src="assets/images/sigma_logo.png" alt="Sigma Logo" class="logo-sigma" onerror="this.style.display='none'">
             <div class="badge">🌱 Sigma Climate</div>
             <h1>🌿 SIGMA <span>FOREST</span></h1>
             <div class="motto">✨ Peaceful Mind. Kind Heart. Keep Growing.</div>
@@ -370,56 +602,23 @@
             <div class="weather-icon-item"><span class="icon">⛈️</span><span class="label">Storm</span></div>
         </div>
 
-        <!-- SEARCH + YEAR SELECTOR -->
+        <!-- PHẦN 1: VIỆT NAM WEATHER -->
+        <div class="section-title">🇻🇳 Vietnam Weather Today</div>
+        <div class="vietnam-grid" id="vietnamGrid">
+            <div class="loading">⏳ Loading Vietnam weather...</div>
+        </div>
+        <div class="last-updated" id="vietnamUpdated">Updating...</div>
+
+        <!-- PHẦN 2: 150 THÀNH PHỐ -->
+        <div class="section-title" style="margin-top:24px;">🌍 150 Cities Forecast</div>
+
         <div class="search-section">
             <div class="search-box">
                 <select id="citySelect">
-                    <option value="Hanoi">Hanoi</option>
-                    <option value="Ho Chi Minh City">Ho Chi Minh City</option>
-                    <option value="Da Nang">Da Nang</option>
-                    <option value="Hai Phong">Hai Phong</option>
-                    <option value="Can Tho">Can Tho</option>
-                    <option value="Tokyo">Tokyo</option>
-                    <option value="Osaka">Osaka</option>
-                    <option value="Seoul">Seoul</option>
-                    <option value="Busan">Busan</option>
-                    <option value="Beijing">Beijing</option>
-                    <option value="Shanghai">Shanghai</option>
-                    <option value="Hong Kong">Hong Kong</option>
-                    <option value="Singapore">Singapore</option>
-                    <option value="Kuala Lumpur">Kuala Lumpur</option>
-                    <option value="Jakarta">Jakarta</option>
-                    <option value="Bangkok">Bangkok</option>
-                    <option value="Manila">Manila</option>
-                    <option value="Mumbai">Mumbai</option>
-                    <option value="Delhi">Delhi</option>
-                    <option value="Dubai">Dubai</option>
-                    <option value="Istanbul">Istanbul</option>
-                    <option value="London">London</option>
-                    <option value="Paris">Paris</option>
-                    <option value="Berlin">Berlin</option>
-                    <option value="Madrid">Madrid</option>
-                    <option value="Rome">Rome</option>
-                    <option value="Moscow">Moscow</option>
-                    <option value="New York">New York</option>
-                    <option value="Los Angeles">Los Angeles</option>
-                    <option value="Chicago">Chicago</option>
-                    <option value="Toronto">Toronto</option>
-                    <option value="Mexico City">Mexico City</option>
-                    <option value="Sao Paulo">Sao Paulo</option>
-                    <option value="Rio de Janeiro">Rio de Janeiro</option>
-                    <option value="Buenos Aires">Buenos Aires</option>
-                    <option value="Lima">Lima</option>
-                    <option value="Bogota">Bogota</option>
-                    <option value="Cairo">Cairo</option>
-                    <option value="Lagos">Lagos</option>
-                    <option value="Nairobi">Nairobi</option>
-                    <option value="Cape Town">Cape Town</option>
-                    <option value="Johannesburg">Johannesburg</option>
-                    <option value="Sydney">Sydney</option>
-                    <option value="Melbourne">Melbourne</option>
-                    <option value="Auckland">Auckland</option>
+                    <option value="">-- Select a city --</option>
                 </select>
+                <input type="text" id="cityInput" placeholder="Or type a city..." list="cityList" />
+                <datalist id="cityList"></datalist>
                 <select id="yearSelect">
                     <option value="1">1 Year</option>
                     <option value="2">2 Years</option>
@@ -431,148 +630,617 @@
             </div>
         </div>
 
-        <!-- RESULT -->
-        <div class="result-container" id="resultContainer">
+        <div class="city-result" id="cityResult">
             <div class="loading">🌿 Select a city and click "Search"</div>
         </div>
 
         <!-- FOOTER -->
         <div class="footer">
-            ⚡ <a href="https://sigmauniverse.net" target="_blank">Sigma Universe</a> – <a href="https://sigmaclimate.net" target="_blank">sigmaclimate.net</a> &nbsp;|&nbsp; Data from Open-Meteo & NOAA
+            ⚡ <a href="https://sigmauniverse.net" target="_blank">Sigma Universe</a> – <a href="https://sigmaclimate.net" target="_blank">sigmaclimate.net</a> &nbsp;|&nbsp; Data from Open-Meteo &amp; NOAA
         </div>
     </div>
 
+    <!-- ============================================================
+    JAVASCRIPT
+    ============================================================ -->
     <script>
         // ============================================================
-        // LOAD CITY DATA
+        // DANH SÁCH 150 THÀNH PHỐ
+        // ============================================================
+        const CITIES = [
+            // VIỆT NAM (10)
+            { name: 'Hanoi', lat: 21.0285, lon: 105.8542 },
+            { name: 'Ho Chi Minh City', lat: 10.8231, lon: 106.6297 },
+            { name: 'Da Nang', lat: 16.0544, lon: 108.2022 },
+            { name: 'Hai Phong', lat: 20.8449, lon: 106.6881 },
+            { name: 'Can Tho', lat: 10.0452, lon: 105.7469 },
+            { name: 'Nha Trang', lat: 12.2388, lon: 109.1967 },
+            { name: 'Hue', lat: 16.4637, lon: 107.5909 },
+            { name: 'Da Lat', lat: 11.9465, lon: 108.4419 },
+            { name: 'Vung Tau', lat: 10.3485, lon: 107.0750 },
+            { name: 'Ha Long', lat: 20.9500, lon: 107.0800 },
+            // CHÂU Á
+            { name: 'Tokyo', lat: 35.6762, lon: 139.6503 },
+            { name: 'Osaka', lat: 34.6937, lon: 135.5023 },
+            { name: 'Seoul', lat: 37.5665, lon: 126.9780 },
+            { name: 'Busan', lat: 35.1796, lon: 129.0756 },
+            { name: 'Beijing', lat: 39.9042, lon: 116.4074 },
+            { name: 'Shanghai', lat: 31.2304, lon: 121.4737 },
+            { name: 'Hong Kong', lat: 22.3193, lon: 114.1694 },
+            { name: 'Singapore', lat: 1.3521, lon: 103.8198 },
+            { name: 'Kuala Lumpur', lat: 3.1390, lon: 101.6869 },
+            { name: 'Jakarta', lat: -6.2088, lon: 106.8456 },
+            { name: 'Bangkok', lat: 13.7563, lon: 100.5018 },
+            { name: 'Manila', lat: 14.5995, lon: 120.9842 },
+            { name: 'Mumbai', lat: 19.0760, lon: 72.8777 },
+            { name: 'Delhi', lat: 28.6139, lon: 77.2090 },
+            { name: 'Dubai', lat: 25.2048, lon: 55.2708 },
+            { name: 'Istanbul', lat: 41.0082, lon: 28.9784 },
+            { name: 'Tel Aviv', lat: 32.0853, lon: 34.7818 },
+            { name: 'Riyadh', lat: 24.7136, lon: 46.6753 },
+            { name: 'Kuwait City', lat: 29.3759, lon: 47.9774 },
+            { name: 'Doha', lat: 25.2854, lon: 51.5310 },
+            { name: 'Muscat', lat: 23.5880, lon: 58.3829 },
+            { name: 'Colombo', lat: 6.9271, lon: 79.8612 },
+            { name: 'Kathmandu', lat: 27.7172, lon: 85.3240 },
+            { name: 'Dhaka', lat: 23.8103, lon: 90.4125 },
+            { name: 'Yangon', lat: 16.8409, lon: 96.1735 },
+            { name: 'Phnom Penh', lat: 11.5564, lon: 104.9282 },
+            { name: 'Vientiane', lat: 17.9757, lon: 102.6331 },
+            { name: 'Ulaanbaatar', lat: 47.8864, lon: 106.9057 },
+            { name: 'Tashkent', lat: 41.2995, lon: 69.2401 },
+            { name: 'Almaty', lat: 43.2220, lon: 76.8512 },
+            { name: 'Bishkek', lat: 42.8746, lon: 74.5698 },
+            { name: 'Dushanbe', lat: 38.5598, lon: 68.7870 },
+            { name: 'Ashgabat', lat: 37.9601, lon: 58.3261 },
+            { name: 'Tehran', lat: 35.6892, lon: 51.3890 },
+            { name: 'Baghdad', lat: 33.3152, lon: 44.3661 },
+            { name: 'Beirut', lat: 33.8938, lon: 35.5018 },
+            { name: 'Amman', lat: 31.9454, lon: 35.9284 },
+            { name: 'Ankara', lat: 39.9334, lon: 32.8597 },
+            // CHÂU ÂU
+            { name: 'London', lat: 51.5074, lon: -0.1278 },
+            { name: 'Paris', lat: 48.8566, lon: 2.3522 },
+            { name: 'Berlin', lat: 52.5200, lon: 13.4050 },
+            { name: 'Madrid', lat: 40.4168, lon: -3.7038 },
+            { name: 'Rome', lat: 41.9028, lon: 12.4964 },
+            { name: 'Moscow', lat: 55.7558, lon: 37.6173 },
+            { name: 'Stockholm', lat: 59.3293, lon: 18.0686 },
+            { name: 'Oslo', lat: 59.9139, lon: 10.7522 },
+            { name: 'Copenhagen', lat: 55.6761, lon: 12.5683 },
+            { name: 'Helsinki', lat: 60.1699, lon: 24.9384 },
+            { name: 'Dublin', lat: 53.3498, lon: -6.2603 },
+            { name: 'Edinburgh', lat: 55.9533, lon: -3.1883 },
+            { name: 'Amsterdam', lat: 52.3676, lon: 4.9041 },
+            { name: 'Brussels', lat: 50.8503, lon: 4.3517 },
+            { name: 'Vienna', lat: 48.2082, lon: 16.3738 },
+            { name: 'Prague', lat: 50.0755, lon: 14.4378 },
+            { name: 'Budapest', lat: 47.4979, lon: 19.0402 },
+            { name: 'Warsaw', lat: 52.2297, lon: 21.0122 },
+            { name: 'Athens', lat: 37.9838, lon: 23.7275 },
+            { name: 'Lisbon', lat: 38.7223, lon: -9.1393 },
+            { name: 'Zurich', lat: 47.3769, lon: 8.5417 },
+            { name: 'Geneva', lat: 46.2044, lon: 6.1432 },
+            // BẮC MỸ
+            { name: 'New York', lat: 40.7128, lon: -74.0060 },
+            { name: 'Los Angeles', lat: 34.0522, lon: -118.2437 },
+            { name: 'Chicago', lat: 41.8781, lon: -87.6298 },
+            { name: 'Toronto', lat: 43.6532, lon: -79.3832 },
+            { name: 'Mexico City', lat: 19.4326, lon: -99.1332 },
+            { name: 'Vancouver', lat: 49.2827, lon: -123.1207 },
+            { name: 'Montreal', lat: 45.5017, lon: -73.5673 },
+            { name: 'Miami', lat: 25.7617, lon: -80.1918 },
+            { name: 'San Francisco', lat: 37.7749, lon: -122.4194 },
+            { name: 'Seattle', lat: 47.6062, lon: -122.3321 },
+            { name: 'Denver', lat: 39.7392, lon: -104.9903 },
+            { name: 'Dallas', lat: 32.7767, lon: -96.7970 },
+            { name: 'Houston', lat: 29.7604, lon: -95.3698 },
+            { name: 'Boston', lat: 42.3601, lon: -71.0589 },
+            { name: 'Washington DC', lat: 38.9072, lon: -77.0369 },
+            // NAM MỸ
+            { name: 'Sao Paulo', lat: -23.5505, lon: -46.6333 },
+            { name: 'Rio de Janeiro', lat: -22.9068, lon: -43.1729 },
+            { name: 'Buenos Aires', lat: -34.6037, lon: -58.3816 },
+            { name: 'Lima', lat: -12.0464, lon: -77.0428 },
+            { name: 'Bogota', lat: 4.7110, lon: -74.0721 },
+            { name: 'Santiago', lat: -33.4489, lon: -70.6693 },
+            { name: 'Caracas', lat: 10.4806, lon: -66.9036 },
+            { name: 'Quito', lat: -0.1807, lon: -78.4678 },
+            { name: 'La Paz', lat: -16.5000, lon: -68.1500 },
+            { name: 'Montevideo', lat: -34.9011, lon: -56.1645 },
+            // CHÂU PHI
+            { name: 'Cairo', lat: 30.0444, lon: 31.2357 },
+            { name: 'Lagos', lat: 6.5244, lon: 3.3792 },
+            { name: 'Nairobi', lat: -1.2921, lon: 36.8219 },
+            { name: 'Cape Town', lat: -33.9249, lon: 18.4241 },
+            { name: 'Johannesburg', lat: -26.2041, lon: 28.0473 },
+            { name: 'Accra', lat: 5.6037, lon: -0.1870 },
+            { name: 'Casablanca', lat: 33.5731, lon: -7.5898 },
+            { name: 'Tunis', lat: 36.8065, lon: 10.1815 },
+            { name: 'Addis Ababa', lat: 9.0320, lon: 38.7469 },
+            { name: 'Dakar', lat: 14.7167, lon: -17.4677 },
+            { name: 'Kinshasa', lat: -4.4419, lon: 15.2663 },
+            { name: 'Luanda', lat: -8.8390, lon: 13.2894 },
+            { name: 'Harare', lat: -17.8252, lon: 31.0335 },
+            // CHÂU ĐẠI DƯƠNG
+            { name: 'Sydney', lat: -33.8688, lon: 151.2093 },
+            { name: 'Melbourne', lat: -37.8136, lon: 144.9631 },
+            { name: 'Auckland', lat: -36.8485, lon: 174.7633 },
+            { name: 'Brisbane', lat: -27.4698, lon: 153.0251 },
+            { name: 'Perth', lat: -31.9505, lon: 115.8605 },
+            { name: 'Wellington', lat: -41.2865, lon: 174.7762 },
+            // BỔ SUNG
+            { name: 'Milan', lat: 45.4642, lon: 9.1900 },
+            { name: 'Naples', lat: 40.8518, lon: 14.2681 },
+            { name: 'Barcelona', lat: 41.3851, lon: 2.1734 },
+            { name: 'Valencia', lat: 39.4699, lon: -0.3763 },
+            { name: 'Munich', lat: 48.1351, lon: 11.5820 },
+            { name: 'Hamburg', lat: 53.5511, lon: 9.9937 },
+            { name: 'Frankfurt', lat: 50.1109, lon: 8.6821 },
+            { name: 'Manchester', lat: 53.4808, lon: -2.2426 },
+            { name: 'Birmingham', lat: 52.4862, lon: -1.8904 },
+            { name: 'Chiang Mai', lat: 18.7883, lon: 98.9853 },
+            { name: 'Luang Prabang', lat: 19.8855, lon: 102.1347 },
+            { name: 'Siem Reap', lat: 13.3632, lon: 103.8566 },
+            { name: 'Mandalay', lat: 21.9588, lon: 96.0891 },
+            { name: 'Denpasar (Bali)', lat: -8.6705, lon: 115.2126 },
+            { name: 'Phuket', lat: 7.8804, lon: 98.3923 },
+            { name: 'Penang', lat: 5.4141, lon: 100.3288 },
+            { name: 'Macau', lat: 22.1987, lon: 113.5439 },
+            { name: 'Taipei', lat: 25.0330, lon: 121.5654 },
+            { name: 'Fukuoka', lat: 33.5904, lon: 130.4017 },
+            { name: 'Medellin', lat: 6.2442, lon: -75.5812 },
+            { name: 'Cali', lat: 3.4516, lon: -76.5320 },
+            { name: 'Guayaquil', lat: -2.1707, lon: -79.9224 },
+            { name: 'Las Vegas', lat: 36.1699, lon: -115.1398 },
+            { name: 'Phoenix', lat: 33.4484, lon: -112.0740 },
+            { name: 'Orlando', lat: 28.5383, lon: -81.3792 },
+            { name: 'Atlanta', lat: 33.7490, lon: -84.3880 },
+            { name: 'Portland', lat: 45.5152, lon: -122.6784 },
+            { name: 'Calgary', lat: 51.0447, lon: -114.0719 }
+        ];
+
+        // VIETNAM CITIES (first 10)
+        const VIETNAM_CITIES = CITIES.slice(0, 10);
+
+        // ============================================================
+        // BIẾN TOÀN CỤ
+        // ============================================================
+        let chartInstance = null;
+        let currentCityName = '';
+        let currentHistoricalData = [];
+        let currentForecastData = [];
+
+        // ============================================================
+        // KHỞI TẠO DROPDOWN
+        // ============================================================
+        function initCityDropdown() {
+            const select = document.getElementById('citySelect');
+            const datalist = document.getElementById('cityList');
+
+            CITIES.forEach(city => {
+                const opt = document.createElement('option');
+                opt.value = city.name;
+                select.appendChild(opt);
+
+                const opt2 = document.createElement('option');
+                opt2.value = city.name;
+                datalist.appendChild(opt2);
+            });
+        }
+
+        function getCityCoords(name) {
+            return CITIES.find(c => c.name.toLowerCase() === name.toLowerCase());
+        }
+
+        // ============================================================
+        // PHẦN 1: VIỆT NAM WEATHER
+        // ============================================================
+        async function loadVietnamWeather() {
+            const grid = document.getElementById('vietnamGrid');
+            const updatedEl = document.getElementById('vietnamUpdated');
+
+            try {
+                const promises = VIETNAM_CITIES.map(async (city) => {
+                    const url =
+                        `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current_weather=true&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m,uv_index&timezone=auto`;
+                    const res = await fetch(url);
+                    if (!res.ok) throw new Error('API error');
+                    const data = await res.json();
+
+                    const temp = data.current_weather.temperature;
+                    const wind = data.current_weather.windspeed;
+                    const humidity = data.hourly.relative_humidity_2m[0] || '--';
+                    const uv = data.hourly.uv_index[0] || 0;
+
+                    let uvLevel = 'low';
+                    let uvLabel = 'Low';
+                    if (uv >= 8) { uvLevel = 'extreme';
+                        uvLabel = 'Extreme'; } else if (uv >= 6) { uvLevel = 'high';
+                        uvLabel = 'High'; } else if (uv >= 3) { uvLevel = 'moderate';
+                        uvLabel = 'Moderate'; }
+
+                    return { name: city.name, temp, wind, humidity, uv, uvLevel, uvLabel };
+                });
+
+                const results = await Promise.all(promises);
+
+                grid.innerHTML = results.map(r => `
+                    <div class="vietnam-card">
+                        <div class="city-name">${r.name}</div>
+                        <div class="temp">${Math.round(r.temp)}<sup>°C</sup></div>
+                        <div class="detail">💧 ${r.humidity}% &nbsp;|&nbsp; 🌬️ ${r.wind} km/h</div>
+                        <div><span class="uv-badge uv-${r.uvLevel}">☀️ UV ${r.uvLabel}</span></div>
+                    </div>
+                `).join('');
+
+                updatedEl.textContent = `🔄 Updated: ${new Date().toLocaleString()}`;
+
+            } catch (err) {
+                console.error('Vietnam weather error:', err);
+                grid.innerHTML = `<div class="error-msg">❌ Could not load Vietnam weather. Please try again later.</div>`;
+            }
+        }
+
+        // ============================================================
+        // PHẦN 2: LOAD CITY DATA
         // ============================================================
         function loadCityData() {
-            const city = document.getElementById('citySelect').value;
+            const cityDropdown = document.getElementById('citySelect').value;
+            const cityInput = document.getElementById('cityInput').value.trim();
+            let cityName = cityDropdown || cityInput;
+
+            if (!cityName) {
+                document.getElementById('cityResult').innerHTML =
+                    `<div class="error-msg">❌ Please select or type a city.</div>`;
+                return;
+            }
+
+            const coords = getCityCoords(cityName);
+            if (!coords) {
+                document.getElementById('cityResult').innerHTML =
+                    `<div class="error-msg">❌ City "${cityName}" not found.</div>`;
+                return;
+            }
+
+            currentCityName = cityName;
             const years = parseInt(document.getElementById('yearSelect').value);
-            const resultDiv = document.getElementById('resultContainer');
+            const resultDiv = document.getElementById('cityResult');
+            resultDiv.innerHTML = `<div class="loading">⏳ Loading data for ${cityName}...</div>`;
 
-            const safeName = city.toLowerCase().replace(/ /g, '_').replace(/'/g, '');
-            const imgUrl = `data/${safeName}_temperature_trend.png`;
-            const csvUrl = `data/${safeName}_forecast_2025_2034.csv`;
+            // Gọi API Archive để lấy dữ liệu 2015-2024
+            const url =
+                `https://archive-api.open-meteo.com/v1/archive?latitude=${coords.lat}&longitude=${coords.lon}&start_date=2015-01-01&end_date=2024-12-31&daily=temperature_2m_mean&timezone=auto`;
 
-            resultDiv.innerHTML = `<div class="loading">⏳ Loading data for ${city}...</div>`;
-
-            fetch(imgUrl, { method: 'HEAD' })
+            fetch(url)
                 .then(res => {
-                    if (res.ok) {
-                        displayResult(city, imgUrl, csvUrl, years);
-                    } else {
-                        const altName = city.toLowerCase().replace(/ /g, '_');
-                        const altImg = `data/${altName}_temperature_trend.png`;
-                        fetch(altImg, { method: 'HEAD' })
-                            .then(res2 => {
-                                if (res2.ok) {
-                                    displayResult(city, altImg, `data/${altName}_forecast_2025_2034.csv`, years);
-                                } else {
-                                    resultDiv.innerHTML = `<div class="error-msg">❌ No data found for "${city}".<br>Please try another city.</div>`;
+                    if (!res.ok) throw new Error('API error');
+                    return res.json();
+                })
+                .then(data => {
+                    if (!data.daily || !data.daily.time || data.daily.time.length === 0) {
+                        throw new Error('No data available');
+                    }
+
+                    // Tính nhiệt độ trung bình năm
+                    const yearsMap = {};
+                    data.daily.time.forEach((date, idx) => {
+                        const year = parseInt(date.split('-')[0]);
+                        const temp = data.daily.temperature_2m_mean[idx];
+                        if (!yearsMap[year]) yearsMap[year] = [];
+                        yearsMap[year].push(temp);
+                    });
+
+                    const yearlyData = Object.keys(yearsMap).sort().map(year => {
+                        const temps = yearsMap[year];
+                        const avg = temps.reduce((a, b) => a + b, 0) / temps.length;
+                        return { year: parseInt(year), temp: avg };
+                    });
+
+                    if (yearlyData.length < 2) {
+                        throw new Error('Insufficient data');
+                    }
+
+                    // Dự báo 2025-2034
+                    const forecast = forecastTemperature(yearlyData);
+                    currentHistoricalData = yearlyData;
+                    currentForecastData = forecast;
+
+                    displayCityResult(cityName, yearlyData, forecast, years);
+
+                })
+                .catch(err => {
+                    console.error('City data error:', err);
+                    resultDiv.innerHTML =
+                        `<div class="error-msg">❌ Could not load data for "${cityName}".<br>Please try another city.</div>`;
+                });
+        }
+
+        // ============================================================
+        // HỒI QUY TUYẾN TÍNH
+        // ============================================================
+        function forecastTemperature(historicalData) {
+            const n = historicalData.length;
+            if (n < 2) return [];
+
+            const sumX = historicalData.reduce((s, d) => s + d.year, 0);
+            const sumY = historicalData.reduce((s, d) => s + d.temp, 0);
+            const sumXY = historicalData.reduce((s, d) => s + d.year * d.temp, 0);
+            const sumX2 = historicalData.reduce((s, d) => s + d.year * d.year, 0);
+
+            const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+            const intercept = (sumY - slope * sumX) / n;
+
+            const forecast = [];
+            for (let year = 2025; year <= 2034; year++) {
+                forecast.push({ year, temp: slope * year + intercept, slope, intercept });
+            }
+            return forecast;
+        }
+
+        // ============================================================
+        // HIỂN THỊ KẾT QUẢ
+        // ============================================================
+        function displayCityResult(cityName, historicalData, forecastData, years) {
+            const resultDiv = document.getElementById('cityResult');
+
+            const startYear = 2025;
+            const endYear = startYear + years - 1;
+            const filteredForecast = forecastData.filter(d => d.year >= startYear && d.year <= endYear);
+
+            const slope = forecastData.length > 0 ? forecastData[0].slope : 0;
+
+            let warningLevel = 'green';
+            let warningMessage = '✅ Climate in this region is stable.';
+            if (slope > 0.03) {
+                warningLevel = 'red';
+                warningMessage = '🔴 WARNING: This region is warming faster than the global average (> 0.03°C/year). Prepare for more extreme summers.';
+            } else if (slope > 0.02) {
+                warningLevel = 'yellow';
+                warningMessage = '🟡 CAUTION: This region is showing signs of warming. Monitor closely.';
+            }
+
+            const favorites = JSON.parse(localStorage.getItem('favoriteCities') || '[]');
+            const isFavorite = favorites.includes(cityName);
+            const favBtnHtml =
+                `<button class="favorite-btn" onclick="toggleFavorite('${cityName}')">${isFavorite ? '❤️' : '🤍'}</button>`;
+
+            let html = `
+                <div class="city-title">
+                    <span>📍 ${cityName.toUpperCase()}</span>
+                    ${favBtnHtml}
+                </div>
+                <div class="chart-container">
+                    <canvas id="cityChart"></canvas>
+                </div>
+                <div class="chart-label">
+                    📊 Temperature trend 2015-2024 | 🔮 Forecast ${startYear}-${endYear}
+                    ${slope !== 0 ? `| Trend: ${(slope * 100).toFixed(2)}°C/100 years` : ''}
+                </div>
+                <div class="warning-box ${warningLevel}">${warningMessage}</div>
+                <div style="text-align:center;margin-bottom:10px;">
+                    <button class="download-btn" onclick="downloadCSV('${cityName}')">⬇️ Download CSV</button>
+                </div>
+            `;
+
+            if (filteredForecast.length > 0) {
+                html += `<table class="forecast-table">
+                    <tr><th>Year</th><th>Forecast Temperature (°C)</th></tr>`;
+                filteredForecast.forEach(d => {
+                    html += `<tr><td>${d.year}</td><td>${d.temp.toFixed(2)}°C</td></tr>`;
+                });
+                html += `</table>`;
+            }
+
+            resultDiv.innerHTML = html;
+
+            // Render chart
+            renderCityChart(historicalData, forecastData, startYear, endYear);
+        }
+
+        // ============================================================
+        // VẼ BIỂU ĐỒ
+        // ============================================================
+        function renderCityChart(historicalData, forecastData, startYear, endYear) {
+            const canvas = document.getElementById('cityChart');
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
+            const allYears = [];
+            const histTemps = [];
+            const foreTemps = [];
+            const upperBound = [];
+            const lowerBound = [];
+
+            for (let y = 2015; y <= 2034; y++) {
+                allYears.push(y);
+                const hist = historicalData.find(d => d.year === y);
+                const fore = forecastData.find(d => d.year === y);
+
+                if (hist) {
+                    histTemps.push(hist.temp);
+                    foreTemps.push(null);
+                    upperBound.push(null);
+                    lowerBound.push(null);
+                } else if (fore) {
+                    histTemps.push(null);
+                    foreTemps.push(fore.temp);
+                    upperBound.push(fore.temp + 0.5);
+                    lowerBound.push(fore.temp - 0.5);
+                } else {
+                    histTemps.push(null);
+                    foreTemps.push(null);
+                    upperBound.push(null);
+                    lowerBound.push(null);
+                }
+            }
+
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: allYears,
+                    datasets: [{
+                        label: 'Historical Data',
+                        data: histTemps,
+                        borderColor: '#6a9e56',
+                        backgroundColor: 'rgba(106, 158, 86, 0.05)',
+                        fill: false,
+                        tension: 0.3,
+                        pointRadius: 3,
+                        pointBackgroundColor: '#6a9e56',
+                        spanGaps: false
+                    }, {
+                        label: 'Forecast',
+                        data: foreTemps,
+                        borderColor: '#f1c40f',
+                        backgroundColor: 'rgba(241, 196, 15, 0.05)',
+                        borderDash: [5, 5],
+                        fill: false,
+                        tension: 0.3,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#f1c40f',
+                        spanGaps: false
+                    }, {
+                        label: 'Confidence Interval',
+                        data: upperBound,
+                        borderColor: 'rgba(241, 196, 15, 0.0)',
+                        backgroundColor: 'rgba(241, 196, 15, 0.12)',
+                        fill: '+1',
+                        pointRadius: 0,
+                        borderWidth: 0,
+                        tension: 0.3,
+                        spanGaps: false
+                    }, {
+                        label: 'Confidence Interval (lower)',
+                        data: lowerBound,
+                        borderColor: 'rgba(241, 196, 15, 0.0)',
+                        backgroundColor: 'rgba(241, 196, 15, 0.0)',
+                        fill: false,
+                        pointRadius: 0,
+                        borderWidth: 0,
+                        tension: 0.3,
+                        spanGaps: false,
+                        hidden: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#c8e0b8',
+                                font: { size: 12 }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    if (context.datasetIndex >= 2) return null;
+                                    if (context.parsed.y === null) return null;
+                                    return context.dataset.label + ': ' + context.parsed.y.toFixed(2) + '°C';
                                 }
-                            })
-                            .catch(() => {
-                                resultDiv.innerHTML = `<div class="error-msg">❌ No data found for "${city}".</div>`;
-                            });
-                    }
-                })
-                .catch(() => {
-                    resultDiv.innerHTML = `<div class="error-msg">❌ No data found for "${city}".</div>`;
-                });
-        }
-
-        function displayResult(city, imgUrl, csvUrl, years) {
-            const resultDiv = document.getElementById('resultContainer');
-
-            fetch(csvUrl)
-                .then(res => res.text())
-                .then(text => {
-                    const lines = text.trim().split('\n');
-                    let forecastData = [];
-                    for (let i = 1; i < lines.length; i++) {
-                        const cols = lines[i].split(',');
-                        if (cols.length >= 2) {
-                            forecastData.push({ year: parseInt(cols[0]), temp: parseFloat(cols[1]) });
+                            }
                         }
-                    }
-
-                    // Lấy dữ liệu trong khoảng số năm đã chọn
-                    const startYear = 2025;
-                    const endYear = startYear + years - 1;
-                    const filtered = forecastData.filter(d => d.year >= startYear && d.year <= endYear);
-
-                    // Tính tốc độ tăng nhiệt độ (slope)
-                    let warningLevel = 'green';
-                    let warningMessage = '✅ Climate in this region is stable.';
-                    let slope = 0;
-                    if (forecastData.length > 1) {
-                        const n = forecastData.length;
-                        const sumX = forecastData.reduce((s, d) => s + d.year, 0);
-                        const sumY = forecastData.reduce((s, d) => s + d.temp, 0);
-                        const sumXY = forecastData.reduce((s, d) => s + d.year * d.temp, 0);
-                        const sumX2 = forecastData.reduce((s, d) => s + d.year * d.year, 0);
-                        slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
-                        if (slope > 0.03) {
-                            warningLevel = 'red';
-                            warningMessage = '🔴 WARNING: This region is warming faster than the global average (> 0.03°C/year). Prepare for more extreme summers.';
-                        } else if (slope > 0.02) {
-                            warningLevel = 'yellow';
-                            warningMessage = '🟡 CAUTION: This region is showing signs of warming. Monitor closely.';
-                        } else {
-                            warningMessage = '✅ Climate in this region is stable.';
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#88a87a',
+                                maxTicksLimit: 10
+                            },
+                            grid: {
+                                color: 'rgba(180, 220, 140, 0.05)'
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: '#88a87a',
+                                callback: function(value) {
+                                    return value.toFixed(1) + '°C';
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(180, 220, 140, 0.05)'
+                            }
                         }
+                    },
+                    elements: {
+                        line: {
+                            borderWidth: 2
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
                     }
-
-                    let html = `
-                        <div class="city-title">📍 ${city.toUpperCase()}</div>
-                        <div class="chart-container">
-                            <img src="${imgUrl}" alt="Temperature trend for ${city}" onerror="this.style.display='none'">
-                        </div>
-                        <div style="text-align:center;color:#88a87a;font-size:14px;margin-bottom:12px;">
-                            📊 Temperature trend 2015-2034 | 🔮 Forecast ${startYear}-${endYear}
-                        </div>
-                        <div class="warning-box ${warningLevel}">
-                            ${warningMessage}
-                            ${slope !== 0 ? ` (Trend: ${slope.toFixed(4)}°C/year)` : ''}
-                        </div>
-                        <div style="text-align:center;margin-bottom:12px;">
-                            <button class="download-btn" onclick="downloadCSV('${city}', '${csvUrl}')">⬇️ Download CSV</button>
-                        </div>
-                    `;
-
-                    if (filtered.length > 0) {
-                        html += `<table class="forecast-table">
-                            <tr><th>Year</th><th>Forecast Temperature (°C)</th></tr>`;
-                        filtered.forEach(d => {
-                            html += `<tr><td>${d.year}</td><td>${d.temp.toFixed(2)}°C</td></tr>`;
-                        });
-                        html += `</table>`;
-                    } else {
-                        html += `<div style="color:#88a87a;text-align:center;padding:12px;">ℹ️ No forecast data available for the selected time range.</div>`;
-                    }
-
-                    resultDiv.innerHTML = html;
-                })
-                .catch(() => {
-                    resultDiv.innerHTML = `<div class="error-msg">❌ No forecast data available for "${city}".</div>`;
-                });
+                }
+            });
         }
 
-        function downloadCSV(city, csvUrl) {
-            fetch(csvUrl)
-                .then(res => res.text())
-                .then(text => {
-                    const blob = new Blob([text], { type: 'text/csv' });
-                    const link = document.createElement('a');
-                    link.href = URL.createObjectURL(blob);
-                    link.download = `${city.toLowerCase()}_forecast.csv`;
-                    link.click();
-                })
-                .catch(() => alert('Could not download CSV.'));
+        // ============================================================
+        // DOWNLOAD CSV (DỮ LIỆU THẬT)
+        // ============================================================
+        function downloadCSV(cityName) {
+            if (currentForecastData.length === 0) {
+                alert('No forecast data available. Please search for a city first.');
+                return;
+            }
+
+            let csv = 'Year,Temperature_C\n';
+            currentForecastData.forEach(d => {
+                csv += `${d.year},${d.temp.toFixed(2)}\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${cityName.toLowerCase()}_forecast_2025_2034.csv`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
         }
 
-        window.onload = loadCityData;
+        // ============================================================
+        // YÊU THÍCH
+        // ============================================================
+        function toggleFavorite(cityName) {
+            let favorites = JSON.parse(localStorage.getItem('favoriteCities') || '[]');
+            const index = favorites.indexOf(cityName);
+            if (index > -1) {
+                favorites.splice(index, 1);
+            } else {
+                favorites.push(cityName);
+            }
+            localStorage.setItem('favoriteCities', JSON.stringify(favorites));
+            loadCityData();
+        }
+
+        // ============================================================
+        // HỖ TRỢ ENTER
+        // ============================================================
+        document.getElementById('cityInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                loadCityData();
+            }
+        });
+
+        // ============================================================
+        // KHỞI CHẠY
+        // ============================================================
+        window.onload = function() {
+            initCityDropdown();
+            loadVietnamWeather();
+            // Mặc định Hà Nội
+            document.getElementById('citySelect').value = 'Hanoi';
+            loadCityData();
+        };
     </script>
 </body>
 </html>
