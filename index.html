@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🌿 SIGMA CLIMATE</title>
+    <!-- FONT GOOGLE CHUẨN, RÕ RÀNG NHẤT - ĐÃ ÁP DỤNG TRIỆT ĐỂ -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        /* ===== RESET & BASE ===== */
+        /* ============================================================
+                   RESET HOÀN TOÀN - FONT CHỮ RÕ RÀNG, HIỆN ĐẠI
+                   ============================================================ */
         * {
             margin: 0;
             padding: 0;
@@ -13,16 +17,19 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* FONT CHÍNH XÁC: INTER - RÕ RÀNG, SẮC NÉT */
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
             background: #0a1a0a;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* ===== NỀN TRONG SUỐT ===== */
+        /* ===== NỀN TRONG SUỐT (GIỮ NGUYÊN) ===== */
         body::before {
             content: '';
             position: fixed;
@@ -51,9 +58,9 @@
             margin-bottom: 16px;
         }
 
-        /* 1. LOGO LỚN (90px) */
+        /* 1. LOGO LỚN - CHÍNH XÁC 150px */
         .logo {
-            height: 90px;
+            height: 150px;
             display: block;
             margin: 0 auto 8px;
         }
@@ -64,10 +71,11 @@
             color: #ffffff;
             text-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
             letter-spacing: 2px;
+            font-family: 'Inter', sans-serif;
         }
         .header h1 span { color: #b8d9a0; }
 
-        /* 2. THANH TRƯỢT NGÔN NGỮ */
+        /* ===== THANH TRƯỢT NGÔN NGỮ ===== */
         .language-selector {
             display: flex;
             justify-content: flex-end;
@@ -76,6 +84,7 @@
             margin: 6px 0 0;
             font-size: 15px;
             color: #c8e0b8;
+            font-family: 'Inter', sans-serif;
         }
         .language-selector select {
             padding: 6px 14px;
@@ -88,6 +97,7 @@
             outline: none;
             backdrop-filter: blur(4px);
             cursor: pointer;
+            font-family: 'Inter', sans-serif;
         }
         .language-selector select option {
             background: #1a3a1a;
@@ -101,6 +111,7 @@
             margin-top: 2px;
             text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
             min-height: 40px;
+            font-family: 'Inter', sans-serif;
         }
 
         /* ===== TÌM KIẾM ===== */
@@ -120,6 +131,7 @@
             outline: none;
             backdrop-filter: blur(6px);
             font-weight: 500;
+            font-family: 'Inter', sans-serif;
         }
         .search-box input:focus {
             background: rgba(40, 80, 40, 0.5);
@@ -128,6 +140,7 @@
         .search-box input::placeholder {
             color: #c8e0b8;
             opacity: 0.8;
+            font-family: 'Inter', sans-serif;
         }
         .search-box button {
             padding: 15px 32px;
@@ -142,6 +155,7 @@
             backdrop-filter: blur(6px);
             text-transform: uppercase;
             letter-spacing: 1px;
+            font-family: 'Inter', sans-serif;
         }
         .search-box button:hover {
             background: rgba(95, 146, 72, 0.95);
@@ -172,6 +186,7 @@
             font-weight: 800;
             color: #ffffff;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            font-family: 'Inter', sans-serif;
         }
         .weather-card .label {
             font-size: 14px;
@@ -179,6 +194,7 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
+            font-family: 'Inter', sans-serif;
         }
 
         /* ===== CẢNH BÁO ===== */
@@ -193,6 +209,7 @@
             text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
             text-transform: uppercase;
             letter-spacing: 2px;
+            font-family: 'Inter', sans-serif;
         }
         .warning-item {
             display: flex;
@@ -206,12 +223,13 @@
             font-size: 18px;
             font-weight: 600;
             border-left: 4px solid rgba(180, 220, 140, 0.2);
+            font-family: 'Inter', sans-serif;
         }
         .warning-item .risk-low { color: #a3e4d7; }
         .warning-item .risk-medium { color: #f9e79f; }
         .warning-item .risk-high { color: #f1948a; }
 
-        /* ===== PHẦN CHỮ MỚI ===== */
+        /* ===== PHẦN CHỮ SIGMA (GIỮ NGUYÊN NỘI DUNG CỦA BẠN) ===== */
         .sigma-message {
             margin: 20px 0 18px;
             padding: 16px 0;
@@ -222,14 +240,14 @@
             text-shadow: 0 2px 20px rgba(0, 0, 0, 0.7);
         }
 
-        /* 3. CÁC DÒNG CHỮ NGHIÊNG, NHỎ HƠN */
+        /* PHẦN CHỮ NGHIÊNG - VẪN DÙNG FONT INTER (ĐỂ THỐNG NHẤT) */
         .sigma-message .italic-text {
             font-size: 18px;
             font-style: italic;
             font-weight: 400;
             line-height: 1.8;
             color: #d0e8c0;
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: 'Inter', Georgia, 'Times New Roman', serif;
         }
         .sigma-message .italic-text strong {
             color: #ffffff;
@@ -239,24 +257,25 @@
 
         .sigma-message .highlight-choice {
             font-size: 18px;
-            font-weight: 600;
+            font-weight: 700;
             color: #ffd700;
             margin: 10px 0 6px;
             letter-spacing: 1px;
+            font-family: 'Inter', sans-serif;
         }
         .sigma-message .choice-option {
             font-size: 18px;
             font-style: italic;
             color: #b8d9a0;
             line-height: 1.6;
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: 'Inter', Georgia, 'Times New Roman', serif;
         }
         .sigma-message .choice-option strong {
             color: #ffffff;
             font-style: normal;
         }
 
-        /* ===== CUỐI TRANG ===== */
+        /* ===== FOOTER ===== */
         .footer {
             text-align: center;
             padding-top: 16px;
@@ -271,6 +290,7 @@
             color: #b8d9a0;
             letter-spacing: 2px;
             text-transform: uppercase;
+            font-family: 'Inter', sans-serif;
         }
 
         .footer .motto-large {
@@ -280,6 +300,7 @@
             margin: 8px 0 4px;
             text-shadow: 0 0 40px rgba(255, 215, 0, 0.15);
             letter-spacing: 2.5px;
+            font-family: 'Inter', sans-serif;
         }
 
         .footer .badge {
@@ -294,13 +315,14 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            font-family: 'Inter', sans-serif;
         }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 600px) {
             .container { padding: 16px; }
             .header h1 { font-size: 28px; }
-            .logo { height: 65px; }
+            .logo { height: 100px; }
             .search-box { flex-wrap: wrap; }
             .search-box input { min-width: 100%; font-size: 16px; padding: 14px 18px; }
             .search-box button { width: 100%; font-size: 17px; padding: 14px; }
@@ -316,7 +338,7 @@
 
         @media (max-width: 400px) {
             .header h1 { font-size: 22px; }
-            .logo { height: 55px; }
+            .logo { height: 80px; }
             .city-display { font-size: 20px; }
             .sigma-message .italic-text,
             .sigma-message .highlight-choice,
@@ -331,11 +353,11 @@
 
         <!-- ===== HEADER ===== -->
         <div class="header">
-            <!-- 1. LOGO LỚN (90px) -->
+            <!-- LOGO CHÍNH XÁC 150px -->
             <img src="assets/images/sigma_logo.png" alt="Sigma Logo" class="logo">
             <h1>🌿 SIGMA <span>CLIMATE</span></h1>
 
-            <!-- 2. THANH TRƯỢT CHỌN NGÔN NGỮ -->
+            <!-- THANH TRƯỢT NGÔN NGỮ -->
             <div class="language-selector">
                 <span style="color:#88a87a;">🌐</span>
                 <select id="languageSelect">
@@ -380,7 +402,7 @@
             </div>
         </div>
 
-        <!-- ===== PHẦN CHỮ MỚI (3) ===== -->
+        <!-- ===== PHẦN CHỮ SIGMA - NỘI DUNG CHÍNH XÁC CỦA BẠN ===== -->
         <div class="sigma-message">
             <div class="italic-text">
                 <strong>SIGMA</strong> làm việc bằng các cơ sở dữ liệu đầu vào có kiểm chứng. <br>
@@ -415,12 +437,8 @@
 
         <!-- ===== FOOTER ===== -->
         <div class="footer">
-            <!-- 4. TỔ CHỨC PHI LỢI NHUẬN -->
             <div class="nonprofit">🌍 SIGMA_UNIVERSE : TỔ CHỨC PHI LỢI NHUẬN</div>
-
-            <!-- 4. MOTTO LỚN Ở CUỐI TRANG -->
             <div class="motto-large">✨ PEACEFUL MIND. KIND HEART. KEEP GROWING.</div>
-
             <div class="badge">⚡ HUMAN KNOWLEDGE SYSTEM</div>
         </div>
 
@@ -521,10 +539,10 @@
             const warningList = document.getElementById('warningList');
             if (warningList) {
                 warningList.innerHTML = `
-                    <div class="warning-item"><span>🔴 LŨ LỤT</span><span class="risk-${floodRisk === 'cao' ? 'high' : floodRisk === 'trung bình' ? 'medium' : 'low'}">NGUY CƠ ${floodRisk.toUpperCase()} (${floodPercent})</span></div>
-                    <div class="warning-item"><span>🟡 HẠN HÁN</span><span class="risk-${droughtRisk === 'cao' ? 'high' : droughtRisk === 'trung bình' ? 'medium' : 'low'}">NGUY CƠ ${droughtRisk.toUpperCase()} (${droughtPercent})</span></div>
-                    <div class="warning-item"><span>🟢 CHÁY RỪNG</span><span class="risk-${fireRisk === 'cao' ? 'high' : fireRisk === 'trung bình' ? 'medium' : 'low'}">NGUY CƠ ${fireRisk.toUpperCase()} (${firePercent})</span></div>
-                `;
+                        <div class="warning-item"><span>🔴 LŨ LỤT</span><span class="risk-${floodRisk === 'cao' ? 'high' : floodRisk === 'trung bình' ? 'medium' : 'low'}">NGUY CƠ ${floodRisk.toUpperCase()} (${floodPercent})</span></div>
+                        <div class="warning-item"><span>🟡 HẠN HÁN</span><span class="risk-${droughtRisk === 'cao' ? 'high' : droughtRisk === 'trung bình' ? 'medium' : 'low'}">NGUY CƠ ${droughtRisk.toUpperCase()} (${droughtPercent})</span></div>
+                        <div class="warning-item"><span>🟢 CHÁY RỪNG</span><span class="risk-${fireRisk === 'cao' ? 'high' : fireRisk === 'trung bình' ? 'medium' : 'low'}">NGUY CƠ ${fireRisk.toUpperCase()} (${firePercent})</span></div>
+                    `;
             }
         }
 
