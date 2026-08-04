@@ -308,13 +308,6 @@
             to { translate: 8vw 0; }
         }
 
-        .loading {
-            text-align: center;
-            padding: 20px;
-            color: rgba(248, 255, 248, 0.6);
-            font-size: 16px;
-        }
-
         @media (max-width: 860px) {
             body {
                 overflow: auto;
@@ -405,11 +398,11 @@
 
     <script>
         // ============================================================
-        // LẤY DỮ LIỆU THỜI TIẾT TỪ OPEN-METEO API
+        // DỮ LIỆU THỜI TIẾT TỪ OPEN-METEO API
         // ============================================================
         const API_URL = 'https://api.open-meteo.com/v1/forecast';
 
-        // Danh sách thành phố mẫu
+        // Tọa độ các thành phố
         const CITY_COORDS = {
             'ho chi minh city': { lat: 10.8231, lon: 106.6297 },
             'hanoi': { lat: 21.0285, lon: 105.8542 },
@@ -433,7 +426,7 @@
             if (CITY_COORDS[key]) {
                 return CITY_COORDS[key];
             }
-            return { lat: 21.0285, lon: 105.8542 }; // Mặc định Hà Nội
+            return { lat: 10.8231, lon: 106.6297 }; // Mặc định TP.HCM
         }
 
         async function fetchWeather() {
