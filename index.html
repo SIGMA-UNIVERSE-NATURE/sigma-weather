@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>🌿 SIGMA FOREST – CLIMATE</title>
     <style>
-        /* ----- RESET & BASE ----- */
         * {
             margin: 0;
             padding: 0;
@@ -24,7 +23,6 @@
             color: #e8f0d0;
         }
 
-        /* ----- BACKGROUND RỪNG TRE THẬT ----- */
         body::before {
             content: '';
             position: fixed;
@@ -48,7 +46,6 @@
             z-index: 1;
         }
 
-        /* ----- CONTAINER CHÍNH ----- */
         .container {
             max-width: 1100px;
             width: 100%;
@@ -62,7 +59,6 @@
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
         }
 
-        /* ----- HEADER ----- */
         .header {
             text-align: center;
             margin-bottom: 16px;
@@ -102,7 +98,6 @@
             letter-spacing: 1px;
         }
 
-        /* ----- NHÂN VẬT SIGMA (DÙNG ẢNH) ----- */
         .characters {
             display: flex;
             flex-wrap: wrap;
@@ -142,7 +137,6 @@
             color: #d0e8c0;
         }
 
-        /* ----- Ô TÌM KIẾM ----- */
         .search-section {
             margin: 16px 0 24px;
             text-align: center;
@@ -195,7 +189,6 @@
             transform: scale(1.02);
         }
 
-        /* ----- KẾT QUẢ ----- */
         .result-container {
             margin-top: 20px;
         }
@@ -248,7 +241,6 @@
             background: rgba(180, 220, 140, 0.05);
         }
 
-        /* ----- FOOTER ----- */
         .footer {
             text-align: center;
             font-size: 13px;
@@ -281,7 +273,6 @@
             font-size: 18px;
         }
 
-        /* ----- RESPONSIVE ----- */
         @media (max-width: 640px) {
             .container {
                 padding: 16px;
@@ -310,20 +301,16 @@
 </head>
 <body>
 
-    <!-- LỚP PHỦ -->
     <div class="overlay"></div>
 
-    <!-- NỘI DUNG CHÍNH -->
     <div class="container">
 
-        <!-- HEADER -->
         <div class="header">
             <div class="badge">🌱 Sigma Climate</div>
             <h1>🌿 SIGMA <span>FOREST</span></h1>
             <div class="motto">✨ Peaceful Mind. Kind Heart. Keep Growing.</div>
         </div>
 
-        <!-- NHÂN VẬT -->
         <div class="characters">
             <div class="char-item">
                 <img src="assets/images/sigma.png" alt="Sigma">
@@ -343,7 +330,6 @@
             </div>
         </div>
 
-        <!-- TÌM KIẾM -->
         <div class="search-section">
             <div class="search-box">
                 <input type="text" id="cityInput" placeholder="Nhập tên thành phố..." value="Hanoi">
@@ -351,21 +337,16 @@
             </div>
         </div>
 
-        <!-- KẾT QUẢ -->
         <div class="result-container" id="resultContainer">
             <div class="loading">🌿 Nhập tên thành phố và nhấn "Tra cứu"</div>
         </div>
 
-        <!-- FOOTER -->
         <div class="footer">
             ⚡ Sigma Universe – <a href="https://sigmauniverse.net" target="_blank">sigmauniverse.net</a> &nbsp;|&nbsp; Dữ liệu từ Open-Meteo & NOAA
         </div>
     </div>
 
     <script>
-        // ============================================================
-        // HÀM TẢI DỮ LIỆU THÀNH PHỐ
-        // ============================================================
         function loadCityData() {
             const input = document.getElementById('cityInput');
             const city = input.value.trim() || "Hanoi";
@@ -437,7 +418,6 @@
                 });
         }
 
-        // TỰ ĐỘNG TẢI KHI TRANG LOAD
         window.onload = loadCityData;
     </script>
 </body>
