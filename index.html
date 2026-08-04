@@ -3,22 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌿 Sigma Climate</title>
+    <title>🌿 SIGMA CLIMATE</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
             background: #0a1a0a;
-            color: #e8f0d0;
         }
 
-        /* NỀN TRONG SUỐT – KHÔNG CHE BACKGROUND */
+        /* NỀN TRONG SUỐT - KHÔNG CHE BACKGROUND */
         body::before {
             content: '';
             position: fixed;
@@ -34,327 +37,590 @@
         .container {
             position: relative;
             z-index: 1;
-            max-width: 780px;
+            max-width: 900px;
             width: 100%;
-            background: rgba(20, 40, 20, 0.25);
-            backdrop-filter: blur(6px);
+            background: transparent;
+            backdrop-filter: none;
             border-radius: 40px;
-            padding: 28px 30px;
-            border: 1px solid rgba(180, 220, 140, 0.08);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+            padding: 30px 35px;
+            border: none;
+            box-shadow: none;
         }
 
-        .header { text-align: center; margin-bottom: 18px; }
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            height: 70px;
+            display: block;
+            margin: 0 auto 10px;
+        }
+
         .header h1 {
-            font-size: 30px;
-            font-weight: 700;
-            color: #ebf5e0;
-            text-shadow: 0 2px 20px rgba(0,0,0,0.4);
-        }
-        .header h1 span { color: #b8d9a0; }
-        .motto {
-            font-size: 14px;
-            color: #c8e0b8;
-            font-style: italic;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            font-size: 48px;
+            font-weight: 900;
+            color: #ffffff;
+            text-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+            letter-spacing: 2px;
+            line-height: 1.2;
         }
 
-        /* Ô TÌM KIẾM */
+        .header h1 span {
+            color: #b8d9a0;
+        }
+
+        .motto {
+            font-size: 20px;
+            color: #ffffff;
+            font-style: italic;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.9);
+            margin-top: 4px;
+            font-weight: 400;
+        }
+
+        /* ===== TÌM KIẾM ===== */
         .search-box {
             display: flex;
-            gap: 10px;
-            margin: 14px 0 20px;
+            gap: 12px;
+            margin: 18px 0 24px;
         }
+
         .search-box input {
             flex: 1;
-            padding: 12px 18px;
+            padding: 16px 22px;
             border-radius: 60px;
-            border: 1px solid rgba(180,220,140,0.15);
-            background: rgba(30,60,30,0.4);
-            color: #ebf5e0;
-            font-size: 15px;
+            border: 1px solid rgba(180, 220, 140, 0.2);
+            background: rgba(30, 60, 30, 0.35);
+            color: #ffffff;
+            font-size: 18px;
             outline: none;
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(6px);
+            font-weight: 500;
         }
+
         .search-box input:focus {
-            background: rgba(40,80,40,0.5);
+            background: rgba(40, 80, 40, 0.5);
             border-color: #8cb87a;
         }
+
+        .search-box input::placeholder {
+            color: #c8e0b8;
+            opacity: 0.8;
+        }
+
         .search-box button {
-            padding: 12px 28px;
+            padding: 16px 36px;
             border-radius: 60px;
             border: none;
-            background: rgba(77,122,58,0.7);
-            color: #f0f7e6;
-            font-weight: 700;
-            font-size: 15px;
+            background: rgba(77, 122, 58, 0.8);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 20px;
             cursor: pointer;
             transition: 0.3s;
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(6px);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        .search-box button:hover { background: rgba(95,146,72,0.8); transform: scale(1.02); }
 
-        /* Ô THỜI TIẾT (TRANSPARENT) */
+        .search-box button:hover {
+            background: rgba(95, 146, 72, 0.95);
+            transform: scale(1.03);
+        }
+
+        /* ===== THỜI TIẾT ===== */
         .weather-cards {
             display: flex;
-            gap: 12px;
+            gap: 14px;
             justify-content: center;
             flex-wrap: wrap;
-            margin: 16px 0 20px;
+            margin: 18px 0 22px;
         }
+
         .weather-card {
-            background: rgba(255,255,255,0.04);
-            backdrop-filter: blur(4px);
-            padding: 12px 18px;
-            border-radius: 16px;
-            border: 1px solid rgba(180,220,140,0.06);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(6px);
+            padding: 16px 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(180, 220, 140, 0.08);
             text-align: center;
-            min-width: 90px;
+            min-width: 100px;
             flex: 1;
         }
-        .weather-card .icon { font-size: 28px; }
-        .weather-card .value { font-size: 22px; font-weight: 700; color: #ebf5e0; }
-        .weather-card .label { font-size: 12px; color: #88a87a; }
 
-        /* CẢNH BÁO */
-        .warning-section { margin: 16px 0 18px; }
-        .warning-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #c8e0b8;
-            margin-bottom: 10px;
+        .weather-card .icon {
+            font-size: 34px;
         }
+
+        .weather-card .value {
+            font-size: 26px;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .weather-card .label {
+            font-size: 14px;
+            color: #b8d9a0;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ===== CẢNH BÁO ===== */
+        .warning-section {
+            margin: 18px 0 20px;
+        }
+
+        .warning-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
         .warning-item {
             display: flex;
             justify-content: space-between;
-            padding: 8px 14px;
-            border-radius: 12px;
-            margin-bottom: 6px;
-            background: rgba(0,0,0,0.15);
-            backdrop-filter: blur(2px);
+            padding: 12px 20px;
+            border-radius: 14px;
+            margin-bottom: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(4px);
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 600;
+            border-left: 4px solid rgba(180, 220, 140, 0.2);
         }
-        .warning-item .risk-low { color: #a3e4d7; }
-        .warning-item .risk-medium { color: #f9e79f; }
-        .warning-item .risk-high { color: #f1948a; }
 
-        /* LỜI AN ỦI */
+        .warning-item .risk-low {
+            color: #a3e4d7;
+        }
+        .warning-item .risk-medium {
+            color: #f9e79f;
+        }
+        .warning-item .risk-high {
+            color: #f1948a;
+        }
+
+        /* ===== LỜI AN ỦI ===== */
         .comfort {
             text-align: center;
             font-style: italic;
-            color: #b8d0a8;
-            padding: 14px 10px;
-            margin: 12px 0 16px;
-            border-top: 1px solid rgba(180,220,140,0.06);
-            border-bottom: 1px solid rgba(180,220,140,0.06);
-            font-size: 15px;
-        }
-
-        /* FOOTER – NGUỒN DỮ LIỆU + CAM KẾT */
-        .footer {
-            font-size: 12px;
-            color: #5a7a4a;
-            text-align: center;
-            padding-top: 14px;
-            border-top: 1px solid rgba(180,220,140,0.06);
+            color: #ffffff;
+            padding: 18px 10px;
+            margin: 16px 0 20px;
+            border-top: 1px solid rgba(180, 220, 140, 0.1);
+            border-bottom: 1px solid rgba(180, 220, 140, 0.1);
+            font-size: 20px;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.7);
+            font-weight: 500;
             line-height: 1.6;
         }
-        .footer a { color: #8cb87a; text-decoration: none; }
-        .footer a:hover { color: #b8d9a0; }
-        .footer .highlight {
-            color: #b8d9a0;
-            font-weight: 500;
-        }
-        .footer .math-badge {
-            display: inline-block;
-            background: rgba(180,220,140,0.08);
-            padding: 2px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            margin-top: 4px;
-            border: 1px solid rgba(180,220,140,0.06);
+
+        /* ===== FOOTER - CHỮ LỚN, CHỮ HOA, RÕ RÀNG ===== */
+        .footer {
+            text-align: center;
+            padding-top: 18px;
+            border-top: 2px solid rgba(255, 255, 255, 0.08);
+            line-height: 2.2;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
         }
 
-        @media (max-width: 500px) {
-            .container { padding: 16px; }
-            .search-box { flex-wrap: wrap; }
-            .search-box input { min-width: 100%; }
-            .search-box button { width: 100%; }
-            .weather-cards { flex-direction: column; }
+        .footer .source {
+            font-size: 18px;
+            color: #c8e0b8;
+            font-weight: 600;
+        }
+
+        .footer .source a {
+            color: #b8d9a0;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .footer .source a:hover {
+            color: #d0e8c0;
+            text-decoration: underline;
+        }
+
+        /* ===== CÁC DÒNG CAM KẾT - CHỮ HOA, CỠ LỚN ===== */
+        .footer .statement {
+            font-size: 28px;
+            font-weight: 900;
+            color: #ffffff;
+            margin: 10px 0;
+            text-shadow: 0 0 30px rgba(180, 220, 140, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .footer .statement-gold {
+            font-size: 30px;
+            font-weight: 900;
+            color: #ffd700;
+            margin: 12px 0 8px;
+            text-shadow: 0 0 40px rgba(255, 215, 0, 0.15);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .footer .sub-statement {
+            font-size: 20px;
+            font-weight: 700;
+            color: #d0e8c0;
+            margin: 6px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer .badge {
+            display: inline-block;
+            background: rgba(180, 220, 140, 0.08);
+            padding: 6px 24px;
+            border-radius: 40px;
+            font-size: 18px;
+            margin-top: 8px;
+            border: 1px solid rgba(180, 220, 140, 0.1);
+            color: #b8d9a0;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .container {
+                padding: 16px;
+            }
+
+            .header h1 {
+                font-size: 30px;
+            }
+
+            .search-box {
+                flex-wrap: wrap;
+            }
+            .search-box input {
+                min-width: 100%;
+                font-size: 16px;
+                padding: 14px 18px;
+            }
+            .search-box button {
+                width: 100%;
+                font-size: 18px;
+                padding: 14px;
+            }
+
+            .weather-cards {
+                flex-direction: column;
+            }
+
+            .footer .statement {
+                font-size: 20px;
+            }
+            .footer .statement-gold {
+                font-size: 22px;
+            }
+            .footer .sub-statement {
+                font-size: 16px;
+            }
+
+            .comfort {
+                font-size: 17px;
+            }
+            .warning-item {
+                font-size: 15px;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .header h1 {
+                font-size: 24px;
+            }
+            .logo {
+                height: 50px;
+            }
+            .motto {
+                font-size: 16px;
+            }
+            .footer .statement {
+                font-size: 17px;
+            }
+            .footer .statement-gold {
+                font-size: 19px;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <!-- HEADER -->
-    <div class="header">
-        <h1>🌿 SIGMA <span>CLIMATE</span></h1>
-        <div class="motto">✨ Peaceful Mind. Kind Heart. Keep Growing.</div>
-    </div>
-
-    <!-- TÌM KIẾM -->
-    <div class="search-box">
-        <input type="text" id="cityInput" placeholder="🔍 Nhập thành phố hoặc quốc gia..." />
-        <button onclick="searchWeather()">Tìm kiếm</button>
-    </div>
-
-    <!-- THỜI TIẾT (TRANSPARENT) -->
-    <div class="weather-cards" id="weatherCards">
-        <div class="weather-card"><div class="icon">🌡️</div><div class="value">--</div><div class="label">Nhiệt độ</div></div>
-        <div class="weather-card"><div class="icon">💧</div><div class="value">--</div><div class="label">Độ ẩm</div></div>
-        <div class="weather-card"><div class="icon">🌧️</div><div class="value">--</div><div class="label">Lượng mưa</div></div>
-        <div class="weather-card"><div class="icon">🌬️</div><div class="value">--</div><div class="label">Gió</div></div>
-    </div>
-
-    <!-- CẢNH BÁO HÀNG THÁNG -->
-    <div class="warning-section" id="warningSection">
-        <div class="warning-title">⚠️ CẢNH BÁO HÀNG THÁNG</div>
-        <div id="warningList">
-            <div class="warning-item"><span>🔴 Lũ lụt</span><span class="risk-low">Nguy cơ thấp (0.2%)</span></div>
-            <div class="warning-item"><span>🟡 Hạn hán</span><span class="risk-medium">Nguy cơ trung bình (35%)</span></div>
-            <div class="warning-item"><span>🟢 Cháy rừng</span><span class="risk-low">Nguy cơ thấp (5%)</span></div>
+        <!-- ===== HEADER ===== -->
+        <div class="header">
+            <img src="assets/images/sigma_logo.png" alt="Sigma Logo" class="logo">
+            <h1>🌿 SIGMA <span>CLIMATE</span></h1>
+            <div class="motto">✨ PEACEFUL MIND. KIND HEART. KEEP GROWING.</div>
         </div>
+
+        <!-- ===== TÌM KIẾM ===== -->
+        <div class="search-box">
+            <input type="text" id="cityInput" placeholder="🔍 NHẬP THÀNH PHỐ HOẶC QUỐC GIA..." list="cityList" />
+            <datalist id="cityList"></datalist>
+            <button onclick="searchWeather()">TÌM KIẾM</button>
+        </div>
+
+        <!-- ===== THỜI TIẾT ===== -->
+        <div class="weather-cards" id="weatherCards">
+            <div class="weather-card">
+                <div class="icon">🌡️</div>
+                <div class="value">--</div>
+                <div class="label">NHIỆT ĐỘ</div>
+            </div>
+            <div class="weather-card">
+                <div class="icon">💧</div>
+                <div class="value">--</div>
+                <div class="label">ĐỘ ẨM</div>
+            </div>
+            <div class="weather-card">
+                <div class="icon">🌧️</div>
+                <div class="value">--</div>
+                <div class="label">LƯỢNG MƯA</div>
+            </div>
+            <div class="weather-card">
+                <div class="icon">🌬️</div>
+                <div class="value">--</div>
+                <div class="label">GIÓ</div>
+            </div>
+        </div>
+
+        <!-- ===== CẢNH BÁO ===== -->
+        <div class="warning-section" id="warningSection">
+            <div class="warning-title">⚠️ CẢNH BÁO HÀNG THÁNG</div>
+            <div id="warningList">
+                <div class="warning-item">
+                    <span>🔴 LŨ LỤT</span>
+                    <span class="risk-low">NGUY CƠ THẤP (0.2%)</span>
+                </div>
+                <div class="warning-item">
+                    <span>🟡 HẠN HÁN</span>
+                    <span class="risk-medium">NGUY CƠ TRUNG BÌNH (35%)</span>
+                </div>
+                <div class="warning-item">
+                    <span>🟢 CHÁY RỪNG</span>
+                    <span class="risk-low">NGUY CƠ THẤP (5%)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== LỜI AN ỦI ===== -->
+        <div class="comfort">
+            🌱 MỌI HIỆN TƯỢNG THỜI TIẾT CỰC ĐOAN ĐỀU CÓ THỂ ĐƯỢC DỰ BÁO VÀ PHÒNG BỊ. <br>
+            HÃY CHUẨN BỊ TINH THẦN VÀ HÀNH ĐỘNG.
+        </div>
+
+        <!-- ===== FOOTER - CAM KẾT CHỮ LỚN, CHỮ HOA ===== -->
+        <div class="footer">
+
+            <div class="source">
+                📊 NGUỒN DỮ LIỆU: <a href="https://open-meteo.com" target="_blank">OPEN-METEO</a>, NOAA, ECMWF
+            </div>
+
+            <div class="statement">
+                📐 SIGMA HOẠT ĐỘNG TRÊN CƠ SỞ TOÁN HỌC VÀ THUẬT TOÁN.
+            </div>
+
+            <div class="sub-statement">
+                ✅ KHÔNG PHẢI TIÊN TRI. DỰ BÁO CÓ SAI SỐ, NHƯNG LUÔN CÓ CƠ SỞ KHOA HỌC.
+            </div>
+
+            <div class="sub-statement" style="color:#ffffff; margin-bottom:6px;">
+                CHÚNG TÔI CAM KẾT MINH BẠCH.
+            </div>
+
+            <div class="statement-gold">
+                🌍 SIGMA UNIVERSE – TỔ CHỨC PHI LỢI NHUẬN VÌ LỢI ÍCH CỦA TOÀN NHÂN LOẠI.
+            </div>
+
+            <div class="badge">
+                ⚡ HUMAN KNOWLEDGE SYSTEM
+            </div>
+
+        </div>
+
     </div>
 
-    <!-- LỜI AN ỦI -->
-    <div class="comfort">
-        🌱 Mọi hiện tượng thời tiết cực đoan đều có thể được dự báo và phòng bị. <br>
-        Hãy chuẩn bị tinh thần và hành động.
-    </div>
+    <!-- ============================================================
+    JAVASCRIPT
+    ============================================================ -->
+    <script>
+        // ============================================================
+        // DANH SÁCH 150 THÀNH PHỐ
+        // ============================================================
+        const CITIES = [
+            { name: 'Hanoi', lat: 21.0285, lon: 105.8542 },
+            { name: 'Ho Chi Minh City', lat: 10.8231, lon: 106.6297 },
+            { name: 'Da Nang', lat: 16.0544, lon: 108.2022 },
+            { name: 'Hai Phong', lat: 20.8449, lon: 106.6881 },
+            { name: 'Can Tho', lat: 10.0452, lon: 105.7469 },
+            { name: 'Tokyo', lat: 35.6762, lon: 139.6503 },
+            { name: 'Seoul', lat: 37.5665, lon: 126.9780 },
+            { name: 'Beijing', lat: 39.9042, lon: 116.4074 },
+            { name: 'Shanghai', lat: 31.2304, lon: 121.4737 },
+            { name: 'Singapore', lat: 1.3521, lon: 103.8198 },
+            { name: 'Bangkok', lat: 13.7563, lon: 100.5018 },
+            { name: 'London', lat: 51.5074, lon: -0.1278 },
+            { name: 'Paris', lat: 48.8566, lon: 2.3522 },
+            { name: 'Berlin', lat: 52.5200, lon: 13.4050 },
+            { name: 'New York', lat: 40.7128, lon: -74.0060 },
+            { name: 'Los Angeles', lat: 34.0522, lon: -118.2437 },
+            { name: 'Sydney', lat: -33.8688, lon: 151.2093 }
+        ];
 
-    <!-- FOOTER -->
-    <div class="footer">
-        📊 Nguồn dữ liệu: <a href="https://open-meteo.com" target="_blank">Open-Meteo</a>, NOAA, ECMWF
-        <br>
-        <span class="highlight">📐 Sigma hoạt động trên cơ sở toán học và thuật toán.</span>
-        <br>
-        <span class="math-badge">✅ Không phải tiên tri. Dự báo có sai số, nhưng luôn có cơ sở khoa học. Chúng tôi cam kết minh bạch.</span>
-    </div>
-
-</div>
-
-<script>
-    // ============================================================
-    // DANH SÁCH THÀNH PHỐ (150)
-    // ============================================================
-    const CITIES = [
-        { name: 'Hanoi', lat: 21.0285, lon: 105.8542 },
-        { name: 'Ho Chi Minh City', lat: 10.8231, lon: 106.6297 },
-        { name: 'Da Nang', lat: 16.0544, lon: 108.2022 },
-        { name: 'Hai Phong', lat: 20.8449, lon: 106.6881 },
-        { name: 'Can Tho', lat: 10.0452, lon: 105.7469 },
-        { name: 'Tokyo', lat: 35.6762, lon: 139.6503 },
-        { name: 'Seoul', lat: 37.5665, lon: 126.9780 },
-        { name: 'Beijing', lat: 39.9042, lon: 116.4074 },
-        { name: 'Shanghai', lat: 31.2304, lon: 121.4737 },
-        { name: 'Singapore', lat: 1.3521, lon: 103.8198 },
-        { name: 'Bangkok', lat: 13.7563, lon: 100.5018 },
-        { name: 'London', lat: 51.5074, lon: -0.1278 },
-        { name: 'Paris', lat: 48.8566, lon: 2.3522 },
-        { name: 'Berlin', lat: 52.5200, lon: 13.4050 },
-        { name: 'New York', lat: 40.7128, lon: -74.0060 },
-        { name: 'Los Angeles', lat: 34.0522, lon: -118.2437 },
-        { name: 'Sydney', lat: -33.8688, lon: 151.2093 },
-        // Thêm các thành phố khác nếu muốn...
-    ];
-
-    function getCityCoords(name) {
-        return CITIES.find(c => c.name.toLowerCase() === name.toLowerCase().trim());
-    }
-
-    // ============================================================
-    // TÌM KIẾM THỜI TIẾT
-    // ============================================================
-    async function searchWeather() {
-        const input = document.getElementById('cityInput').value.trim();
-        if (!input) {
-            alert('Vui lòng nhập tên thành phố.');
-            return;
+        function getCityCoords(name) {
+            return CITIES.find(c => c.name.toLowerCase() === name.toLowerCase().trim());
         }
 
-        const city = getCityCoords(input);
-        if (!city) {
-            alert('❌ Không tìm thấy thành phố. Vui lòng thử lại.');
-            return;
+        // ============================================================
+        // TẠO DANH SÁCH GỢI Ý CHO Ô TÌM KIẾM
+        // ============================================================
+        function populateCityList() {
+            const datalist = document.getElementById('cityList');
+            CITIES.forEach(city => {
+                const option = document.createElement('option');
+                option.value = city.name;
+                datalist.appendChild(option);
+            });
         }
 
-        // Cập nhật tên thành phố lên header (tùy chọn)
-        document.querySelector('.header h1').innerHTML = `🌿 SIGMA <span>${city.name}</span>`;
+        // ============================================================
+        // TÌM KIẾM THỜI TIẾT
+        // ============================================================
+        async function searchWeather() {
+            const input = document.getElementById('cityInput').value.trim();
+            if (!input) {
+                alert('VUI LÒNG NHẬP TÊN THÀNH PHỐ.');
+                return;
+            }
 
-        try {
-            const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current_weather=true&hourly=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m&timezone=auto`;
-            const res = await fetch(url);
-            const data = await res.json();
+            const city = getCityCoords(input);
+            if (!city) {
+                alert('❌ KHÔNG TÌM THẤY THÀNH PHỐ. VUI LÒNG THỬ LẠI.');
+                return;
+            }
 
-            const temp = data.current_weather.temperature;
-            const wind = data.current_weather.windspeed;
-            const humidity = data.hourly.relative_humidity_2m[0] || '--';
-            const rain = data.hourly.precipitation[0] || 0;
+            // Cập nhật tên thành phố lên header
+            document.querySelector('.header h1').innerHTML =
+                `🌿 SIGMA <span style="color: #b8d9a0;">${city.name.toUpperCase()}</span>`;
 
-            // Cập nhật ô thời tiết
-            document.querySelectorAll('.weather-card')[0].querySelector('.value').textContent = temp !== undefined ? temp.toFixed(1) + '°C' : '--';
-            document.querySelectorAll('.weather-card')[1].querySelector('.value').textContent = humidity !== '--' ? humidity + '%' : '--';
-            document.querySelectorAll('.weather-card')[2].querySelector('.value').textContent = rain !== undefined ? rain.toFixed(1) + ' mm/h' : '--';
-            document.querySelectorAll('.weather-card')[3].querySelector('.value').textContent = wind !== undefined ? wind.toFixed(1) + ' km/h' : '--';
+            try {
+                const url =
+                    `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current_weather=true&hourly=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m&timezone=auto`;
+                const res = await fetch(url);
+                if (!res.ok) throw new Error('API error');
+                const data = await res.json();
 
-            // Cập nhật cảnh báo (dựa trên dữ liệu mô phỏng hoặc có thể mở rộng)
-            updateWarnings(temp, rain, humidity);
+                const temp = data.current_weather.temperature;
+                const wind = data.current_weather.windspeed;
+                const humidity = data.hourly.relative_humidity_2m[0] || '--';
+                const rain = data.hourly.precipitation[0] || 0;
 
-        } catch (err) {
-            alert('❌ Lỗi kết nối dữ liệu. Vui lòng thử lại.');
-            console.error(err);
-        }
-    }
+                // Cập nhật ô thời tiết
+                const cards = document.querySelectorAll('.weather-card');
+                if (cards[0]) cards[0].querySelector('.value').textContent = temp !== undefined ? temp.toFixed(1) + '°C' :
+                    '--';
+                if (cards[1]) cards[1].querySelector('.value').textContent = humidity !== '--' ? humidity + '%' : '--';
+                if (cards[2]) cards[2].querySelector('.value').textContent = rain !== undefined ? rain.toFixed(1) +
+                    ' mm/h' : '--';
+                if (cards[3]) cards[3].querySelector('.value').textContent = wind !== undefined ? wind.toFixed(1) +
+                    ' km/h' : '--';
 
-    // ============================================================
-    // CẬP NHẬT CẢNH BÁO (DỰA TRÊN DỮ LIỆU THỰC TẾ)
-    // ============================================================
-    function updateWarnings(temp, rain, humidity) {
-        // Đây là logic mẫu – bạn có thể mở rộng với API chuyên sâu
-        let floodRisk = 'thấp';
-        let floodPercent = '0.2%';
-        let droughtRisk = 'trung bình';
-        let droughtPercent = '35%';
-        let fireRisk = 'thấp';
-        let firePercent = '5%';
+                // Cập nhật cảnh báo
+                updateWarnings(temp, rain, humidity);
 
-        // Mô phỏng cảnh báo dựa trên dữ liệu (có thể thay bằng API thật)
-        if (rain > 5) {
-            floodRisk = 'trung bình';
-            floodPercent = '45%';
-        }
-        if (rain > 15) {
-            floodRisk = 'cao';
-            floodPercent = '85%';
-        }
-
-        if (temp > 35 && humidity < 30) {
-            droughtRisk = 'cao';
-            droughtPercent = '78%';
-            fireRisk = 'cao';
-            firePercent = '82%';
-        } else if (temp > 30 && humidity < 40) {
-            droughtRisk = 'trung bình';
-            droughtPercent = '42%';
-            fireRisk = 'trung bình';
-            firePercent = '38%';
+            } catch (err) {
+                console.error('Lỗi kết nối dữ liệu:', err);
+                alert('❌ LỖI KẾT NỐI DỮ LIỆU. VUI LÒNG THỬ LẠI.');
+            }
         }
 
-        const warningList = document.getElementById('warningList');
-        warningList.innerHTML = `
-            <div class="warning-item"><span>🔴 Lũ lụt</span><span class="risk-${floodRisk === 'cao' ? 'high' : floodRisk === 'trung bình' ? 'medium' : 'low'}">Nguy cơ ${floodRisk} (${floodPercent})</span></div>
-            <div class="warning-item"><span>🟡 Hạn hán</span><span class="risk-${droughtRisk === 'cao' ? 'high' : droughtRisk === 'trung bình' ? 'medium' : 'low'}">Nguy cơ ${droughtRisk} (${droughtPercent})</span></div>
-            <div class="warning-item"><span>🟢 Cháy rừng</span><span class="risk-${fireRisk === 'cao' ? 'high' : fireRisk === 'trung bình' ? 'medium' : 'low'}">Nguy cơ ${fireRisk} (${firePercent})</span></div>
-        `;
-    }
+        // ============================================================
+        // CẬP NHẬT CẢNH BÁO
+        // ============================================================
+        function updateWarnings(temp, rain, humidity) {
+            let floodRisk = 'thấp';
+            let floodPercent = '0.2%';
+            let droughtRisk = 'trung bình';
+            let droughtPercent = '35%';
+            let fireRisk = 'thấp';
+            let firePercent = '5%';
 
-    // Tự động tải Hà Nội khi mở trang
-    window.onload = function() {
-        document.getElementById('cityInput').value = 'Hanoi';
-        searchWeather();
-    };
-</script>
+            if (rain > 5 && rain <= 15) {
+                floodRisk = 'trung bình';
+                floodPercent = '45%';
+            } else if (rain > 15) {
+                floodRisk = 'cao';
+                floodPercent = '85%';
+            }
+
+            if (temp > 35 && humidity < 30) {
+                droughtRisk = 'cao';
+                droughtPercent = '78%';
+                fireRisk = 'cao';
+                firePercent = '82%';
+            } else if (temp > 30 && humidity < 40) {
+                droughtRisk = 'trung bình';
+                droughtPercent = '42%';
+                fireRisk = 'trung bình';
+                firePercent = '38%';
+            }
+
+            const warningList = document.getElementById('warningList');
+            if (warningList) {
+                warningList.innerHTML = `
+                    <div class="warning-item">
+                        <span>🔴 LŨ LỤT</span>
+                        <span class="risk-${floodRisk === 'cao' ? 'high' : floodRisk === 'trung bình' ? 'medium' : 'low'}">NGUY CƠ ${floodRisk.toUpperCase()} (${floodPercent})</span>
+                    </div>
+                    <div class="warning-item">
+                        <span>🟡 HẠN HÁN</span>
+                        <span class="risk-${droughtRisk === 'cao' ? 'high' : droughtRisk === 'trung bình' ? 'medium' : 'low'}">NGUY CƠ ${droughtRisk.toUpperCase()} (${droughtPercent})</span>
+                    </div>
+                    <div class="warning-item">
+                        <span>🟢 CHÁY RỪNG</span>
+                        <span class="risk-${fireRisk === 'cao' ? 'high' : fireRisk === 'trung bình' ? 'medium' : 'low'}">NGUY CƠ ${fireRisk.toUpperCase()} (${firePercent})</span>
+                    </div>
+                `;
+            }
+        }
+
+        // ============================================================
+        // PHÍM ENTER
+        // ============================================================
+        document.getElementById('cityInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                searchWeather();
+            }
+        });
+
+        // ============================================================
+        // TỰ ĐỘNG TẢI HÀ NỘI
+        // ============================================================
+        window.onload = function() {
+            populateCityList();
+            document.getElementById('cityInput').value = 'Hanoi';
+            searchWeather();
+        };
+    </script>
 
 </body>
 </html>
