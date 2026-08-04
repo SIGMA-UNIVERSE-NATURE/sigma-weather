@@ -14,50 +14,109 @@
         body {
             font-family: 'Segoe UI', Roboto, sans-serif;
             min-height: 100vh;
-            background: linear-gradient(145deg, #1b3b1a 0%, #2e5c2a 100%);
-            color: #f0f7e6;
+            background: linear-gradient(180deg, #1a3a1a 0%, #2d5a2a 40%, #3a6a3a 100%);
+            color: #e8f0d0;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            position: relative;
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* BAMBOO FOREST BACKGROUND */
-        body::before {
-            content: '';
+        /* === RỪNG TRE === */
+        .bamboo-forest {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background:
-                repeating-linear-gradient(90deg,
-                    transparent 0%,
-                    transparent 5%,
-                    rgba(34, 65, 32, 0.2) 5%,
-                    rgba(34, 65, 32, 0.2) 6%,
-                    transparent 6%,
-                    transparent 12%
-                ),
-                repeating-linear-gradient(0deg,
-                    transparent 0%,
-                    transparent 50px,
-                    rgba(34, 65, 32, 0.1) 50px,
-                    rgba(34, 65, 32, 0.1) 52px,
-                    transparent 52px,
-                    transparent 100px
-                );
             pointer-events: none;
             z-index: 0;
+            overflow: hidden;
         }
 
+        .bamboo-stem {
+            position: absolute;
+            bottom: 0;
+            width: 6px;
+            background: linear-gradient(180deg, 
+                rgba(60, 120, 60, 0.7) 0%,
+                rgba(40, 90, 40, 0.5) 40%,
+                rgba(30, 70, 30, 0.3) 100%
+            );
+            border-radius: 4px 4px 0 0;
+            transform-origin: bottom center;
+            animation: sway 3s ease-in-out infinite alternate;
+        }
+
+        .bamboo-stem::before {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: -2px;
+            width: 10px;
+            height: 2px;
+            background: rgba(80, 140, 70, 0.3);
+            border-radius: 2px;
+            box-shadow: 0 20px 0 rgba(80, 140, 70, 0.2),
+                        0 40px 0 rgba(80, 140, 70, 0.25),
+                        0 60px 0 rgba(80, 140, 70, 0.2),
+                        0 80px 0 rgba(80, 140, 70, 0.15);
+        }
+
+        .bamboo-stem::after {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 4px;
+            width: 8px;
+            height: 2px;
+            background: rgba(100, 160, 80, 0.2);
+            border-radius: 2px;
+            box-shadow: 0 30px 0 rgba(100, 160, 80, 0.15),
+                        0 50px 0 rgba(100, 160, 80, 0.2),
+                        0 70px 0 rgba(100, 160, 80, 0.15);
+        }
+
+        .bamboo-leaf {
+            position: absolute;
+            width: 20px;
+            height: 4px;
+            background: rgba(80, 160, 70, 0.3);
+            border-radius: 50% 50% 50% 0;
+            transform-origin: left center;
+            animation: leafSway 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes sway {
+            0% { transform: rotate(-1.5deg); }
+            100% { transform: rotate(1.5deg); }
+        }
+
+        @keyframes leafSway {
+            0% { transform: rotate(-15deg); }
+            100% { transform: rotate(15deg); }
+        }
+
+        /* === LỚP PHỦ === */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(20, 40, 20, 0.3) 0%, rgba(10, 20, 10, 0.6) 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* === CONTAINER === */
         .container {
             max-width: 1100px;
             width: 100%;
             position: relative;
-            z-index: 1;
+            z-index: 2;
             background: rgba(20, 40, 20, 0.55);
             backdrop-filter: blur(12px);
             border-radius: 48px;
@@ -90,6 +149,7 @@
             letter-spacing: 2px;
             color: #ebf5e0;
             margin-top: 6px;
+            text-shadow: 0 0 30px rgba(80, 160, 70, 0.2);
         }
 
         .header h1 span {
@@ -105,7 +165,6 @@
             letter-spacing: 1px;
         }
 
-        /* CHARACTERS */
         .characters {
             display: flex;
             flex-wrap: wrap;
@@ -143,7 +202,6 @@
             color: #d0e8c0;
         }
 
-        /* SEARCH */
         .search-section {
             margin: 16px 0 24px;
             text-align: center;
@@ -196,7 +254,6 @@
             transform: scale(1.02);
         }
 
-        /* RESULT */
         .result-container {
             margin-top: 20px;
         }
@@ -307,15 +364,19 @@
     </style>
 </head>
 <body>
+
+    <!-- RỪNG TRE -->
+    <div class="bamboo-forest" id="bambooForest"></div>
+    <div class="overlay"></div>
+
+    <!-- NỘI DUNG CHÍNH -->
     <div class="container">
-        <!-- HEADER -->
         <div class="header">
             <div class="badge">🌱 Sigma Climate</div>
             <h1>🌿 SIGMA <span>FOREST</span></h1>
             <div class="motto">✨ Peaceful Mind. Kind Heart. Keep Growing.</div>
         </div>
 
-        <!-- CHARACTERS -->
         <div class="characters">
             <div class="char-item"><span class="emoji">💧</span><span class="name">Sigma</span></div>
             <div class="char-item"><span class="emoji">🦗</span><span class="name">Cricket</span></div>
@@ -323,7 +384,6 @@
             <div class="char-item"><span class="emoji">🦉</span><span class="name">Professor Owl</span></div>
         </div>
 
-        <!-- SEARCH -->
         <div class="search-section">
             <div class="search-box">
                 <input type="text" id="cityInput" placeholder="Nhập tên thành phố..." value="Hanoi">
@@ -331,18 +391,67 @@
             </div>
         </div>
 
-        <!-- RESULT -->
         <div class="result-container" id="resultContainer">
             <div class="loading">🌿 Nhập tên thành phố và nhấn "Tra cứu"</div>
         </div>
 
-        <!-- FOOTER -->
         <div class="footer">
             ⚡ Sigma Universe – <a href="https://sigmauniverse.net" target="_blank">sigmauniverse.net</a> &nbsp;|&nbsp; Dữ liệu từ Open-Meteo & NOAA
         </div>
     </div>
 
     <script>
+        // ============================================================
+        // TẠO RỪNG TRE BẰNG JAVASCRIPT
+        // ============================================================
+        (function createBambooForest() {
+            const container = document.getElementById('bambooForest');
+            const count = 25;
+
+            for (let i = 0; i < count; i++) {
+                const stem = document.createElement('div');
+                stem.className = 'bamboo-stem';
+                
+                const left = 2 + Math.random() * 96;
+                const height = 60 + Math.random() * 80;
+                const width = 4 + Math.random() * 8;
+                const delay = Math.random() * 3;
+                const duration = 2.5 + Math.random() * 2;
+                
+                stem.style.left = left + '%';
+                stem.style.height = height + '%';
+                stem.style.width = width + 'px';
+                stem.style.animationDelay = delay + 's';
+                stem.style.animationDuration = duration + 's';
+                stem.style.opacity = 0.4 + Math.random() * 0.3;
+                
+                // Lá tre
+                const leafCount = 3 + Math.floor(Math.random() * 4);
+                for (let j = 0; j < leafCount; j++) {
+                    const leaf = document.createElement('div');
+                    leaf.className = 'bamboo-leaf';
+                    const leafTop = 10 + Math.random() * 70;
+                    const leafLeft = -10 + Math.random() * 15;
+                    const leafWidth = 15 + Math.random() * 20;
+                    const leafDelay = Math.random() * 4;
+                    leaf.style.top = leafTop + '%';
+                    leaf.style.left = leafLeft + 'px';
+                    leaf.style.width = leafWidth + 'px';
+                    leaf.style.height = (3 + Math.random() * 3) + 'px';
+                    leaf.style.animationDelay = leafDelay + 's';
+                    leaf.style.animationDuration = (3 + Math.random() * 3) + 's';
+                    leaf.style.opacity = 0.2 + Math.random() * 0.3;
+                    leaf.style.background = `rgba(${80 + Math.random() * 60}, ${160 + Math.random() * 60}, ${70 + Math.random() * 40}, 0.3)`;
+                    stem.appendChild(leaf);
+                }
+                
+                container.appendChild(stem);
+            }
+        })();
+
+        // ============================================================
+        // HÀM TẢI DỮ LIỆU THÀNH PHỐ
+        // ============================================================
         function loadCityData() {
             const input = document.getElementById('cityInput');
             const city = input.value.trim() || "Hanoi";
@@ -354,13 +463,11 @@
 
             resultDiv.innerHTML = `<div class="loading">⏳ Đang tải dữ liệu cho ${city}...</div>`;
 
-            // Kiểm tra ảnh tồn tại
             fetch(imgUrl, { method: 'HEAD' })
                 .then(res => {
                     if (res.ok) {
                         displayResult(city, imgUrl, csvUrl);
                     } else {
-                        // Thử tên thay thế
                         const altName = city.toLowerCase().replace(/ /g, '_');
                         const altImg = `data/${altName}_temperature_trend.png`;
                         fetch(altImg, { method: 'HEAD' })
@@ -394,7 +501,6 @@
                 </div>
             `;
 
-            // Tải CSV hiển thị bảng
             fetch(csvUrl)
                 .then(res => res.text())
                 .then(text => {
@@ -417,7 +523,6 @@
                 });
         }
 
-        // Tự động tải khi trang load
         window.onload = loadCityData;
     </script>
 </body>
