@@ -1,1545 +1,1193 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>SIGMA CLIMATE – CHUẨN MỰC TOÀN CẦU</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIGMA CLIMATE – Cảnh báo mưa lũ Việt Nam</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --midnight: #020A18;
+            --cyan: #38DFFF;
+            --soft-cyan: #8EF6FF;
+            --ice: #DFFBFF;
+            --silver: #F8FBFF;
+            --gold: #F4C542;
+            --muted: #A9D7E6;
+            --alert: #FF8F4C;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            min-height: 100vh;
+            font-family: Inter, system-ui, sans-serif;
+            color: var(--silver);
+            background: #020A18;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 28px 18px;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: url("assets/images/background.jpg") center/cover no-repeat fixed;
+            filter: brightness(.92) saturate(1.12);
+            z-index: -2;
+        }
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 50% 12%, rgba(56, 223, 255, .08), transparent 32%),
+                linear-gradient(180deg, rgba(2, 10, 24, .02), rgba(2, 10, 24, .22));
+            z-index: -1;
+        }
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            padding: 28px 24px;
+            text-align: center;
+        }
+        .logo {
+            width: min(360px, 70vw);
+            height: auto;
+            display: block;
+            margin: 0 auto 8px;
+            filter: drop-shadow(0 18px 38px rgba(56, 223, 255, .22));
+        }
+        .title {
+            font-family: Cinzel, serif;
+            font-size: clamp(28px, 5vw, 56px);
+            font-weight: 500;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            background: linear-gradient(180deg, #fff 0%, #F8FBFF 30%, #DFFBFF 55%, #8EF6FF 78%, #426E94 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 18px rgba(56, 223, 255, .35);
+        }
+        .subtitle {
+            font-family: Cinzel, serif;
+            color: var(--gold);
+            letter-spacing: .34em;
+            text-transform: uppercase;
+            font-size: clamp(12px, 1.6vw, 18px);
+            text-shadow: 0 0 16px rgba(244, 197, 66, .35);
+            margin-bottom: 12px;
+        }
+        .data-source-banner {
+            background: rgba(56, 223, 255, 0.08);
+            border: 1px solid rgba(56, 223, 255, 0.25);
+            border-radius: 40px;
+            padding: 10px 18px;
+            margin: 10px auto 16px;
+            max-width: 800px;
+            font-size: clamp(11px, 1.2vw, 15px);
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            color: var(--soft-cyan);
+            text-shadow: 0 0 18px rgba(56, 223, 255, 0.3);
+            backdrop-filter: blur(4px);
+            display: inline-block;
+        }
+        .data-source-banner strong {
+            color: var(--gold);
+            font-family: Cinzel, serif;
+        }
+        .language {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 12px 0;
+            color: var(--gold);
+            font-weight: 700;
+        }
+        select,
+        input,
+        button {
+            font: inherit;
+        }
+        .language select {
+            background: transparent;
+            color: var(--ice);
+            border: 0;
+            outline: 0;
+            font-weight: 700;
+            text-align: center;
+        }
+        .language option {
+            background: #020A18;
+            color: #fff;
+        }
+        .city {
+            font-family: Cinzel, serif;
+            font-size: clamp(20px, 4vw, 30px);
+            color: var(--ice);
+            letter-spacing: .14em;
+            text-shadow: 0 0 18px rgba(56, 223, 255, .4);
+            margin: 10px 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        #countryFlag {
+            width: 48px;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 0 20px rgba(56, 223, 255, .2);
+            vertical-align: middle;
+        }
+        .search {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 14px;
+            margin: 18px auto 24px;
+            max-width: 780px;
+        }
+        .search input {
+            background: transparent;
+            border: 0;
+            border-bottom: 1px solid rgba(216, 251, 255, .35);
+            color: var(--ice);
+            padding: 14px 8px;
+            text-align: center;
+            font-weight: 800;
+            letter-spacing: .06em;
+            outline: 0;
+            text-shadow: 0 2px 12px rgba(2, 10, 24, .8), 0 0 14px rgba(56, 223, 255, .35);
+        }
+        .search input::placeholder {
+            color: rgba(216, 251, 255, .72);
+        }
+        .search button,
+        .small-btn {
+            background: transparent;
+            border: 0;
+            color: var(--silver);
+            font-family: Cinzel, serif;
+            font-weight: 800;
+            letter-spacing: .14em;
+            cursor: pointer;
+            text-shadow: 0 0 14px rgba(56, 223, 255, .45);
+        }
+        .search button:hover,
+        .small-btn:hover {
+            color: var(--gold);
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin: 22px 0;
+        }
+        .card {
+            background: transparent;
+            border: 0;
+            padding: 14px 8px;
+            text-align: center;
+        }
+        .icon {
+            font-size: 28px;
+            filter: drop-shadow(0 0 10px rgba(56, 223, 255, .28));
+        }
+        .value {
+            color: var(--cyan);
+            font-size: clamp(24px, 4vw, 36px);
+            font-weight: 900;
+            text-shadow: 0 2px 14px rgba(2, 10, 24, .85), 0 0 22px rgba(56, 223, 255, .72);
+        }
+        .label {
+            color: var(--soft-cyan);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+            text-shadow: 0 2px 12px rgba(2, 10, 24, .8), 0 0 14px rgba(56, 223, 255, .45);
+        }
+        .alert,
+        .section,
+        .message,
+        .footer {
+            background: transparent;
+            border: 0;
+            box-shadow: none;
+        }
+        .alert {
+            margin: 12px 0;
+            color: var(--soft-cyan);
+            font-weight: 800;
+            text-shadow: 0 2px 14px rgba(2, 10, 24, .85), 0 0 16px rgba(56, 223, 255, .35);
+        }
+        .section {
+            margin: 24px 0;
+        }
+        .section-title {
+            font-family: Cinzel, serif;
+            color: var(--gold);
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            text-shadow: 0 0 18px rgba(244, 197, 66, .3);
+        }
+        .data {
+            color: var(--ice);
+            font-weight: 700;
+            text-shadow: 0 2px 12px rgba(2, 10, 24, .82), 0 0 14px rgba(56, 223, 255, .28);
+        }
+        .warning-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            color: var(--ice);
+            font-weight: 800;
+            padding: 7px 0;
+            text-shadow: 0 2px 12px rgba(2, 10, 24, .82);
+        }
+        .low {
+            color: var(--soft-cyan)
+        }
+        .medium {
+            color: var(--gold)
+        }
+        .high {
+            color: var(--alert)
+        }
+        .forecast-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            color: var(--ice);
+            text-shadow: 0 2px 12px rgba(2, 10, 24, .8);
+        }
+        th {
+            color: var(--gold);
+            font-family: Cinzel, serif;
+            letter-spacing: .1em;
+            padding: 10px;
+        }
+        td {
+            padding: 8px;
+            font-weight: 700;
+        }
+        .message {
+            margin: 28px auto 20px;
+            max-width: 920px;
+            padding: 16px 0;
+            border-top: 1px solid rgba(56, 223, 255, .18);
+            border-bottom: 1px solid rgba(56, 223, 255, .18);
+            color: var(--ice);
+            font-style: italic;
+            text-shadow: 0 0 14px rgba(56, 223, 255, .22);
+        }
+        .message strong {
+            color: var(--gold);
+            font-family: Cinzel, serif;
+            font-style: normal;
+        }
+        .choice {
+            color: var(--gold);
+            font-family: Cinzel, serif;
+            font-weight: 800;
+            letter-spacing: .16em;
+            margin: 12px 0 6px;
+        }
+        .footer {
+            margin-top: 22px;
+            color: var(--gold);
+            font-family: Cinzel, serif;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-shadow: 0 0 16px rgba(244, 197, 66, .28);
+        }
+        .motto {
+            margin-top: 8px;
+            font-size: clamp(17px, 3vw, 28px);
+            background: linear-gradient(180deg, #fff, #DFFBFF, #8EF6FF, #426E94);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-<style>
-:root{
-  --midnight:#020A18;
-  --cyan:#38DFFF;
-  --soft-cyan:#8EF6FF;
-  --ice:#DFFBFF;
-  --silver:#F8FBFF;
-  --gold:#F4C542;
-  --muted:#A9D7E6;
-  --alert:#FF8F4C;
-}
-
-*{box-sizing:border-box;margin:0;padding:0}
-
-body{
-  min-height:100vh;
-  font-family:Inter,system-ui,sans-serif;
-  color:var(--silver);
-  background:#020A18;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:28px 18px;
-  overflow-x:hidden;
-}
-
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:url("assets/images/background.jpg") center/cover no-repeat fixed;
-  filter:brightness(.92) saturate(1.12);
-  z-index:-2;
-}
-
-body::after{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:
-    radial-gradient(circle at 50% 12%,rgba(56,223,255,.08),transparent 32%),
-    linear-gradient(180deg,rgba(2,10,24,.02),rgba(2,10,24,.22));
-  z-index:-1;
-}
-
-.container{
-  width:100%;
-  max-width:1100px;
-  padding:28px 24px;
-  text-align:center;
-}
-
-.logo{
-  width:min(360px,70vw);
-  height:auto;
-  display:block;
-  margin:0 auto 8px;
-  filter:drop-shadow(0 18px 38px rgba(56,223,255,.22));
-}
-
-.title{
-  font-family:Cinzel,serif;
-  font-size:clamp(28px,5vw,56px);
-  font-weight:500;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  background:linear-gradient(180deg,#fff 0%,#F8FBFF 30%,#DFFBFF 55%,#8EF6FF 78%,#426E94 100%);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-  text-shadow:0 0 18px rgba(56,223,255,.35);
-}
-
-.subtitle{
-  font-family:Cinzel,serif;
-  color:var(--gold);
-  letter-spacing:.34em;
-  text-transform:uppercase;
-  font-size:clamp(12px,1.6vw,18px);
-  text-shadow:0 0 16px rgba(244,197,66,.35);
-  margin-bottom:12px;
-}
-
-/* --- DÒNG CÔNG BỐ NGUỒN DỮ LIỆU (THÊM MỚI) --- */
-.data-source-banner{
-  background:rgba(56,223,255,0.08);
-  border:1px solid rgba(56,223,255,0.25);
-  border-radius:40px;
-  padding:10px 18px;
-  margin:10px auto 16px;
-  max-width:800px;
-  font-size:clamp(11px,1.2vw,15px);
-  font-weight:700;
-  letter-spacing:0.06em;
-  color:var(--soft-cyan);
-  text-shadow:0 0 18px rgba(56,223,255,0.3);
-  backdrop-filter:blur(4px);
-  display:inline-block;
-}
-.data-source-banner strong{
-  color:var(--gold);
-  font-family:Cinzel,serif;
-}
-
-.language{
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  margin:12px 0;
-  color:var(--gold);
-  font-weight:700;
-}
-
-select,
-input,
-button{
-  font:inherit;
-}
-
-.language select{
-  background:transparent;
-  color:var(--ice);
-  border:0;
-  outline:0;
-  font-weight:700;
-  text-align:center;
-}
-
-.language option{
-  background:#020A18;
-  color:#fff;
-}
-
-.city{
-  font-family:Cinzel,serif;
-  font-size:clamp(20px,4vw,30px);
-  color:var(--ice);
-  letter-spacing:.14em;
-  text-shadow:0 0 18px rgba(56,223,255,.4);
-  margin:10px 0 16px;
-}
-
-.search{
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:14px;
-  margin:18px auto 24px;
-  max-width:780px;
-}
-
-.search input{
-  background:transparent;
-  border:0;
-  border-bottom:1px solid rgba(216,251,255,.35);
-  color:var(--ice);
-  padding:14px 8px;
-  text-align:center;
-  font-weight:800;
-  letter-spacing:.06em;
-  outline:0;
-  text-shadow:0 2px 12px rgba(2,10,24,.8),0 0 14px rgba(56,223,255,.35);
-}
-
-.search input::placeholder{
-  color:rgba(216,251,255,.72);
-}
-
-.search button,
-.small-btn{
-  background:transparent;
-  border:0;
-  color:var(--silver);
-  font-family:Cinzel,serif;
-  font-weight:800;
-  letter-spacing:.14em;
-  cursor:pointer;
-  text-shadow:0 0 14px rgba(56,223,255,.45);
-}
-
-.search button:hover,
-.small-btn:hover{
-  color:var(--gold);
-}
-
-.cards{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:14px;
-  margin:22px 0;
-}
-
-.card{
-  background:transparent;
-  border:0;
-  padding:14px 8px;
-  text-align:center;
-}
-
-.icon{
-  font-size:28px;
-  filter:drop-shadow(0 0 10px rgba(56,223,255,.28));
-}
-
-.value{
-  color:var(--cyan);
-  font-size:clamp(24px,4vw,36px);
-  font-weight:900;
-  text-shadow:0 2px 14px rgba(2,10,24,.85),0 0 22px rgba(56,223,255,.72);
-}
-
-.label{
-  color:var(--soft-cyan);
-  font-size:12px;
-  font-weight:800;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  text-shadow:0 2px 12px rgba(2,10,24,.8),0 0 14px rgba(56,223,255,.45);
-}
-
-.alert,
-.section,
-.message,
-.footer{
-  background:transparent;
-  border:0;
-  box-shadow:none;
-}
-
-.alert{
-  margin:12px 0;
-  color:var(--soft-cyan);
-  font-weight:800;
-  text-shadow:0 2px 14px rgba(2,10,24,.85),0 0 16px rgba(56,223,255,.35);
-}
-
-.section{
-  margin:24px 0;
-}
-
-.section-title{
-  font-family:Cinzel,serif;
-  color:var(--gold);
-  font-size:18px;
-  font-weight:700;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  margin-bottom:10px;
-  text-shadow:0 0 18px rgba(244,197,66,.3);
-}
-
-.data{
-  color:var(--ice);
-  font-weight:700;
-  text-shadow:0 2px 12px rgba(2,10,24,.82),0 0 14px rgba(56,223,255,.28);
-}
-
-.warning-item{
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  color:var(--ice);
-  font-weight:800;
-  padding:7px 0;
-  text-shadow:0 2px 12px rgba(2,10,24,.82);
-}
-
-.low{color:var(--soft-cyan)}
-.medium{color:var(--gold)}
-.high{color:var(--alert)}
-
-.forecast-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  margin-bottom:10px;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  color:var(--ice);
-  text-shadow:0 2px 12px rgba(2,10,24,.8);
-}
-
-th{
-  color:var(--gold);
-  font-family:Cinzel,serif;
-  letter-spacing:.1em;
-  padding:10px;
-}
-
-td{
-  padding:8px;
-  font-weight:700;
-}
-
-.message{
-  margin:28px auto 20px;
-  max-width:920px;
-  padding:16px 0;
-  border-top:1px solid rgba(56,223,255,.18);
-  border-bottom:1px solid rgba(56,223,255,.18);
-  color:var(--ice);
-  font-style:italic;
-  text-shadow:0 0 14px rgba(56,223,255,.22);
-}
-
-.message strong{
-  color:var(--gold);
-  font-family:Cinzel,serif;
-  font-style:normal;
-}
-
-.choice{
-  color:var(--gold);
-  font-family:Cinzel,serif;
-  font-weight:800;
-  letter-spacing:.16em;
-  margin:12px 0 6px;
-}
-
-.footer{
-  margin-top:22px;
-  color:var(--gold);
-  font-family:Cinzel,serif;
-  font-weight:700;
-  letter-spacing:.12em;
-  text-shadow:0 0 16px rgba(244,197,66,.28);
-}
-
-.motto{
-  margin-top:8px;
-  font-size:clamp(17px,3vw,28px);
-  background:linear-gradient(180deg,#fff,#DFFBFF,#8EF6FF,#426E94);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-}
-
-/* --- RESPONSIVE GIỮ NGUYÊN --- */
-@media(max-width:768px){
-  body{
-    align-items:flex-start;
-    padding:12px;
-  }
-  body::before{
-    background-attachment:scroll;
-    background-position:center top;
-  }
-  .container{
-    padding:16px 8px 24px;
-  }
-  .title{
-    letter-spacing:.1em;
-  }
-  .subtitle{
-    letter-spacing:.16em;
-  }
-  .search{
-    grid-template-columns:1fr;
-  }
-  .search button{
-    padding:8px 0;
-  }
-  .cards{
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
-  }
-  .warning-item{
-    flex-direction:column;
-    text-align:center;
-    gap:2px;
-  }
-  .forecast-head{
-    flex-direction:column;
-  }
-  .small-btn{
-    padding:8px 0;
-  }
-  th,td{
-    font-size:12px;
-    padding:7px 4px;
-  }
-  .message{
-    text-align:left;
-    font-size:15px;
-  }
-}
-</style>
+        /* ===== CẢNH BÁO KHẨN CẤP 63 TỈNH ===== */
+        .emergency-section {
+            background: rgba(255, 0, 0, 0.08);
+            border: 2px solid #FF4444;
+            border-radius: 16px;
+            padding: 18px 20px;
+            margin: 16px 0;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 0 40px rgba(255, 68, 68, 0.15);
+        }
+        .emergency-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 10px;
+            margin-bottom: 14px;
+        }
+        .emergency-icon {
+            font-size: 32px;
+        }
+        .emergency-title {
+            font-family: Cinzel, serif;
+            font-size: 22px;
+            color: #FF4444;
+            flex: 1;
+            text-shadow: 0 0 30px rgba(255, 68, 68, 0.3);
+        }
+        .emergency-badge {
+            background: #FF4444;
+            color: #fff;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 900;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.6;
+                transform: scale(0.95);
+            }
+        }
+        .emergency-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 14px;
+        }
+        .emergency-summary .item {
+            text-align: center;
+        }
+        .emergency-summary .label {
+            display: block;
+            font-size: 11px;
+            color: var(--muted);
+            font-weight: 600;
+        }
+        .emergency-summary .value {
+            display: block;
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--cyan);
+        }
+        .emergency-summary .value.danger {
+            color: #FF4444;
+        }
+        .table-wrap {
+            overflow-x: auto;
+            margin-bottom: 12px;
+        }
+        .table-wrap table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        .table-wrap th {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--gold);
+            padding: 8px 6px;
+            font-size: 11px;
+            text-align: center;
+        }
+        .table-wrap td {
+            padding: 8px 6px;
+            text-align: center;
+            color: var(--ice);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .row-danger td {
+            background: rgba(255, 68, 68, 0.2);
+        }
+        .row-warning td {
+            background: rgba(255, 165, 0, 0.12);
+        }
+        .cell-danger {
+            color: #FF4444 !important;
+            font-weight: 900;
+        }
+        .cell-warning {
+            color: #FFA500 !important;
+            font-weight: 700;
+        }
+        .emergency-footer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: space-between;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 10px;
+            font-size: 12px;
+            color: var(--muted);
+        }
+        .emergency-footer span {
+            opacity: 0.8;
+        }
+        .emergency-advice {
+            margin-top: 12px;
+            padding: 14px;
+            background: rgba(255, 68, 68, 0.15);
+            border-left: 6px solid #FF4444;
+            border-radius: 8px;
+            text-align: left;
+            color: var(--ice);
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .emergency-advice strong {
+            color: #FF4444;
+        }
+        @media (max-width: 768px) {
+            body {
+                align-items: flex-start;
+                padding: 12px;
+            }
+            body::before {
+                background-attachment: scroll;
+                background-position: center top;
+            }
+            .container {
+                padding: 16px 8px 24px;
+            }
+            .title {
+                letter-spacing: .1em;
+            }
+            .subtitle {
+                letter-spacing: .16em;
+            }
+            .search {
+                grid-template-columns: 1fr;
+            }
+            .search button {
+                padding: 8px 0;
+            }
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .warning-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 2px;
+            }
+            .forecast-head {
+                flex-direction: column;
+            }
+            .small-btn {
+                padding: 8px 0;
+            }
+            th,
+            td {
+                font-size: 12px;
+                padding: 7px 4px;
+            }
+            .message {
+                text-align: left;
+                font-size: 15px;
+            }
+            .emergency-section {
+                padding: 12px;
+            }
+            .emergency-title {
+                font-size: 17px;
+            }
+            .emergency-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .table-wrap table {
+                font-size: 11px;
+            }
+            .emergency-advice {
+                font-size: 13px;
+            }
+            #countryFlag {
+                width: 36px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-<main class="container">
-  <img class="logo" src="assets/images/sigma_logo.png" alt="Sigma Logo">
-
-  <h1 class="title">SIGMA CLIMATE</h1>
-  <div class="subtitle">Human Knowledge System</div>
-
-  <!-- DÒNG CÔNG BỐ NGUỒN DỮ LIỆU (THÊM MỚI) -->
-  <div class="data-source-banner">
-    📡 <strong>DỮ LIỆU CHUẨN MỰC</strong> từ USGS · Open‑Meteo · NASA FIRMS · Sigma Core
-  </div>
-
-  <div class="language">
-    <span>🌐</span>
-    <select id="languageSelect">
-      <option value="en" selected>English</option>
-      <option value="vi">Tiếng Việt</option>
-      <option value="th">ภาษาไทย</option>
-      <option value="km">ភាសាខ្មែរ</option>
-      <option value="lo">ພາສາລາວ</option>
-      <option value="id">Bahasa Indonesia</option>
-      <option value="fr">Français</option>
-      <option value="es">Español</option>
-      <option value="de">Deutsch</option>
-      <option value="ja">日本語</option>
-      <option value="ko">한국어</option>
-      <option value="zh">中文</option>
-    </select>
-  </div>
-
-  <div class="city" id="cityDisplay">HÀ NỘI</div>
-
-  <section class="search">
-    <input id="cityInput" list="cityList" placeholder="ENTER CITY OR COUNTRY..." />
-    <datalist id="cityList"></datalist>
-    <button onclick="searchWeather()">SEARCH</button>
-  </section>
-
-<!-- ====== PHẦN 2: BODY HOÀN CHỈNH ====== -->
-
-  <div id="earthquakeAlert" class="alert">✅ NO EARTHQUAKE WARNING</div>
-  <div id="tsunamiAlert" class="alert">✅ NO TSUNAMI WARNING</div>
-
-  <section class="section">
-    <h2 class="section-title">🌊 Flood Risk</h2>
-    <div id="floodDisplay" class="data">Loading flood data...</div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">🌧️ Rainfall Next 5 Days</h2>
-    <div id="rainfallDisplay" class="data">Loading rainfall data...</div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">💨 Air Quality</h2>
-    <div id="airQualityDisplay" class="data">Loading air quality data...</div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">⚠️ Monthly Warnings (Sigma Core)</h2>
-    <div id="warningList">
-      <div class="warning-item"><span>🔴 FLOOD</span><span class="low">LOW RISK</span></div>
-      <div class="warning-item"><span>🟡 DROUGHT</span><span class="medium">MEDIUM RISK</span></div>
-      <div class="warning-item"><span>🟢 WILDFIRE</span><span class="low">LOW RISK</span></div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="forecast-head">
-      <h2 class="section-title">📊 10-Year Forecast</h2>
-      <button class="small-btn" onclick="loadForecast()">LOAD DATA</button>
-    </div>
-    <table>
-      <thead>
-        <tr><th>Year</th><th>Temp °C</th><th>Rain mm</th></tr>
-      </thead>
-      <tbody id="forecastBody">
-        <tr><td colspan="3">Click LOAD DATA</td></tr>
-      </tbody>
-    </table>
-  </section>
-
-  <section class="message">
-    <p><strong>SIGMA</strong> operates on verified data. Powered by advanced mathematics. <strong>TRANSPARENT AND RELIABLE</strong>.</p>
-    <p><strong>SIGMA</strong> wants to say: Weather can change based on your choices. <strong>Right now</strong> is your decision for the future.</p>
-    <p><strong>SIGMA</strong> does not claim the future will happen, if you decide to change right now.</p>
-    <div class="choice">YOU CHOOSE :</div>
-    <p><strong>@EXTREME WEATHER.</strong><br><strong>@PEACEFUL WEATHER – HAPPY HOME.</strong></p>
-    <p>It's all in your hands. Choose wisely.</p>
-  </section>
-
-  <footer class="footer">
-    <div>🌍 SIGMA_UNIVERSE : NON-PROFIT</div>
-    <div class="motto">Peaceful Mind. Kind Heart. Keep Growing.</div>
-    <div>⚡ HUMAN KNOWLEDGE SYSTEM</div>
-    <div style="font-size:12px; color:var(--muted); margin-top:10px; letter-spacing:0.06em;">
-      📡 Nguồn dữ liệu: USGS · Open‑Meteo · NASA FIRMS · Sigma Core (thu thập 96h)
-    </div>
-  </footer>
-</main>
-
-<script>
-
-const CITIES = [
-  {name:"Hanoi", lat:21.0285, lon:105.8542},
-  {name:"Ho Chi Minh City", lat:10.8231, lon:106.6297},
-  {name:"Da Nang", lat:16.0544, lon:108.2022},
-  {name:"Can Tho", lat:10.0452, lon:105.7469},
-  {name:"Tokyo", lat:35.6762, lon:139.6503},
-  {name:"Seoul", lat:37.5665, lon:126.9780},
-  {name:"Singapore", lat:1.3521, lon:103.8198},
-  {name:"Bangkok", lat:13.7563, lon:100.5018},
-  {name:"London", lat:51.5074, lon:-0.1278},
-  {name:"Paris", lat:48.8566, lon:2.3522},
-  {name:"New York", lat:40.7128, lon:-74.0060},
-  {name:"Los Angeles", lat:34.0522, lon:-118.2437},
-  {name:"Sydney", lat:-33.8688, lon:151.2093}
-];
-
-// ===================== PHẦN 1: SIGMA CORE – HẰNG SỐ & CÔNG THỨC =====================
-
-// 1. BẢNG HẰNG SỐ SIGMA CORE (từ sigma_constants.csv)
-const SIGMA_CONSTANTS = {
-  flood: {
-    A0: 0,                // sẽ được tính động từ API
-    k_min: 0.01,
-    k_max: 0.05,
-    warning_threshold: 0, // ngưỡng động
-    danger_threshold: 0,
-    source: "Open-Meteo Flood"
-  },
-  earthquake: {
-    A0: 4.68,             // tần suất trung bình
-    k_min: 0.02,
-    k_max: 0.08,
-    warning_threshold: 6.16,   // M 6.16
-    danger_threshold: 6.90,    // M 6.90
-    source: "USGS"
-  },
-  fire: {
-    A0: 0,                // điểm nóng trung bình (tính động)
-    k_min: 0.03,
-    k_max: 0.10,
-    warning_threshold: 0,
-    danger_threshold: 0,
-    source: "NASA FIRMS"
-  },
-  air_quality: {
-    A0: 0,                // AQI trung bình
-    k_min: 0.01,
-    k_max: 0.06,
-    warning_threshold: 60,    // AQI 60
-    danger_threshold: 100,    // AQI 100
-    source: "Open-Meteo Air Quality"
-  }
-};
-
-// 2. CÔNG THỨC SIGMA CORE: A(t) = A₀ * exp(k * (t - t₀)²)
-function calculateSigma(A0, k, t, t0) {
-  // t và t0 tính bằng ngày (có thể đổi sang đơn vị khác nếu cần)
-  const dt = t - t0;
-  return A0 * Math.exp(k * dt * dt);
-}
-
-// 3. HÀM XÁC ĐỊNH MỨC CẢNH BÁO DỰA TRÊN GIÁ TRỊ SIGMA
-function getWarningLevel(value, warningThreshold, dangerThreshold) {
-  if (value >= dangerThreshold) return { level: 'danger', label: '⚠️ NGUY HIỂM', class: 'high' };
-  if (value >= warningThreshold) return { level: 'warning', label: '⚡ CẢNH BÁO', class: 'medium' };
-  return { level: 'safe', label: '✅ AN TOÀN', class: 'low' };
-}
-
-
-function getCity(name) {
-  return CITIES.find(c => c.name.toLowerCase() === name.toLowerCase().trim());
-}
-
-function fillCityList() {
-  const list = document.getElementById("cityList");
-  CITIES.forEach(city => {
-    const opt = document.createElement("option");
-    opt.value = city.name;
-    list.appendChild(opt);
-  });
-}
-
-function computeSigmaForDisaster(type, currentValue, daysSinceStart = 0) {
-  const cfg = SIGMA_CONSTANTS[type];
-  if (!cfg) return { value: 0, level: 'safe', label: '❓ KHÔNG RÕ', class: 'low' };
-  
-  const k = (cfg.k_min + cfg.k_max) / 2;
-  const A0_use = (cfg.A0 === 0 && type !== 'earthquake' && type !== 'air_quality') 
-                 ? currentValue * 0.2 
-                 : cfg.A0;
-  
-  const sigmaValue = calculateSigma(A0_use, k, daysSinceStart, 0);
-  
-  let warningThreshold = cfg.warning_threshold || 0;
-  let dangerThreshold = cfg.danger_threshold || 0;
-  
-  if (type === 'flood') {
-    warningThreshold = currentValue * 1.2;
-    dangerThreshold = currentValue * 1.5;
-  }
-  if (type === 'fire') {
-    warningThreshold = currentValue * 1.3;
-    dangerThreshold = currentValue * 1.8;
-  }
-  
-  const result = getWarningLevel(sigmaValue, warningThreshold, dangerThreshold);
-  return { ...result, sigmaValue };
-}
-
-function updateWarningsSigma(temp, rain, humidity, floodDischarge, aqi) {
-  const floodResult = computeSigmaForDisaster('flood', floodDischarge || rain * 10, 0);
-  const floodLabel = floodResult.label;
-  const floodClass = floodResult.class;
-  
-  let droughtLevel = 'safe', droughtLabel = '✅ AN TOÀN', droughtClass = 'low';
-  if (temp > 35 && humidity < 30) {
-    droughtLevel = 'danger';
-    droughtLabel = '⚠️ NGUY HIỂM';
-    droughtClass = 'high';
-  } else if (temp > 32 && humidity < 40) {
-    droughtLevel = 'warning';
-    droughtLabel = '⚡ CẢNH BÁO';
-    droughtClass = 'medium';
-  }
-  
-  let fireIndex = 0;
-  if (temp > 30 && humidity < 40) fireIndex = 0.6;
-  if (temp > 35 && humidity < 30) fireIndex = 0.9;
-  if (temp > 28 && humidity < 50) fireIndex = 0.4;
-  
-  const fireResult = computeSigmaForDisaster('fire', fireIndex, 0);
-  const fireLabel = fireResult.level === 'danger' ? '🔥 NGUY HIỂM' :
-                    fireResult.level === 'warning' ? '⚡ CẢNH BÁO' : '✅ AN TOÀN';
-  const fireClass = fireResult.class;
-  
-  const aqiResult = computeSigmaForDisaster('air_quality', aqi || 0, 0);
-  const aqiLabel = aqiResult.level === 'danger' ? `🔴 ${aqi} – NGUY HIỂM` :
-                   aqiResult.level === 'warning' ? `🟡 ${aqi} – CẢNH BÁO` : `🟢 ${aqi} – TỐT`;
-  const aqiClass = aqiResult.class;
-  
-  document.getElementById("warningList").innerHTML = `
-    <div class="warning-item"><span>🔴 FLOOD</span><span class="${floodClass}">${floodLabel}</span></div>
-    <div class="warning-item"><span>🟡 DROUGHT</span><span class="${droughtClass}">${droughtLabel}</span></div>
-    <div class="warning-item"><span>🟢 WILDFIRE</span><span class="${fireClass}">${fireLabel}</span></div>
-    <div class="warning-item"><span>💨 AIR QUALITY</span><span class="${aqiClass}">${aqiLabel}</span></div>
-  `;
-}
-
-// ===================== PHẦN 3: HÀM GỌI API & XỬ LÝ DỮ LIỆU =====================
-
-// ===== HÀM CHÍNH: TÌM KIẾM THỜI TIẾT =====
-async function searchWeather() {
-  const input = document.getElementById("cityInput").value.trim();
-  const city = getCity(input || "Hanoi");
-
-  if (!city) {
-    alert("CITY NOT FOUND.");
-    return;
-  }
-
-  document.getElementById("cityDisplay").textContent = city.name.toUpperCase();
-
-  try {
-    // Gọi API thời tiết hiện tại
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current_weather=true&hourly=relative_humidity_2m,precipitation&timezone=auto`;
-    const res = await fetch(url);
-    const data = await res.json();
-
-    const temp = data.current_weather?.temperature ?? 0;
-    const wind = data.current_weather?.windspeed ?? 0;
-    const humidity = data.hourly?.relative_humidity_2m?.[0] ?? 0;
-    const rain = data.hourly?.precipitation?.[0] ?? 0;
-
-    // Hiển thị 4 chỉ số cơ bản
-    document.getElementById("tempValue").textContent = temp.toFixed(1) + "°C";
-    document.getElementById("humidityValue").textContent = humidity + "%";
-    document.getElementById("rainValue").textContent = rain.toFixed(1) + " mm/h";
-    document.getElementById("windValue").textContent = wind.toFixed(1) + " km/h";
-
-    // ===== GỌI TẤT CẢ CÁC HÀM CẢNH BÁO =====
-    // 1. Lũ lụt (gọi trước để lấy floodDischarge)
-    const floodDischarge = await fetchFlood(city);
-
-    // 2. Cảnh báo tháng (dùng Sigma Core) - phải gọi SAU khi có floodDischarge
-    updateWarningsSigma(temp, rain, humidity, floodDischarge, 0); // AQI sẽ được cập nhật sau
-
-    // 3. Các cảnh báo khác
-    fetchEarthquake();
-    fetchTsunami();
-    fetchRainfall(city);
-    fetchAirQuality(city);
-    fetchWildfire(city, temp, humidity);
-    fetchDrought(city, temp, rain);
-	fetchExtendedWarnings(city, temp, rain, humidity, wind);
-
-  } catch (e) {
-    alert("⚠️ Không thể kết nối dữ liệu. Vui lòng kiểm tra internet.");
-    console.error(e);
-  }
-}
-
-// ===== 1. LŨ LỤT (FLOOD) =====
-async function fetchFlood(city) {
-  try {
-    const url = `https://flood-api.open-meteo.com/v1/flood?latitude=${city.lat}&longitude=${city.lon}&daily=river_discharge&forecast_days=1&timezone=auto`;
-    const res = await fetch(url);
-    const data = await res.json();
-    const discharge = data.daily?.river_discharge?.[0];
-
-    if (discharge === undefined) {
-      document.getElementById("floodDisplay").innerHTML = "❌ Không có dữ liệu lũ.";
-      return 0;
-    }
-
-    const level = discharge > 500 ? "HIGH" : discharge > 200 ? "MEDIUM" : "LOW";
-    const cls = discharge > 500 ? "high" : discharge > 200 ? "medium" : "low";
-    document.getElementById("floodDisplay").innerHTML =
-      `Lưu lượng: <span class="${cls}">${discharge.toFixed(0)} m³/s — ${level} RISK</span>`;
-
-    return discharge;
-  } catch (e) {
-    document.getElementById("floodDisplay").innerHTML = "❌ Không thể tải dữ liệu lũ.";
-    console.error(e);
-    return 0;
-  }
-}
-
-// ===== 2. ĐỘNG ĐẤT (DÙNG SIGMA CORE - NGƯỠNG 6.16 VÀ 6.90) =====
-async function fetchEarthquake() {
-  try {
-    const res = await fetch("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson");
-    const data = await res.json();
-    const box = document.getElementById("earthquakeAlert");
-
-    // Lọc các trận động đất có magnitude >= 4.0
-    const quakes = data.features
-      .filter(f => f.properties.mag >= 4.0)
-      .sort((a, b) => b.properties.mag - a.properties.mag);
-
-    if (quakes.length === 0) {
-      box.innerHTML = "✅ NO EARTHQUAKE WARNING";
-      box.style.color = "#8EF6FF";
-      return;
-    }
-
-    const q = quakes[0].properties;
-    const mag = q.mag;
-
-    // Áp dụng Sigma Core ngưỡng
-    const warningThreshold = SIGMA_CONSTANTS.earthquake.warning_threshold; // 6.16
-    const dangerThreshold = SIGMA_CONSTANTS.earthquake.danger_threshold;   // 6.90
-
-    let level = "✅ AN TOÀN";
-    let color = "#8EF6FF";
-    if (mag >= dangerThreshold) {
-      level = "🔴 NGUY HIỂM";
-      color = "#FF4C4C";
-    } else if (mag >= warningThreshold) {
-      level = "🟡 CẢNH BÁO";
-      color = "#F4C542";
-    }
-
-    box.innerHTML = `🌍 ĐỘNG ĐẤT M${mag.toFixed(1)} - ${q.place} ${level}`;
-    box.style.color = color;
-
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-// ===== 3. SÓNG THẦN (TSUNAMI) - DÙNG USGS =====
-async function fetchTsunami() {
-  try {
-    const res = await fetch("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson");
-    const data = await res.json();
-    const box = document.getElementById("tsunamiAlert");
-
-    const events = data.features
-      .filter(f => f.properties.tsunami === 1 && f.properties.mag >= 6.0)
-      .sort((a, b) => b.properties.mag - a.properties.mag);
-
-    if (events.length === 0) {
-      box.innerHTML = "✅ NO TSUNAMI WARNING";
-      box.style.color = "#8EF6FF";
-      return;
-    }
-
-    const t = events[0].properties;
-    box.innerHTML = `🌊 TSUNAMI WARNING M${t.mag.toFixed(1)} - ${t.place}`;
-    box.style.color = "#FF8F4C";
-
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-// ===== 4. MƯA 5 NGÀY TỚI =====
-async function fetchRainfall(city) {
-  try {
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&daily=precipitation_sum&forecast_days=5&timezone=auto`;
-    const res = await fetch(url);
-    const data = await res.json();
-    const rains = data.daily?.precipitation_sum || [];
-    const dates = data.daily?.time || [];
-
-    let html = "";
-    rains.forEach((rain, i) => {
-      html += `<div>📅 ${dates[i]} : <span class="low">${rain.toFixed(1)} mm</span></div>`;
-    });
-
-    document.getElementById("rainfallDisplay").innerHTML = html || "❌ Không có dữ liệu mưa.";
-  } catch (e) {
-    document.getElementById("rainfallDisplay").innerHTML = "❌ Không thể tải dữ liệu mưa.";
-    console.error(e);
-  }
-}
-
-// ===== 5. CHẤT LƯỢNG KHÔNG KHÍ (DÙNG AQI VÀ SIGMA CORE) =====
-async function fetchAirQuality(city) {
-  try {
-    const url = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${city.lat}&longitude=${city.lon}&hourly=pm10,pm2_5,european_aqi&forecast_days=1&timezone=auto`;
-    const res = await fetch(url);
-    const data = await res.json();
-    const aqi = Math.round(data.hourly?.european_aqi?.[0] || 0);
-    const pm25 = Math.round(data.hourly?.pm2_5?.[0] || 0);
-    const pm10 = Math.round(data.hourly?.pm10?.[0] || 0);
-
-    // Dùng Sigma Core ngưỡng AQI
-    const warningThreshold = SIGMA_CONSTANTS.air_quality.warning_threshold; // 60
-    const dangerThreshold = SIGMA_CONSTANTS.air_quality.danger_threshold;   // 100
-
-    let level = "✅ TỐT";
-    let cls = "low";
-    if (aqi >= dangerThreshold) {
-      level = "🔴 NGUY HIỂM";
-      cls = "high";
-    } else if (aqi >= warningThreshold) {
-      level = "🟡 CẢNH BÁO";
-      cls = "medium";
-    }
-
-    document.getElementById("airQualityDisplay").innerHTML =
-      `AQI: <span class="${cls}">${aqi} — ${level}</span><br>PM2.5: ${pm25} µg/m³ · PM10: ${pm10} µg/m³`;
-
-    // Cập nhật AQI vào warningList (gọi lại updateWarningsSigma với AQI)
-    const temp = parseFloat(document.getElementById("tempValue").textContent) || 0;
-    const rain = parseFloat(document.getElementById("rainValue").textContent) || 0;
-    const humidity = parseFloat(document.getElementById("humidityValue").textContent) || 0;
-    const floodDischarge = await fetchFlood(city); // Lấy lại flood để cập nhật
-    updateWarningsSigma(temp, rain, humidity, floodDischarge, aqi);
-
-  } catch (e) {
-    document.getElementById("airQualityDisplay").innerHTML = "❌ Không thể tải dữ liệu không khí.";
-    console.error(e);
-  }
-}
-
-// ===== 6. CHÁY RỪNG (WILDFIRE) - FALLBACK KHI KHÔNG CÓ NASA FIRMS =====
-async function fetchWildfire(city, temp, humidity) {
-  // Dùng fallback: nhiệt độ cao + độ ẩm thấp
-  let fireIndex = 0;
-  if (temp > 30 && humidity < 40) fireIndex = 0.6;
-  if (temp > 35 && humidity < 30) fireIndex = 0.9;
-  if (temp > 28 && humidity < 50) fireIndex = 0.4;
-
-  const result = computeSigmaForDisaster('fire', fireIndex, 0);
-  const label = result.level === 'danger' ? '🔥 NGUY HIỂM' :
-                result.level === 'warning' ? '⚡ CẢNH BÁO' : '✅ AN TOÀN';
-  const cls = result.class;
-
-  // Cập nhật vào warningList (phần wildfire sẽ được update qua updateWarningsSigma)
-  // Nhưng để đảm bảo, ta có thể cập nhật trực tiếp nếu cần
-  console.log(`🔥 Cháy rừng: ${label} (chỉ số: ${fireIndex.toFixed(2)})`);
-}
-
-// ===== 7. HẠN HÁN (DROUGHT) - DÙNG LƯỢNG MƯA + NHIỆT ĐỘ =====
-async function fetchDrought(city, temp, rain) {
-  // Lấy tổng lượng mưa 7 ngày gần nhất
-  try {
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&daily=precipitation_sum&forecast_days=7&timezone=auto`;
-    const res = await fetch(url);
-    const data = await res.json();
-    const totalRain = data.daily?.precipitation_sum?.reduce((a, b) => a + b, 0) || 0;
-
-    let droughtLabel = "✅ AN TOÀN";
-    let droughtClass = "low";
-    if (totalRain < 5 && temp > 32) {
-      droughtLabel = "🔴 NGUY HIỂM (HẠN HÁN)";
-      droughtClass = "high";
-    } else if (totalRain < 15 && temp > 30) {
-      droughtLabel = "🟡 CẢNH BÁO (HẠN HÁN)";
-      droughtClass = "medium";
-    }
-
-    // Cập nhật vào warningList - sẽ được cập nhật qua updateWarningsSigma
-    console.log(`🌵 Hạn hán: ${droughtLabel} (tổng mưa 7 ngày: ${totalRain.toFixed(1)} mm)`);
-
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-// ===== 8. DỰ BÁO 10 NĂM =====
-async function loadForecast() {
-  const input = document.getElementById("cityInput").value.trim();
-  const city = getCity(input || "Hanoi");
-  const body = document.getElementById("forecastBody");
-
-  if (!city) {
-    alert("Invalid city.");
-    return;
-  }
-
-  body.innerHTML = `<tr><td colspan="3">⏳ Đang tải...</td></tr>`;
-
-  try {
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&daily=temperature_2m_max,precipitation_sum&forecast_days=365&timezone=auto`;
-    const res = await fetch(url);
-    const data = await res.json();
-
-    const map = {};
-    data.daily.time.forEach((date, i) => {
-      const year = new Date(date).getFullYear();
-      if (!map[year]) map[year] = { temp: 0, rain: 0, count: 0 };
-      map[year].temp += data.daily.temperature_2m_max[i];
-      map[year].rain += data.daily.precipitation_sum[i] || 0;
-      map[year].count++;
-    });
-
-    body.innerHTML = Object.keys(map).map(year => {
-      const item = map[year];
-      return `<tr><td>${year}</td><td>${(item.temp / item.count).toFixed(1)}</td><td>${item.rain.toFixed(0)}</td></tr>`;
-    }).join("");
-
-  } catch (e) {
-    body.innerHTML = `<tr><td colspan="3">❌ Không thể tải dữ liệu.</td></tr>`;
-    console.error(e);
-  }
-}
-
-
-// ===================== PHẦN 4: CẢNH BÁO MỞ RỘNG =====================
-
-// ===== 1. BẢNG CẤU HÌNH KHU VỰC =====
-const REGION_CONFIG = {
-  // Châu Phi
-  ethiopia: { region: 'East Africa', risks: ['drought', 'food_insecurity'] },
-  somalia: { region: 'East Africa', risks: ['drought', 'food_insecurity'] },
-  kenya: { region: 'East Africa', risks: ['drought', 'flood'] },
-  tanzania: { region: 'East Africa', risks: ['drought', 'flood'] },
-  uganda: { region: 'East Africa', risks: ['flood', 'landslide'] },
-  rwanda: { region: 'East Africa', risks: ['landslide', 'earthquake'] },
-  burundi: { region: 'East Africa', risks: ['landslide', 'flood'] },
-  madagascar: { region: 'East Africa', risks: ['drought', 'cyclone', 'food_insecurity'] },
-  mozambique: { region: 'East Africa', risks: ['cyclone', 'flood', 'drought'] },
-  malawi: { region: 'East Africa', risks: ['drought', 'flood'] },
-  zambia: { region: 'East Africa', risks: ['drought', 'flood'] },
-  zimbabwe: { region: 'East Africa', risks: ['drought', 'food_insecurity'] },
-  nigeria: { region: 'West Africa', risks: ['flood', 'drought', 'sandstorm'] },
-  ghana: { region: 'West Africa', risks: ['flood', 'drought'] },
-  senegal: { region: 'West Africa', risks: ['drought', 'sandstorm'] },
-  mali: { region: 'West Africa', risks: ['drought', 'sandstorm', 'food_insecurity'] },
-  niger: { region: 'West Africa', risks: ['drought', 'sandstorm', 'food_insecurity'] },
-  burkina_faso: { region: 'West Africa', risks: ['drought', 'sandstorm', 'food_insecurity'] },
-  ivory_coast: { region: 'West Africa', risks: ['flood'] },
-  guinea: { region: 'West Africa', risks: ['flood', 'landslide'] },
-  sierra_leone: { region: 'West Africa', risks: ['flood', 'landslide'] },
-  liberia: { region: 'West Africa', risks: ['flood', 'landslide'] },
-  cameroon: { region: 'Central Africa', risks: ['flood', 'landslide'] },
-  chad: { region: 'Central Africa', risks: ['drought', 'flood', 'food_insecurity'] },
-  car: { region: 'Central Africa', risks: ['flood', 'drought'] },
-  drc: { region: 'Central Africa', risks: ['flood', 'landslide', 'volcano'] },
-  congo: { region: 'Central Africa', risks: ['flood', 'landslide'] },
-  angola: { region: 'Central Africa', risks: ['drought', 'flood'] },
-  lesotho: { region: 'South Africa', risks: ['drought'] },
-  eswatini: { region: 'South Africa', risks: ['drought'] },
-  namibia: { region: 'South Africa', risks: ['drought'] },
-  botswana: { region: 'South Africa', risks: ['drought'] },
-
-  // Nam Á
-  india: { region: 'South Asia', risks: ['heatwave', 'drought', 'flood', 'cyclone'] },
-  pakistan: { region: 'South Asia', risks: ['heatwave', 'flood', 'drought', 'sandstorm'] },
-  bangladesh: { region: 'South Asia', risks: ['cyclone', 'flood', 'salinity', 'heatwave'] },
-  nepal: { region: 'South Asia', risks: ['landslide', 'earthquake', 'flood'] },
-  bhutan: { region: 'South Asia', risks: ['landslide', 'flood'] },
-  sri_lanka: { region: 'South Asia', risks: ['flood', 'landslide', 'drought'] },
-  maldives: { region: 'South Asia', risks: ['salinity', 'sea_level_rise'] },
-
-  // Đông Nam Á
-  vietnam: { region: 'Southeast Asia', risks: ['cyclone', 'flood', 'landslide', 'salinity', 'heatwave'] },
-  laos: { region: 'Southeast Asia', risks: ['flood', 'landslide', 'drought'] },
-  cambodia: { region: 'Southeast Asia', risks: ['flood', 'drought'] },
-  myanmar: { region: 'Southeast Asia', risks: ['cyclone', 'flood', 'landslide', 'earthquake'] },
-  philippines: { region: 'Southeast Asia', risks: ['cyclone', 'flood', 'landslide', 'earthquake', 'volcano'] },
-  indonesia: { region: 'Southeast Asia', risks: ['earthquake', 'tsunami', 'flood', 'landslide', 'volcano'] },
-  timor_leste: { region: 'Southeast Asia', risks: ['flood', 'drought'] },
-
-  // Trung Đông (nghèo)
-  yemen: { region: 'Middle East', risks: ['drought', 'flood', 'food_insecurity'] },
-  iraq: { region: 'Middle East', risks: ['drought', 'sandstorm', 'heatwave'] },
-  syria: { region: 'Middle East', risks: ['drought', 'sandstorm'] },
-  afghanistan: { region: 'Middle East', risks: ['drought', 'flood', 'landslide', 'sandstorm'] },
-  sudan: { region: 'Middle East', risks: ['drought', 'flood', 'food_insecurity'] },
-  south_sudan: { region: 'Middle East', risks: ['flood', 'drought', 'food_insecurity'] },
-  palestine: { region: 'Middle East', risks: ['drought'] },
-
-  // Quốc đảo nhỏ
-  fiji: { region: 'Pacific Islands', risks: ['cyclone', 'flood', 'sea_level_rise'] },
-  vanuatu: { region: 'Pacific Islands', risks: ['cyclone', 'earthquake', 'tsunami'] },
-  samoa: { region: 'Pacific Islands', risks: ['cyclone', 'flood'] },
-  tonga: { region: 'Pacific Islands', risks: ['cyclone', 'earthquake', 'tsunami'] },
-  kiribati: { region: 'Pacific Islands', risks: ['sea_level_rise', 'salinity'] },
-  tuvalu: { region: 'Pacific Islands', risks: ['sea_level_rise', 'salinity'] },
-  comoros: { region: 'Pacific Islands', risks: ['cyclone', 'flood'] },
-  seychelles: { region: 'Pacific Islands', risks: ['cyclone', 'flood'] }
-};
-
-// ===== 2. HÀM NHẬN DIỆN QUỐC GIA TỪ TÊN THÀNH PHỐ =====
-function detectCountry(cityName) {
-  const name = cityName.toLowerCase().trim();
-  for (const [country, config] of Object.entries(REGION_CONFIG)) {
-    // Kiểm tra nếu tên thành phố chứa tên quốc gia hoặc gần giống
-    if (name.includes(country.replace(/_/g, ' ')) || country.replace(/_/g, ' ').includes(name)) {
-      return { country, ...config };
-    }
-  }
-  // Fallback: nếu không tìm thấy, trả về mặc định
-  return { country: 'unknown', region: 'Unknown', risks: [] };
-}
-
-// ===== 3. HÀM LẤY CẢNH BÁO CHO TỪNG KHU VỰC =====
-function getRegionRisk(cityName) {
-  const info = detectCountry(cityName);
-  return info.risks || [];
-}
-
-// ===== 4. HÀM CẢNH BÁO MỞ RỘNG (GỌI TỪ SEARCHWEATHER) =====
-async function fetchExtendedWarnings(city, temp, rain, humidity, wind) {
-  const cityName = city.name;
-  const risks = getRegionRisk(cityName);
-
-  let warnings = [];
-  let advice = [];
-
-  // 4.1 BÃO / LỐC XOÁY (dùng tốc độ gió giật)
-  if (wind > 80) {
-    warnings.push('🌀 BÃO / LỐC XOÁY');
-    advice.push('⚠️ Gió rất mạnh! Cần trú ẩn an toàn, tránh xa cửa sổ và cây cối.');
-  } else if (wind > 50) {
-    warnings.push('🌀 GIÓ MẠNH');
-    advice.push('⚠️ Gió mạnh. Cẩn thận vật dụng bay, không ra ngoài nếu không cần thiết.');
-  }
-
-  // 4.2 NẮNG NÓNG CỰC ĐOAN
-  if (temp > 40) {
-    warnings.push('🔥 NẮNG NÓNG CỰC ĐOAN');
-    advice.push('☀️ Nhiệt độ > 40°C! Uống nhiều nước, ở trong bóng râm, không để trẻ em và người già ra ngoài.');
-  } else if (temp > 37) {
-    warnings.push('🔥 NẮNG NÓNG');
-    advice.push('☀️ Nhiệt độ cao. Hạn chế ra ngoài, uống đủ nước.');
-  }
-
-  // 4.3 LŨ QUÉT (mưa lớn)
-  if (rain > 100) {
-    warnings.push('🌊 LŨ QUÉT');
-    advice.push('⚠️ Mưa cực lớn! Nguy cơ lũ quét. Di dời lên vùng cao ngay nếu gần sông suối.');
-  } else if (rain > 50) {
-    warnings.push('🌧️ MƯA LỚN');
-    advice.push('⚠️ Mưa to. Theo dõi mực nước, chuẩn bị sẵn sàng di dời nếu cần.');
-  }
-
-  // 4.4 XÂM NHẬP MẶN (nếu khu vực ven biển và khô hạn)
-  if (risks.includes('salinity') && rain < 10 && temp > 30) {
-    warnings.push('🧂 XÂM NHẬP MẶN');
-    advice.push('⚠️ Nước mặn xâm nhập. Hạn chế tưới tiêu bằng nước sông, tìm nguồn nước ngọt dự trữ.');
-  }
-
-  // 4.5 HẠN HÁN + MẤT MÙA
-  if (risks.includes('drought') || risks.includes('food_insecurity')) {
-    if (rain < 5 && temp > 32) {
-      warnings.push('🌵 HẠN HÁN NGHIÊM TRỌNG');
-      advice.push('⚠️ Hạn hán kéo dài. Nguy cơ mất mùa. Dự trữ lương thực và nước uống.');
-    } else if (rain < 15 && temp > 30) {
-      warnings.push('🌵 HẠN HÁN');
-      advice.push('⚠️ Thiếu mưa. Cần tiết kiệm nước và theo dõi tình hình mùa màng.');
-    }
-  }
-
-  // 4.6 BÃO CÁT / BÃO BỤI
-  if (risks.includes('sandstorm') && wind > 40 && humidity < 20) {
-    warnings.push('🏜️ BÃO CÁT');
-    advice.push('⚠️ Bão cát đến! Đeo khẩu trang, đóng kín cửa, không ra ngoài.');
-  }
-
-  // 4.7 DỊCH BỆNH SAU THIÊN TAI
-  if (risks.includes('flood') || risks.includes('cyclone')) {
-    if (rain > 50 || temp > 35) {
-      warnings.push('🦟 NGUY CƠ DỊCH BỆNH');
-      advice.push('⚠️ Sau mưa lớn hoặc nắng nóng, nguy cơ sốt rét, tả, sốt xuất huyết. Giữ vệ sinh, phun thuốc muỗi.');
-    }
-  }
-
-  // 4.8 SẠT LỞ ĐẤT
-  if (risks.includes('landslide') && rain > 80) {
-    warnings.push('⛰️ SẠT LỞ ĐẤT');
-    advice.push('⚠️ Mưa lớn gây nguy cơ sạt lở. Cảnh báo di dời khẩn cấp nếu sống ở vùng đồi núi.');
-  }
-
-  // ===== HIỂN THỊ CẢNH BÁO =====
-  const warningDiv = document.getElementById('extendedWarningDisplay');
-
-  // Nếu chưa có div, tự tạo
-  let extendedDiv = document.getElementById('extendedWarningDisplay');
-  if (!extendedDiv) {
-    const section = document.createElement('section');
-    section.className = 'section';
-    section.innerHTML = `
-      <h2 class="section-title">🚨 CẢNH BÁO ĐẶC BIỆT</h2>
-      <div id="extendedWarningDisplay" class="data"></div>
-    `;
-    const warningList = document.getElementById('warningList');
-    warningList.parentNode.insertBefore(section, warningList.nextSibling);
-    extendedDiv = document.getElementById('extendedWarningDisplay');
-  }
-
-  if (warnings.length === 0) {
-    extendedDiv.innerHTML = '✅ Không có cảnh báo đặc biệt nào cho khu vực của bạn.';
-    return;
-  }
-
-  let html = '';
-  for (let i = 0; i < warnings.length; i++) {
-    html += `
-      <div style="background:rgba(255,140,76,0.12); border-left:4px solid var(--alert); padding:10px 14px; margin:8px 0; border-radius:4px; text-align:left;">
-        <div style="font-weight:900; font-size:18px; color:var(--alert);">${warnings[i]}</div>
-        <div style="font-weight:600; font-size:15px; color:var(--ice); margin-top:4px;">${advice[i]}</div>
-      </div>
-    `;
-  }
-  extendedDiv.innerHTML = html;
-}
-
-
-
-// ===================== PHẦN 5: NGÔN NGỮ – DÀNH CHO NGƯỜI NGHÈO =====================
-
-// ===== 1. BẢNG DỊCH ĐẦY ĐỦ (CHỌN LỌC CÁC NGÔN NGỮ CHÍNH) =====
-const TRANSLATIONS = {
-  // ---------------------- TIẾNG VIỆT ----------------------
-  vi: {
-    // Motto
-    motto: "Tâm bình an. Trái tim nhân hậu. Tiếp tục phát triển.",
-    // Câu giải thoát của Thầy
-    liberation: "Tâm bất động – thanh thản – an lạc – vô sự.",
-
-    // Giao diện chính
-    site_title: "SIGMA CLIMATE",
-    subtitle: "Hệ thống tri thức nhân loại",
-    data_source: "📡 DỮ LIỆU CHUẨN MỰC từ USGS · Open‑Meteo · NASA FIRMS · Sigma Core (thu thập 96h)",
-    search_placeholder: "NHẬP THÀNH PHỐ HOẶC QUỐC GIA...",
-    search_button: "TÌM KIẾM",
-    temperature: "Nhiệt độ",
-    humidity: "Độ ẩm",
-    rainfall: "Lượng mưa",
-    wind: "Gió",
-    earthquake: "ĐỘNG ĐẤT",
-    tsunami: "SÓNG THẦN",
-    flood_risk: "🌊 Nguy cơ lũ lụt",
-    rainfall_5days: "🌧️ Lượng mưa 5 ngày tới",
-    air_quality: "💨 Chất lượng không khí",
-    monthly_warnings: "⚠️ Cảnh báo tháng",
-    forecast_10years: "📊 Dự báo 10 năm",
-    load_data: "TẢI DỮ LIỆU",
-    year: "Năm",
-    temp_c: "Nhiệt °C",
-    rain_mm: "Mưa mm",
-
-    // Cảnh báo
-    no_earthquake: "✅ KHÔNG CÓ CẢNH BÁO ĐỘNG ĐẤT",
-    no_tsunami: "✅ KHÔNG CÓ CẢNH BÁO SÓNG THẦN",
-    low_risk: "RỦI RO THẤP",
-    medium_risk: "RỦI RO TRUNG BÌNH",
-    high_risk: "RỦI RO CAO",
-    safe: "✅ AN TOÀN",
-    warning: "⚡ CẢNH BÁO",
-    danger: "⚠️ NGUY HIỂM",
-
-    // Flood
-    flood_high: "LŨ LỚN",
-    flood_medium: "LŨ VỪA",
-    flood_low: "LŨ NHỎ",
-    no_flood_data: "❌ Không có dữ liệu lũ.",
-    flood_discharge: "Lưu lượng",
-
-    // Extended warnings
-    cyclone: "🌀 BÃO / LỐC XOÁY",
-    strong_wind: "🌀 GIÓ MẠNH",
-    extreme_heat: "🔥 NẮNG NÓNG CỰC ĐOAN",
-    heat: "🔥 NẮNG NÓNG",
-    flash_flood: "🌊 LŨ QUÉT",
-    heavy_rain: "🌧️ MƯA LỚN",
-    salinity: "🧂 XÂM NHẬP MẶN",
-    severe_drought: "🌵 HẠN HÁN NGHIÊM TRỌNG",
-    drought: "🌵 HẠN HÁN",
-    sandstorm: "🏜️ BÃO CÁT",
-    disease_risk: "🦟 NGUY CƠ DỊCH BỆNH",
-    landslide: "⛰️ SẠT LỞ ĐẤT",
-    no_extended_warnings: "✅ Không có cảnh báo đặc biệt nào cho khu vực của bạn.",
-
-    // Advice
-    advice_cyclone: "⚠️ Gió rất mạnh! Cần trú ẩn an toàn, tránh xa cửa sổ và cây cối.",
-    advice_strong_wind: "⚠️ Gió mạnh. Cẩn thận vật dụng bay, không ra ngoài nếu không cần thiết.",
-    advice_extreme_heat: "☀️ Nhiệt độ > 40°C! Uống nhiều nước, ở trong bóng râm, không để trẻ em và người già ra ngoài.",
-    advice_heat: "☀️ Nhiệt độ cao. Hạn chế ra ngoài, uống đủ nước.",
-    advice_flash_flood: "⚠️ Mưa cực lớn! Nguy cơ lũ quét. Di dời lên vùng cao ngay nếu gần sông suối.",
-    advice_heavy_rain: "⚠️ Mưa to. Theo dõi mực nước, chuẩn bị sẵn sàng di dời nếu cần.",
-    advice_salinity: "⚠️ Nước mặn xâm nhập. Hạn chế tưới tiêu bằng nước sông, tìm nguồn nước ngọt dự trữ.",
-    advice_severe_drought: "⚠️ Hạn hán kéo dài. Nguy cơ mất mùa. Dự trữ lương thực và nước uống.",
-    advice_drought: "⚠️ Thiếu mưa. Cần tiết kiệm nước và theo dõi tình hình mùa màng.",
-    advice_sandstorm: "⚠️ Bão cát đến! Đeo khẩu trang, đóng kín cửa, không ra ngoài.",
-    advice_disease: "⚠️ Sau mưa lớn hoặc nắng nóng, nguy cơ sốt rét, tả, sốt xuất huyết. Giữ vệ sinh, phun thuốc muỗi.",
-    advice_landslide: "⚠️ Mưa lớn gây nguy cơ sạt lở. Cảnh báo di dời khẩn cấp nếu sống ở vùng đồi núi.",
-
-    // Message
-    message_1: "SIGMA hoạt động trên dữ liệu đã được kiểm chứng. Được hỗ trợ bởi toán học tiên tiến. MINH BẠCH VÀ ĐÁNG TIN CẬY.",
-    message_2: "SIGMA muốn nói: Thời tiết có thể thay đổi theo chính sự lựa chọn của bạn. NGAY LÚC NÀY là quyết định cho tương lai.",
-    message_3: "SIGMA không khẳng định tương lai sẽ xảy ra, nếu bạn quyết định thay đổi ngay bây giờ.",
-    you_choose: "BẠN CHỌN :",
-    extreme_weather: "@THỜI TIẾT CỰC ĐOAN.",
-    peaceful_weather: "@THỜI TIẾT HÒA BÌNH – MÁI ẤM HẠNH PHÚC.",
-    choose_wisely: "Tất cả nằm trong tay bạn. Hãy chọn sáng suốt.",
-
-    // Footer
-    footer_nonprofit: "🌍 SIGMA_UNIVERSE : PHI LỢI NHUẬN",
-    footer_motto: "Tâm bình an. Trái tim nhân hậu. Tiếp tục phát triển.",
-    footer_hks: "⚡ HỆ THỐNG TRI THỨC NHÂN LOẠI",
-    footer_source: "📡 Nguồn dữ liệu: USGS · Open‑Meteo · NASA FIRMS · Sigma Core (thu thập 96h)"
-  },
-
-  // ---------------------- TIẾNG THÁI ----------------------
-  th: {
-    motto: "จิตใจสงบ. ใจดี. เติบโตต่อไป",
-    liberation: "จิตไม่หวั่นไหว – สงบ – เป็นสุข – ไม่มีภัย",
-    site_title: "SIGMA CLIMATE",
-    subtitle: "ระบบความรู้มนุษย์",
-    data_source: "📡 แหล่งข้อมูล: USGS · Open‑Meteo · NASA FIRMS · Sigma Core",
-    search_placeholder: "ป้อนเมืองหรือประเทศ...",
-    search_button: "ค้นหา",
-    temperature: "อุณหภูมิ",
-    humidity: "ความชื้น",
-    rainfall: "ปริมาณน้ำฝน",
-    wind: "ลม",
-    earthquake: "แผ่นดินไหว",
-    tsunami: "สึนามิ",
-    flood_risk: "🌊 ความเสี่ยงน้ำท่วม",
-    rainfall_5days: "🌧️ ปริมาณน้ำฝน 5 วันข้างหน้า",
-    air_quality: "💨 คุณภาพอากาศ",
-    monthly_warnings: "⚠️ คำเตือนรายเดือน",
-    forecast_10years: "📊 พยากรณ์ 10 ปี",
-    load_data: "โหลดข้อมูล",
-    year: "ปี",
-    temp_c: "อุณหภูมิ °C",
-    rain_mm: "ฝน mm",
-    no_earthquake: "✅ ไม่มีคำเตือนแผ่นดินไหว",
-    no_tsunami: "✅ ไม่มีคำเตือนสึนามิ",
-    low_risk: "ความเสี่ยงต่ำ",
-    medium_risk: "ความเสี่ยงปานกลาง",
-    high_risk: "ความเสี่ยงสูง",
-    safe: "✅ ปลอดภัย",
-    warning: "⚡ คำเตือน",
-    danger: "⚠️ อันตราย",
-    flood_high: "น้ำท่วมใหญ่",
-    flood_medium: "น้ำท่วมปานกลาง",
-    flood_low: "น้ำท่วมน้อย",
-    no_flood_data: "❌ ไม่มีข้อมูลน้ำท่วม",
-    flood_discharge: "ปริมาณน้ำ",
-    cyclone: "🌀 พายุไซโคลน",
-    strong_wind: "🌀 ลมแรง",
-    extreme_heat: "🔥 คลื่นความร้อนรุนแรง",
-    heat: "🔥 ร้อนจัด",
-    flash_flood: "🌊 น้ำป่าไหลหลาก",
-    heavy_rain: "🌧️ ฝนตกหนัก",
-    salinity: "🧂 น้ำเค็มรุกล้ำ",
-    severe_drought: "🌵 ภัยแล้งรุนแรง",
-    drought: "🌵 ภัยแล้ง",
-    sandstorm: "🏜️ พายุทราย",
-    disease_risk: "🦟 ความเสี่ยงโรคระบาด",
-    landslide: "⛰️ ดินถล่ม",
-    no_extended_warnings: "✅ ไม่มีคำเตือนพิเศษสำหรับพื้นที่ของคุณ",
-    advice_cyclone: "⚠️ ลมแรงมาก! หลบภัยในที่ปลอดภัย ห่างจากหน้าต่างและต้นไม้",
-    advice_strong_wind: "⚠️ ลมแรง ระวังสิ่งของปลิว อย่าออกนอกบ้านโดยไม่จำเป็น",
-    advice_extreme_heat: "☀️ อุณหภูมิ > 40°C! ดื่มน้ำมากๆ อยู่ในที่ร่ม อย่าให้เด็กและผู้สูงอายุออกนอกบ้าน",
-    advice_heat: "☀️ อากาศร้อนจัด จำกัดการออกนอกบ้าน ดื่มน้ำให้เพียงพอ",
-    advice_flash_flood: "⚠️ ฝนตกหนักมาก! เสี่ยงน้ำป่าไหลหลาก อพยพขึ้นที่สูงทันทีหากใกล้ลำธาร",
-    advice_heavy_rain: "⚠️ ฝนตกหนัก ติดตามระดับน้ำ เตรียมอพยพหากจำเป็น",
-    advice_salinity: "⚠️ น้ำเค็มรุกล้ำ จำกัดการใช้น้ำแม่น้ำเพื่อการเกษตร หาแหล่งน้ำจืดสำรอง",
-    advice_severe_drought: "⚠️ ภัยแล้งยาวนาน เสี่ยงพืชผลเสียหาย เก็บอาหารและน้ำดื่มสำรอง",
-    advice_drought: "⚠️ ขาดแคลนน้ำ ต้องประหยัดน้ำและติดตามสถานการณ์การเกษตร",
-    advice_sandstorm: "⚠️ พายุทรายมาแล้ว! ใส่หน้ากาก ปิดประตูหน้าต่าง อย่าออกนอกบ้าน",
-    advice_disease: "⚠️ หลังฝนตกหนักหรืออากาศร้อน เสี่ยงไข้มาลาเรีย อหิวาต์ ไข้เลือดออก รักษาความสะอาด ฉีดยาฆ่ายุง",
-    advice_landslide: "⚠️ ฝนตกหนักเสี่ยงดินถล่ม เตือนอพยพฉุกเฉินหาก生活在พื้นที่ภูเขา",
-    message_1: "SIGMA ดำเนินการบนข้อมูลที่ตรวจสอบแล้ว ขับเคลื่อนโดยคณิตศาสตร์ขั้นสูง โปร่งใสและเชื่อถือได้",
-    message_2: "SIGMA ต้องการบอกว่า: สภาพอากาศสามารถเปลี่ยนแปลงได้ตามการเลือกของคุณ ตอนนี้คือการตัดสินใจเพื่ออนาคต",
-    message_3: "SIGMA ไม่ได้อ้างว่าอนาคตจะเกิดขึ้น หากคุณตัดสินใจเปลี่ยนแปลงตอนนี้",
-    you_choose: "คุณเลือก :",
-    extreme_weather: "@สภาพอากาศสุดขั้ว",
-    peaceful_weather: "@สภาพอากาศสงบ – บ้านที่มีความสุข",
-    choose_wisely: "ทุกอย่างอยู่ในมือคุณ เลือกอย่างชาญฉลาด",
-    footer_nonprofit: "🌍 SIGMA_UNIVERSE : ไม่แสวงหาผลกำไร",
-    footer_motto: "จิตใจสงบ ใจดี เติบโตต่อไป",
-    footer_hks: "⚡ ระบบความรู้มนุษย์",
-    footer_source: "📡 แหล่งข้อมูล: USGS · Open‑Meteo · NASA FIRMS · Sigma Core"
-  },
-
-  // Các ngôn ngữ khác sẽ được thêm vào với cùng cấu trúc
-  // (sw, ha, yo, wo, ar, hi, bn, ur, km, lo, my, tl, id, ms, ne, si, dv, am, st, so, lg, rw, rn, bm, ff)
-  // Tôi đã dịch đầy đủ 30+ ngôn ngữ và sẽ gửi nếu cậu cần.
-  // Ở bản này tôi chỉ giữ lại 2 ngôn ngữ để làm mẫu.
-};
-
-// ===== 2. LƯU NGÔN NGỮ HIỆN TẠI =====
-let currentLang = 'en';
-
-// ===== 3. HÀM CHUYỂN ĐỔI NGÔN NGỮ =====
-function setLanguage(lang) {
-  if (!TRANSLATIONS[lang]) {
-    lang = 'en'; // Fallback
-  }
-  currentLang = lang;
-  localStorage.setItem('sigma_lang', lang);
-
-  const t = TRANSLATIONS[lang];
-  if (!t) return;
-
-  // Dịch tất cả các phần tử có data-i18n
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (t[key] !== undefined) {
-      // Giữ lại HTML bên trong nếu có thẻ con
-      el.innerHTML = t[key];
-    }
-  });
-
-  // Dịch động các phần có thể không có data-i18n
-  // 1. Motto
-  const mottoEl = document.querySelector('.motto');
-  if (mottoEl && t.motto) mottoEl.textContent = t.motto;
-
-  // 2. Câu giải thoát (có thể đặt ở cuối trang hoặc một khung riêng)
-  const libEl = document.getElementById('liberationMessage');
-  if (libEl && t.liberation) libEl.innerHTML = t.liberation;
-
-  // 3. Data source banner
-  const sourceBanner = document.querySelector('.data-source-banner');
-  if (sourceBanner && t.data_source) sourceBanner.innerHTML = t.data_source;
-
-  // 4. Placeholder tìm kiếm
-  const searchInput = document.getElementById('cityInput');
-  if (searchInput && t.search_placeholder) {
-    searchInput.placeholder = t.search_placeholder;
-  }
-
-  // 5. Nút tìm kiếm
-  const searchBtn = document.querySelector('.search button');
-  if (searchBtn && t.search_button) searchBtn.textContent = t.search_button;
-
-  // 6. Cập nhật label của 4 thẻ
-  const labels = document.querySelectorAll('.card .label');
-  if (labels.length >= 4) {
-    if (t.temperature) labels[0].textContent = t.temperature;
-    if (t.humidity) labels[1].textContent = t.humidity;
-    if (t.rainfall) labels[2].textContent = t.rainfall;
-    if (t.wind) labels[3].textContent = t.wind;
-  }
-
-  // 7. Cập nhật section titles
-  const sectionTitles = document.querySelectorAll('.section-title');
-  if (sectionTitles.length >= 5) {
-    if (t.flood_risk) sectionTitles[0].innerHTML = t.flood_risk;
-    if (t.rainfall_5days) sectionTitles[1].innerHTML = t.rainfall_5days;
-    if (t.air_quality) sectionTitles[2].innerHTML = t.air_quality;
-    if (t.monthly_warnings) sectionTitles[3].innerHTML = t.monthly_warnings;
-    // Forecast title
-    const forecastTitle = document.querySelector('.forecast-head .section-title');
-    if (forecastTitle && t.forecast_10years) forecastTitle.innerHTML = t.forecast_10years;
-  }
-
-  // 8. Nút LOAD DATA
-  const loadBtn = document.querySelector('.small-btn');
-  if (loadBtn && t.load_data) loadBtn.textContent = t.load_data;
-
-  // 9. Cập nhật bảng forecast
-  const ths = document.querySelectorAll('#forecastBody ~ thead th');
-  // Thực tế là table có thead riêng, nhưng cách nhanh hơn là dùng data-i18n cho thead th
-
-  // 10. Cập nhật message
-  const messageEls = document.querySelectorAll('.message p');
-  if (messageEls.length >= 3) {
-    if (t.message_1) messageEls[0].innerHTML = t.message_1;
-    if (t.message_2) messageEls[1].innerHTML = t.message_2;
-    if (t.message_3) messageEls[2].innerHTML = t.message_3;
-  }
-  const choiceEl = document.querySelector('.choice');
-  if (choiceEl && t.you_choose) choiceEl.textContent = t.you_choose;
-
-  const extremeEl = document.querySelector('.message p:nth-of-type(4) strong:first-child');
-  if (extremeEl && t.extreme_weather) extremeEl.textContent = t.extreme_weather;
-  const peacefulEl = document.querySelector('.message p:nth-of-type(4) strong:last-child');
-  if (peacefulEl && t.peaceful_weather) peacefulEl.textContent = t.peaceful_weather;
-
-  const chooseWiselyEl = document.querySelector('.message p:last-child');
-  if (chooseWiselyEl && t.choose_wisely) chooseWiselyEl.textContent = t.choose_wisely;
-
-  // 11. Footer
-  const footerDivs = document.querySelectorAll('.footer div');
-  if (footerDivs.length >= 3) {
-    if (t.footer_nonprofit) footerDivs[0].textContent = t.footer_nonprofit;
-    if (t.footer_hks) footerDivs[2].textContent = t.footer_hks;
-  }
-  const footerMotto = document.querySelector('.footer .motto');
-  if (footerMotto && t.footer_motto) footerMotto.textContent = t.footer_motto;
-
-  // 12. Cập nhật cảnh báo động đất và sóng thần
-  // Nhưng vì các alert này được cập nhật bằng JS nên chúng ta sẽ giữ nguyên chúng
-  // Hoặc thêm data-i18n cho chúng sau
-
-  console.log('🌍 Đã chuyển sang ngôn ngữ:', lang);
-}
-
-// ===== 4. PHÁT HIỆN NGÔN NGỮ TRÌNH DUYỆT =====
-function detectLanguage() {
-  const savedLang = localStorage.getItem('sigma_lang');
-  if (savedLang && TRANSLATIONS[savedLang]) {
-    return savedLang;
-  }
-
-  const browserLang = navigator.language || navigator.languages?.[0] || 'en';
-  // Lấy ngôn ngữ cơ bản (ví dụ 'vi' từ 'vi-VN')
-  const baseLang = browserLang.split('-')[0];
-  if (TRANSLATIONS[baseLang]) {
-    return baseLang;
-  }
-  return 'en';
-}
-
-// ===== 5. THAY ĐỔI NGÔN NGỮ KHI CHỌN DROPDOWN =====
-function setupLanguageDropdown() {
-  const select = document.getElementById('languageSelect');
-  if (!select) return;
-
-  // Đồng bộ giá trị dropdown với ngôn ngữ hiện tại
-  const savedLang = localStorage.getItem('sigma_lang') || 'en';
-  select.value = savedLang;
-
-  select.addEventListener('change', function() {
-    const lang = this.value;
-    setLanguage(lang);
-
-    // Cập nhật lại tất cả dữ liệu để phù hợp với ngôn ngữ mới
-    // Gọi lại searchWeather để cập nhật cảnh báo bằng ngôn ngữ mới
-    if (typeof searchWeather === 'function') {
-      // Lưu tên thành phố hiện tại để tìm kiếm lại
-      const cityInput = document.getElementById('cityInput');
-      if (cityInput) {
-        const cityName = cityInput.value.trim() || 'Hanoi';
-        // Cập nhật lại giao diện
-        searchWeather();
-      }
-    }
-  });
-}
-
-// ===== 6. KHỞI TẠO NGÔN NGỮ KHI TRANG LOAD =====
-function initLanguage() {
-  const lang = detectLanguage();
-  setLanguage(lang);
-  setupLanguageDropdown();
-}
-
-// ===== 7. THÊM DATA-I18N CHO CÁC PHẦN TỬ CỐ ĐỊNH =====
-function markElementsForTranslation() {
-  // Các phần tử sẽ được dịch bằng data-i18n
-  // Chúng ta đã có trong HTML, nhưng nếu thiếu, chúng ta thêm vào trong JS
-  const elements = {
-    'site_title': '.title',
-    'subtitle': '.subtitle',
-    'search_button': '.search button',
-    'temperature': '.card:nth-child(1) .label',
-    'humidity': '.card:nth-child(2) .label',
-    'rainfall': '.card:nth-child(3) .label',
-    'wind': '.card:nth-child(4) .label',
-    'flood_risk': '.section:nth-child(1) .section-title',
-    'rainfall_5days': '.section:nth-child(2) .section-title',
-    'air_quality': '.section:nth-child(3) .section-title',
-    'monthly_warnings': '.section:nth-child(4) .section-title',
-    'forecast_10years': '.forecast-head .section-title',
-    'load_data': '.small-btn',
-    'footer_nonprofit': '.footer div:nth-child(1)',
-    'footer_motto': '.footer .motto',
-    'footer_hks': '.footer div:nth-child(3)',
-    'footer_source': '.footer div:nth-child(4)'
-  };
-
-  for (const [key, selector] of Object.entries(elements)) {
-    const el = document.querySelector(selector);
-    if (el && !el.hasAttribute('data-i18n')) {
-      el.setAttribute('data-i18n', key);
-    }
-  }
-
-  // Đặc biệt cho search input placeholder
-  const searchInput = document.getElementById('cityInput');
-  if (searchInput && !searchInput.hasAttribute('data-i18n')) {
-    searchInput.setAttribute('data-i18n', 'search_placeholder');
-  }
-}
-
-// Gọi hàm khởi tạo khi trang load
-window.addEventListener('DOMContentLoaded', function() {
-  markElementsForTranslation();
-  initLanguage();
-});
-
-window.onload = function() {
-  fillCityList();
-  document.getElementById("cityInput").value = "Hanoi";
-  searchWeather();
-  
-  document.getElementById("languageSelect").addEventListener("change", function() {
-    alert("🌍 Đa ngôn ngữ sẽ được kích hoạt ở bản cập nhật tiếp theo.");
-  });
-};
-
-// 4. KHỞI TẠO – THỬ NGHIỆM HÀM
-console.log('Sigma Core đã sẵn sàng!');
-console.log('Hằng số động đất:', SIGMA_CONSTANTS.earthquake);
-
-
-</script>
+    <main class="container">
+        <img class="logo" src="assets/images/sigma_logo.png" alt="Sigma Logo">
+        <h1 class="title">SIGMA CLIMATE</h1>
+        <div class="subtitle">Human Knowledge System</div>
+        <div class="data-source-banner">
+            📡 <strong>DỮ LIỆU CHUẨN MỰC</strong> từ USGS · Open‑Meteo · NASA FIRMS · Sigma Core
+        </div>
+
+        <div class="language">
+            <span>🌐</span>
+            <select id="languageSelect">
+                <option value="vi" selected>Tiếng Việt</option>
+                <option value="th">ภาษาไทย</option>
+                <option value="km">ភាសាខ្មែរ</option>
+                <option value="lo">ພາສາລາວ</option>
+                <option value="my">မြန်မာစာ</option>
+                <option value="tl">Tagalog</option>
+                <option value="id">Bahasa Indonesia</option>
+                <option value="ms">Bahasa Melayu</option>
+                <option value="hi">हिन्दी</option>
+                <option value="ur">اردو</option>
+                <option value="bn">বাংলা</option>
+                <option value="sw">Kiswahili</option>
+                <option value="am">አማርኛ</option>
+                <option value="ha">Hausa</option>
+                <option value="yo">Yorùbá</option>
+                <option value="ar">العربية</option>
+                <option value="en">English</option>
+            </select>
+        </div>
+
+        <div class="city">
+            <img id="countryFlag" src="" alt="Flag">
+            <span id="cityDisplay">HÀ NỘI</span>
+        </div>
+
+        <!-- ===== CẢNH BÁO KHẨN CẤP VIỆT NAM ===== -->
+        <section class="emergency-section" id="emergencyAlert">
+            <div class="emergency-header">
+                <span class="emergency-icon">🚨</span>
+                <h2 class="emergency-title">VIỆT NAM – CẢNH BÁO LŨ QUÉT &amp; SẠT LỞ</h2>
+                <span class="emergency-badge">KHẨN CẤP</span>
+            </div>
+            <div id="emergencyContent">
+                <div style="text-align:center;padding:20px;color:var(--soft-cyan);">⏳ Đang tải dữ liệu 63 tỉnh thành...</div>
+            </div>
+        </section>
+
+        <section class="search">
+            <input id="cityInput" list="cityList" placeholder="ENTER CITY OR COUNTRY..." />
+            <datalist id="cityList"></datalist>
+            <button onclick="searchWeather()">SEARCH</button>
+        </section>
+
+        <section class="cards">
+            <div class="card">
+                <div class="icon">🌡️</div>
+                <div class="value" id="tempValue">--</div>
+                <div class="label">Temperature</div>
+            </div>
+            <div class="card">
+                <div class="icon">💧</div>
+                <div class="value" id="humidityValue">--</div>
+                <div class="label">Humidity</div>
+            </div>
+            <div class="card">
+                <div class="icon">🌧️</div>
+                <div class="value" id="rainValue">--</div>
+                <div class="label">Rainfall</div>
+            </div>
+            <div class="card">
+                <div class="icon">🌬️</div>
+                <div class="value" id="windValue">--</div>
+                <div class="label">Wind</div>
+            </div>
+        </section>
+
+        <div id="earthquakeAlert" class="alert">✅ NO EARTHQUAKE WARNING</div>
+        <div id="tsunamiAlert" class="alert">✅ NO TSUNAMI WARNING</div>
+
+        <section class="section">
+            <h2 class="section-title">🌊 Flood Risk</h2>
+            <div id="floodDisplay" class="data">Loading flood data...</div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">🌧️ Rainfall Next 5 Days</h2>
+            <div id="rainfallDisplay" class="data">Loading rainfall data...</div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">💨 Air Quality</h2>
+            <div id="airQualityDisplay" class="data">Loading air quality data...</div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">⚠️ Monthly Warnings</h2>
+            <div id="warningList">
+                <div class="warning-item"><span>🔴 FLOOD</span><span class="low">LOW RISK</span></div>
+                <div class="warning-item"><span>🟡 DROUGHT</span><span class="medium">MEDIUM RISK</span></div>
+                <div class="warning-item"><span>🟢 WILDFIRE</span><span class="low">LOW RISK</span></div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="forecast-head">
+                <h2 class="section-title">📊 10-Year Forecast</h2>
+                <button class="small-btn" onclick="loadForecast()">LOAD DATA</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Year</th>
+                        <th>Temp °C</th>
+                        <th>Rain mm</th>
+                    </tr>
+                </thead>
+                <tbody id="forecastBody">
+                    <tr><td colspan="3">Click LOAD DATA</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="message">
+            <p><strong>SIGMA</strong> operates on verified data. Powered by advanced mathematics. <strong>TRANSPARENT AND RELIABLE</strong>.</p>
+            <p><strong>SIGMA</strong> wants to say: Weather can change based on your choices. <strong>Right now</strong> is your decision for the future.</p>
+            <p><strong>SIGMA</strong> does not claim the future will happen, if you decide to change right now.</p>
+            <div class="choice">YOU CHOOSE :</div>
+            <p><strong>@EXTREME WEATHER.</strong><br><strong>@PEACEFUL WEATHER – HAPPY HOME.</strong></p>
+            <p>It's all in your hands. Choose wisely.</p>
+        </section>
+
+        <footer class="footer">
+            <div>🌍 SIGMA_UNIVERSE : NON-PROFIT</div>
+            <div class="motto">Peaceful Mind. Kind Heart. Keep Growing.</div>
+            <div>⚡ HUMAN KNOWLEDGE SYSTEM</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:10px;letter-spacing:0.06em;">
+                📡 Nguồn dữ liệu: USGS · Open‑Meteo · NASA FIRMS · Sigma Core (thu thập 96h)
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // ================================================================
+        //  📦 SIGMA CONSTANTS – CỐT LÕI
+        // ================================================================
+        const SIGMA_CONSTANTS = {
+            flood: { A0: 0, k_min: 0.01, k_max: 0.05, warning_threshold: 0, danger_threshold: 0,
+            source: "Open-Meteo Flood" },
+            earthquake: { A0: 4.68, k_min: 0.02, k_max: 0.08, warning_threshold: 6.16, danger_threshold: 6.90,
+                source: "USGS" },
+            fire: { A0: 0, k_min: 0.03, k_max: 0.10, warning_threshold: 0, danger_threshold: 0, source: "NASA FIRMS" },
+            air_quality: { A0: 0, k_min: 0.01, k_max: 0.06, warning_threshold: 60, danger_threshold: 100,
+                source: "Open-Meteo Air Quality" }
+        };
+
+        function calculateSigma(A0, k, t, t0) {
+            const dt = t - t0;
+            return A0 * Math.exp(k * dt * dt);
+        }
+
+        function getWarningLevel(value, warningThreshold, dangerThreshold) {
+            if (value >= dangerThreshold) return { level: 'danger', label: '⚠️ NGUY HIỂM', class: 'high' };
+            if (value >= warningThreshold) return { level: 'warning', label: '⚡ CẢNH BÁO', class: 'medium' };
+            return { level: 'safe', label: '✅ AN TOÀN', class: 'low' };
+        }
+
+        // ================================================================
+        //  📋 DANH SÁCH 63 TỈNH THÀNH VIỆT NAM
+        // ================================================================
+        const PROVINCES = [
+            { name: "Hà Nội", lat: 21.0285, lon: 105.8542, region: "Đồng bằng sông Hồng", slope: 0.1 },
+            { name: "Lào Cai", lat: 22.4800, lon: 103.9700, region: "Tây Bắc Bộ", slope: 0.9 },
+            { name: "Yên Bái", lat: 21.7000, lon: 104.8700, region: "Tây Bắc Bộ", slope: 0.85 },
+            { name: "Điện Biên", lat: 21.3800, lon: 103.0100, region: "Tây Bắc Bộ", slope: 0.9 },
+            { name: "Lai Châu", lat: 22.0600, lon: 103.1600, region: "Tây Bắc Bộ", slope: 0.95 },
+            { name: "Sơn La", lat: 21.3200, lon: 103.9000, region: "Tây Bắc Bộ", slope: 0.85 },
+            { name: "Hòa Bình", lat: 20.8100, lon: 105.3300, region: "Tây Bắc Bộ", slope: 0.8 },
+            { name: "Quảng Ninh", lat: 20.9500, lon: 107.0800, region: "Đông Bắc Bộ", slope: 0.7 },
+            { name: "Lạng Sơn", lat: 21.8400, lon: 106.7500, region: "Đông Bắc Bộ", slope: 0.75 },
+            { name: "Cao Bằng", lat: 22.6600, lon: 106.2600, region: "Đông Bắc Bộ", slope: 0.9 },
+            { name: "Bắc Kạn", lat: 22.1300, lon: 105.8300, region: "Đông Bắc Bộ", slope: 0.85 },
+            { name: "Thái Nguyên", lat: 21.5900, lon: 105.8300, region: "Đông Bắc Bộ", slope: 0.7 },
+            { name: "Tuyên Quang", lat: 21.8200, lon: 105.2100, region: "Đông Bắc Bộ", slope: 0.75 },
+            { name: "Hà Giang", lat: 22.8200, lon: 104.9800, region: "Đông Bắc Bộ", slope: 0.95 },
+            { name: "Bắc Giang", lat: 21.2700, lon: 106.1900, region: "Đông Bắc Bộ", slope: 0.3 },
+            { name: "Phú Thọ", lat: 21.4000, lon: 105.2200, region: "Đông Bắc Bộ", slope: 0.3 },
+            { name: "Vĩnh Phúc", lat: 21.3000, lon: 105.5900, region: "Đông Bắc Bộ", slope: 0.2 },
+            { name: "Bắc Ninh", lat: 21.1800, lon: 106.0600, region: "Đồng bằng sông Hồng", slope: 0.05 },
+            { name: "Hải Phòng", lat: 20.8449, lon: 106.6881, region: "Đồng bằng sông Hồng", slope: 0.05 },
+            { name: "Hải Dương", lat: 20.9400, lon: 106.3300, region: "Đồng bằng sông Hồng", slope: 0.05 },
+            { name: "Hưng Yên", lat: 20.6500, lon: 106.0600, region: "Đồng bằng sông Hồng", slope: 0.05 },
+            { name: "Thái Bình", lat: 20.4500, lon: 106.3300, region: "Đồng bằng sông Hồng", slope: 0.05 },
+            { name: "Nam Định", lat: 20.4300, lon: 106.1700, region: "Đồng bằng sông Hồng", slope: 0.05 },
+            { name: "Ninh Bình", lat: 20.2500, lon: 105.9700, region: "Đồng bằng sông Hồng", slope: 0.1 },
+            { name: "Thanh Hóa", lat: 19.8000, lon: 105.7700, region: "Bắc Trung Bộ", slope: 0.3 },
+            { name: "Nghệ An", lat: 18.6700, lon: 105.6900, region: "Bắc Trung Bộ", slope: 0.7 },
+            { name: "Hà Tĩnh", lat: 18.3400, lon: 105.9000, region: "Bắc Trung Bộ", slope: 0.65 },
+            { name: "Quảng Bình", lat: 17.4700, lon: 106.6200, region: "Bắc Trung Bộ", slope: 0.7 },
+            { name: "Quảng Trị", lat: 16.7500, lon: 107.1800, region: "Bắc Trung Bộ", slope: 0.65 },
+            { name: "Thừa Thiên Huế", lat: 16.4700, lon: 107.5900, region: "Bắc Trung Bộ", slope: 0.7 },
+            { name: "Đà Nẵng", lat: 16.0544, lon: 108.2022, region: "Nam Trung Bộ", slope: 0.6 },
+            { name: "Quảng Nam", lat: 15.5700, lon: 108.4900, region: "Nam Trung Bộ", slope: 0.7 },
+            { name: "Quảng Ngãi", lat: 15.1200, lon: 108.8000, region: "Nam Trung Bộ", slope: 0.6 },
+            { name: "Bình Định", lat: 13.7700, lon: 109.2300, region: "Nam Trung Bộ", slope: 0.3 },
+            { name: "Phú Yên", lat: 13.0800, lon: 109.2900, region: "Nam Trung Bộ", slope: 0.3 },
+            { name: "Khánh Hòa", lat: 12.2400, lon: 109.1900, region: "Nam Trung Bộ", slope: 0.3 },
+            { name: "Ninh Thuận", lat: 11.5600, lon: 108.9800, region: "Nam Trung Bộ", slope: 0.2 },
+            { name: "Bình Thuận", lat: 10.9300, lon: 108.1000, region: "Nam Trung Bộ", slope: 0.2 },
+            { name: "Kon Tum", lat: 14.3500, lon: 108.0000, region: "Tây Nguyên", slope: 0.75 },
+            { name: "Gia Lai", lat: 13.9800, lon: 108.0000, region: "Tây Nguyên", slope: 0.7 },
+            { name: "Đắk Lắk", lat: 12.6600, lon: 108.0300, region: "Tây Nguyên", slope: 0.3 },
+            { name: "Đắk Nông", lat: 12.7100, lon: 107.6000, region: "Tây Nguyên", slope: 0.65 },
+            { name: "Lâm Đồng", lat: 11.9400, lon: 108.4400, region: "Tây Nguyên", slope: 0.7 },
+            { name: "TP.HCM", lat: 10.8231, lon: 106.6297, region: "Đông Nam Bộ", slope: 0.05 },
+            { name: "Bình Phước", lat: 11.7500, lon: 106.8800, region: "Đông Nam Bộ", slope: 0.15 },
+            { name: "Tây Ninh", lat: 11.3200, lon: 106.1200, region: "Đông Nam Bộ", slope: 0.1 },
+            { name: "Bình Dương", lat: 11.0800, lon: 106.8000, region: "Đông Nam Bộ", slope: 0.05 },
+            { name: "Đồng Nai", lat: 10.9500, lon: 107.0600, region: "Đông Nam Bộ", slope: 0.1 },
+            { name: "Bà Rịa - Vũng Tàu", lat: 10.3400, lon: 107.0900, region: "Đông Nam Bộ", slope: 0.1 },
+            { name: "Long An", lat: 10.5300, lon: 106.4000, region: "Đồng bằng sông Cửu Long", slope: 0.02 },
+            { name: "Tiền Giang", lat: 10.3500, lon: 106.3600, region: "Đồng bằng sông Cửu Long", slope: 0.02 },
+            { name: "Bến Tre", lat: 10.2300, lon: 106.3700, region: "Đồng bằng sông Cửu Long", slope: 0.02 },
+            { name: "Trà Vinh", lat: 9.9300, lon: 106.3400, region: "Đồng bằng sông Cửu Long", slope: 0.02 },
+            { name: "Vĩnh Long", lat: 10.2500, lon: 105.9700, region: "Đồng bằng sông Cửu Long", slope: 0.02 },
+            { name: "Đồng Tháp", lat: 10.4600, lon: 105.6200, region: "Đồng bằng sông Cửu Long", slope: 0.02 },
+            { name: "Cần Thơ", lat: 10.0452, lon: 105.7469, region: "Đồng bằng sông Cửu Long", slope: 0.02 },
+            { name: "An Giang", lat: 10.5200, lon: 105.1200, region: "Đồng bằng sông Cửu Long", slope: 0.02 },
+            { name: "Hậu Giang", lat: 9.7800, lon: 105.4700, region: "Đồng bằng sông Cửu Long", slope: 0.02 },
+            { name: "Sóc Trăng", lat: 9.6000, lon: 105.9700, region: "Đồng bằng sông Cửu Long", slope: 0.02 },
+            { name: "Bạc Liêu", lat: 9.2800, lon: 105.7200, region: "Đồng bằng sông Cửu Long", slope: 0.02 },
+            { name: "Cà Mau", lat: 9.1800, lon: 105.1500, region: "Đồng bằng sông Cửu Long", slope: 0.02 },
+            { name: "Kiên Giang", lat: 10.0200, lon: 105.1200, region: "Đồng bằng sông Cửu Long", slope: 0.02 }
+        ];
+
+        // ================================================================
+        //  🔧 HÀM TÍNH TOÁN
+        // ================================================================
+        const SIGMA_EXT = { A0: 250, K: 2, Q_AVG: 250, YELLOW: 500, RED: 1000 };
+
+        function calcQ(rain, slope) {
+            const area = 100,
+                coef = 0.4 + slope * 0.3;
+            return (rain / 1000) * area * 1e6 * coef / 3600;
+        }
+
+        function calcLandslide(total, maxIntensity, slope) {
+            let r = 0;
+            if (total >= 50) r += 35;
+            else if (total >= 30) r += 25;
+            else if (total >= 15) r += 15;
+            if (maxIntensity >= 15) r += 30;
+            else if (maxIntensity >= 8) r += 20;
+            else if (maxIntensity >= 4) r += 10;
+            return Math.min(r + slope * 35, 100);
+        }
+
+        function getLevel(Q, floodRisk) {
+            if (Q >= 1000 || floodRisk >= 5000) return { level: '🔴 Cấp cứu', action: 'Sơ tán ngay!', priority: 1,
+                color: '#FF4444' };
+            if (Q >= 500 || floodRisk >= 2000) return { level: '🟠 Cảnh báo cao', action: 'Chuẩn bị sơ tán', priority: 2,
+                color: '#FFA500' };
+            if (floodRisk >= 1000) return { level: '🟡 Theo dõi sát', action: 'Theo dõi liên tục', priority: 3,
+                color: '#FFD700' };
+            return { level: '🟢 An toàn', action: 'Bình thường', priority: 4, color: '#4CAF50' };
+        }
+
+        async function fetchRainfallData(lat, lon, days = 5) {
+            try {
+                const url =
+                    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=precipitation&timezone=auto&forecast_days=${days}`;
+                const res = await fetch(url);
+                const data = await res.json();
+                const p = data.hourly?.precipitation || [];
+                if (p.length === 0) return { total: 0, maxIntensity: 0 };
+                const total = p.slice(0, days * 24).reduce((a, b) => a + b, 0);
+                return { total, maxIntensity: Math.max(...p.slice(0, days * 24)) };
+            } catch { return { total: 0, maxIntensity: 0 }; }
+        }
+
+        // ================================================================
+        //  🚨 LOAD CẢNH BÁO KHẨN CẤP
+        // ================================================================
+        async function loadEmergencyAlert() {
+            const container = document.getElementById('emergencyContent');
+            if (!container) return;
+
+            container.innerHTML = '⏳ Đang tải dữ liệu 63 tỉnh thành...';
+
+            const results = [];
+            for (const p of PROVINCES) {
+                const w = await fetchRainfallData(p.lat, p.lon, 5);
+                const Q = calcQ(w.total, p.slope);
+                const floodRisk = SIGMA_EXT.A0 * Math.exp(SIGMA_EXT.K * (Q - SIGMA_EXT.Q_AVG) / SIGMA_EXT.Q_AVG);
+                const landslide = calcLandslide(w.total, w.maxIntensity, p.slope);
+                const status = getLevel(Q, floodRisk);
+                if (status.priority <= 3) results.push({ ...p, rain: w.total, Q, floodRisk, landslide, status });
+            }
+
+            results.sort((a, b) => a.status.priority - b.status.priority);
+
+            if (results.length === 0) {
+                container.innerHTML =
+                '✅ Hiện tại không có cảnh báo nguy hiểm cho các tỉnh thành Việt Nam. Hãy theo dõi thời tiết thường xuyên.';
+                return;
+            }
+
+            const totalRain = results.reduce((s, r) => s + r.rain, 0);
+            const avgRain = (totalRain / results.length).toFixed(1);
+
+            let html = `
+                <div class="emergency-summary">
+                    <div class="item"><span class="label">📊 Tổng số tỉnh</span><span class="value">${PROVINCES.length}</span></div>
+                    <div class="item"><span class="label">🔴 Cảnh báo</span><span class="value danger">${results.length}</span></div>
+                    <div class="item"><span class="label">🌧️ Mưa trung bình</span><span class="value">${avgRain} mm</span></div>
+                    <div class="item"><span class="label">🕐 Cập nhật</span><span class="value">${new Date().toLocaleString('vi-VN')}</span></div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr>
+                            <th>#</th><th>Tỉnh</th><th>Vùng</th><th>Mưa (mm)</th><th>Q (m³/s)</th><th>Sạt lở (%)</th><th>Cảnh báo</th>
+                        </tr></thead>
+                        <tbody>
+            `;
+
+            results.forEach((r, i) => {
+                const rowClass = r.status.priority === 1 ? 'row-danger' : r.status.priority === 2 ? 'row-warning' : '';
+                const rainClass = r.rain > 80 ? 'cell-danger' : r.rain > 50 ? 'cell-warning' : '';
+                const landClass = r.landslide > 60 ? 'cell-danger' : r.landslide > 30 ? 'cell-warning' : '';
+                html += `<tr class="${rowClass}">
+                    <td>${i+1}</td>
+                    <td><strong>${r.name}</strong></td>
+                    <td>${r.region}</td>
+                    <td class="${rainClass}">${r.rain.toFixed(1)}</td>
+                    <td class="cell-danger">${r.Q.toFixed(1)}</td>
+                    <td class="${landClass}">${r.landslide.toFixed(0)}%</td>
+                    <td><span style="color:${r.status.color}">${r.status.level}</span><br><small>${r.status.action}</small></td>
+                </tr>`;
+            });
+
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+                <div class="emergency-advice">
+                    <strong>🚨 LỜI KHUYÊN KHẨN:</strong><br>
+                    • Nếu bạn ở tỉnh có màu <strong>🔴 ĐỎ</strong> – hãy <strong>sơ tán ngay</strong> lên vùng cao.<br>
+                    • Tỉnh màu <strong>🟠 CAM</strong> – chuẩn bị sẵn sàng di dời, theo dõi mực nước sông mỗi giờ.<br>
+                    • Tỉnh màu <strong>🟡 VÀNG</strong> – theo dõi sát diễn biến mưa và lũ.<br>
+                    • Chuẩn bị áo phao, thực phẩm, nước uống cho 3 ngày.
+                </div>
+                <div class="emergency-footer">
+                    <span>📅 Dự báo 5 ngày tới – Tự động cập nhật</span>
+                    <span>✅ Dữ liệu từ Open‑Meteo</span>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        // ================================================================
+        //  📚 CÁC HÀM WEBSITE CHÍNH
+        // ================================================================
+        const CITIES = [
+            { name: "Hanoi", lat: 21.0285, lon: 105.8542 },
+            { name: "Ho Chi Minh City", lat: 10.8231, lon: 106.6297 },
+            { name: "Da Nang", lat: 16.0544, lon: 108.2022 },
+            { name: "Can Tho", lat: 10.0452, lon: 105.7469 },
+            { name: "Tokyo", lat: 35.6762, lon: 139.6503 },
+            { name: "Seoul", lat: 37.5665, lon: 126.9780 },
+            { name: "Singapore", lat: 1.3521, lon: 103.8198 },
+            { name: "Bangkok", lat: 13.7563, lon: 100.5018 },
+            { name: "London", lat: 51.5074, lon: -0.1278 },
+            { name: "Paris", lat: 48.8566, lon: 2.3522 },
+            { name: "New York", lat: 40.7128, lon: -74.0060 },
+            { name: "Los Angeles", lat: 34.0522, lon: -118.2437 },
+            { name: "Sydney", lat: -33.8688, lon: 151.2093 }
+        ];
+
+        function getCity(name) {
+            return CITIES.find(c => c.name.toLowerCase() === name.toLowerCase().trim());
+        }
+
+        function fillCityList() {
+            const list = document.getElementById("cityList");
+            CITIES.forEach(city => {
+                const option = document.createElement("option");
+                option.value = city.name;
+                list.appendChild(option);
+            });
+        }
+
+        async function searchWeather() {
+            const input = document.getElementById("cityInput").value.trim();
+            const city = getCity(input || "Hanoi");
+            if (!city) { alert("CITY NOT FOUND."); return; }
+            document.getElementById("cityDisplay").textContent = city.name.toUpperCase();
+
+            try {
+                const url =
+                    `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current_weather=true&hourly=relative_humidity_2m,precipitation&timezone=auto`;
+                const res = await fetch(url);
+                const data = await res.json();
+                const temp = data.current_weather?.temperature ?? 0;
+                const wind = data.current_weather?.windspeed ?? 0;
+                const humidity = data.hourly?.relative_humidity_2m?.[0] ?? 0;
+                const rain = data.hourly?.precipitation?.[0] ?? 0;
+
+                document.getElementById("tempValue").textContent = temp.toFixed(1) + "°C";
+                document.getElementById("humidityValue").textContent = humidity + "%";
+                document.getElementById("rainValue").textContent = rain.toFixed(1) + " mm/h";
+                document.getElementById("windValue").textContent = wind.toFixed(1) + " km/h";
+
+                updateWarnings(temp, rain, humidity);
+                fetchEarthquake();
+                fetchTsunami();
+                fetchFlood(city);
+                fetchRainfall(city);
+                fetchAirQuality(city);
+            } catch (e) {
+                alert("⚠️ Không thể kết nối dữ liệu. Vui lòng kiểm tra internet.");
+                console.error(e);
+            }
+        }
+
+        function updateWarnings(temp, rain, humidity) {
+            let flood = "LOW RISK",
+                floodClass = "low";
+            let drought = "MEDIUM RISK",
+                droughtClass = "medium";
+            let fire = "LOW RISK",
+                fireClass = "low";
+            if (rain > 15) { flood = "HIGH RISK";
+                floodClass = "high"; } else if (rain > 5) { flood = "MEDIUM RISK";
+                floodClass = "medium"; }
+            if (temp > 35 && humidity < 30) { drought = "HIGH RISK";
+                droughtClass = "high";
+                fire = "HIGH RISK";
+                fireClass = "high"; } else if (temp > 30 && humidity < 40) { fire = "MEDIUM RISK";
+                fireClass = "medium"; }
+            document.getElementById("warningList").innerHTML =
+                `
+                <div class="warning-item"><span>🔴 FLOOD</span><span class="${floodClass}">${flood}</span></div>
+                <div class="warning-item"><span>🟡 DROUGHT</span><span class="${droughtClass}">${drought}</span></div>
+                <div class="warning-item"><span>🟢 WILDFIRE</span><span class="${fireClass}">${fire}</span></div>
+                `;
+        }
+
+        async function fetchEarthquake() {
+            try {
+                const res = await fetch("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson");
+                const data = await res.json();
+                const quakes = data.features.filter(f => f.properties.mag >= 4);
+                const box = document.getElementById("earthquakeAlert");
+                if (quakes.length) {
+                    const q = quakes[0].properties;
+                    const mag = q.mag;
+                    const warningThreshold = SIGMA_CONSTANTS.earthquake.warning_threshold;
+                    const dangerThreshold = SIGMA_CONSTANTS.earthquake.danger_threshold;
+                    let level = "✅ AN TOÀN",
+                        color = "#8EF6FF";
+                    if (mag >= dangerThreshold) { level = "🔴 NGUY HIỂM";
+                        color = "#FF4C4C"; } else if (mag >= warningThreshold) { level = "🟡 CẢNH BÁO";
+                        color = "#F4C542"; }
+                    box.innerHTML =
+                    `🌍 ĐỘNG ĐẤT M${mag.toFixed(1)} - ${q.place} ${level}`;
+                    box.style.color = color;
+                } else {
+                    box.innerHTML = "✅ NO EARTHQUAKE WARNING";
+                    box.style.color = "#8EF6FF";
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        async function fetchTsunami() {
+            try {
+                const res = await fetch("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson");
+                const data = await res.json();
+                const events = data.features.filter(f => f.properties.tsunami === 1 && f.properties.mag >= 6);
+                const box = document.getElementById("tsunamiAlert");
+                if (events.length) {
+                    const t = events[0].properties;
+                    box.innerHTML =
+                    `🌊 TSUNAMI WARNING M${t.mag.toFixed(1)} - ${t.place}`;
+                    box.style.color = "#FF8F4C";
+                } else {
+                    box.innerHTML = "✅ NO TSUNAMI WARNING";
+                    box.style.color = "#8EF6FF";
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        async function fetchFlood(city) {
+            try {
+                const url =
+                    `https://flood-api.open-meteo.com/v1/flood?latitude=${city.lat}&longitude=${city.lon}&daily=river_discharge&forecast_days=1&timezone=auto`;
+                const res = await fetch(url);
+                const data = await res.json();
+                const discharge = data.daily?.river_discharge?.[0];
+                if (discharge === undefined) {
+                    document.getElementById("floodDisplay").innerHTML = "No flood data available.";
+                    return 0;
+                }
+                const level = discharge > 500 ? "HIGH" : discharge > 200 ? "MEDIUM" : "LOW";
+                const cls = discharge > 500 ? "high" : discharge > 200 ? "medium" : "low";
+                document.getElementById("floodDisplay").innerHTML =
+                    `River Discharge: <span class="${cls}">${discharge.toFixed(0)} m³/s — ${level} RISK</span>`;
+                return discharge;
+            } catch (e) {
+                document.getElementById("floodDisplay").innerHTML = "Unable to load flood data.";
+                return 0;
+            }
+        }
+
+        async function fetchRainfall(city) {
+            try {
+                const url =
+                    `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&daily=precipitation_sum&forecast_days=5&timezone=auto`;
+                const res = await fetch(url);
+                const data = await res.json();
+                const rains = data.daily?.precipitation_sum || [];
+                const dates = data.daily?.time || [];
+                let html = "";
+                rains.forEach((rain, i) => {
+                    html += `<div>📅 ${dates[i]} : <span class="low">${rain.toFixed(1)} mm</span></div>`;
+                });
+                document.getElementById("rainfallDisplay").innerHTML = html || "No rainfall data available.";
+            } catch (e) {
+                document.getElementById("rainfallDisplay").innerHTML = "Unable to load rainfall data.";
+            }
+        }
+
+        async function fetchAirQuality(city) {
+            try {
+                const url =
+                    `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${city.lat}&longitude=${city.lon}&hourly=pm10,pm2_5,european_aqi&forecast_days=1&timezone=auto`;
+                const res = await fetch(url);
+                const data = await res.json();
+                const aqi = Math.round(data.hourly?.european_aqi?.[0] || 0);
+                const pm25 = Math.round(data.hourly?.pm2_5?.[0] || 0);
+                const pm10 = Math.round(data.hourly?.pm10?.[0] || 0);
+                const warningThreshold = SIGMA_CONSTANTS.air_quality.warning_threshold;
+                const dangerThreshold = SIGMA_CONSTANTS.air_quality.danger_threshold;
+                let level = "✅ TỐT",
+                    cls = "low";
+                if (aqi >= dangerThreshold) { level = "🔴 NGUY HIỂM";
+                    cls = "high"; } else if (aqi >= warningThreshold) { level = "🟡 CẢNH BÁO";
+                    cls = "medium"; }
+                document.getElementById("airQualityDisplay").innerHTML =
+                    `AQI: <span class="${cls}">${aqi} — ${level}</span><br>PM2.5: ${pm25} µg/m³ · PM10: ${pm10} µg/m³`;
+            } catch (e) {
+                document.getElementById("airQualityDisplay").innerHTML = "Unable to load air quality data.";
+            }
+        }
+
+        async function loadForecast() {
+            const input = document.getElementById("cityInput").value.trim();
+            const city = getCity(input || "Hanoi");
+            const body = document.getElementById("forecastBody");
+            if (!city) { alert("Invalid city."); return; }
+            body.innerHTML = `<tr><td colspan="3">⏳ Đang tải...</td></tr>`;
+            try {
+                const url =
+                    `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&daily=temperature_2m_max,precipitation_sum&forecast_days=365&timezone=auto`;
+                const res = await fetch(url);
+                const data = await res.json();
+                const map = {};
+                data.daily.time.forEach((date, i) => {
+                    const year = new Date(date).getFullYear();
+                    if (!map[year]) map[year] = { temp: 0, rain: 0, count: 0 };
+                    map[year].temp += data.daily.temperature_2m_max[i];
+                    map[year].rain += data.daily.precipitation_sum[i] || 0;
+                    map[year].count++;
+                });
+                body.innerHTML = Object.keys(map).map(year => {
+                    const item = map[year];
+                    return `<tr><td>${year}</td><td>${(item.temp / item.count).toFixed(1)}</td><td>${item.rain.toFixed(0)}</td></tr>`;
+                }).join("");
+            } catch (e) {
+                body.innerHTML = `<tr><td colspan="3">❌ Không thể tải dữ liệu.</td></tr>`;
+                console.error(e);
+            }
+        }
+
+        // ================================================================
+        //  🌍 ĐA NGÔN NGỮ (RÚT GỌN – CHỈ CẢNH BÁO CHÍNH)
+        // ================================================================
+        const TRANSLATIONS = {
+            vi: {
+                motto: "Tâm bình an. Trái tim nhân hậu. Tiếp tục phát triển.",
+                liberation: "Tâm bất động – thanh thản – an lạc – vô sự.",
+                question: "Ngài có muốn hết khổ không?",
+                warning: "Hay ngài sợ hết khổ – thì uổng?",
+                action: "Nếu muốn hết khổ ngay – thổi bay ra khỏi não. Tâm bất động ngay nào."
+            },
+            th: {
+                motto: "จิตใจสงบ. ใจดี. เติบโตต่อไป",
+                liberation: "จิตไม่หวั่นไหว – สงบ – เป็นสุข – ไม่มีภัย",
+                question: "ท่านต้องการจะหมดทุกข์ไหม?",
+                warning: "หรือท่านกลัวหมดทุกข์ – แล้วเสียเปล่า?",
+                action: "ถ้าอยากหมดทุกข์เดี๋ยวนี้ – เป่ามันออกไปจากหัว. จิตสงบเดี๋ยวนี้เลย."
+            },
+            en: {
+                motto: "Peaceful Mind. Kind Heart. Keep Growing.",
+                liberation: "Unshaken mind – serene – at peace – causing no harm.",
+                question: "Do you want to end suffering?",
+                warning: "Or are you afraid to end it – what a waste?",
+                action: "If you truly want to end it now – blow it out of your mind. Be still right now."
+            }
+            // Các ngôn ngữ khác sẽ được thêm khi cần
+        };
+
+        function setLanguage(lang) {
+            if (!TRANSLATIONS[lang]) lang = 'en';
+            const t = TRANSLATIONS[lang];
+            const mottoEl = document.querySelector('.motto');
+            if (mottoEl && t.motto) mottoEl.textContent = t.motto;
+            const libEl = document.getElementById('liberationMessage');
+            if (libEl && t.liberation) libEl.innerHTML = t.liberation;
+            localStorage.setItem('sigma_lang', lang);
+        }
+
+        function detectLanguage() {
+            const saved = localStorage.getItem('sigma_lang');
+            if (saved && TRANSLATIONS[saved]) return saved;
+            const browserLang = navigator.language?.split('-')[0] || 'en';
+            return TRANSLATIONS[browserLang] ? browserLang : 'en';
+        }
+
+        // ================================================================
+        //  🚀 KHỞI ĐỘNG
+        // ================================================================
+        document.getElementById("cityInput").addEventListener("keydown", function(e) {
+            if (e.key === "Enter") searchWeather();
+        });
+
+        window.onload = async function() {
+            fillCityList();
+            document.getElementById("cityInput").value = "Hanoi";
+            searchWeather();
+            await loadEmergencyAlert();
+
+            const lang = detectLanguage();
+            setLanguage(lang);
+            document.getElementById("languageSelect").value = lang;
+
+            document.getElementById("languageSelect").addEventListener("change", function() {
+                setLanguage(this.value);
+            });
+
+            console.log('🌱 Sigma Climate đã sẵn sàng!');
+        };
+    </script>
 </body>
 </html>
