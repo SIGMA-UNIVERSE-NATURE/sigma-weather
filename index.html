@@ -281,6 +281,20 @@
             border-color: rgba(142,246,255,0.18);
             color: var(--sigma-soft-cyan);
         }
+        .alert-box.warning {
+            background:
+                linear-gradient(135deg, rgba(244,197,66,0.16), rgba(6,43,95,0.32)),
+                linear-gradient(180deg, rgba(255,255,255,0.035), transparent);
+            border-color: rgba(244,197,66,0.25);
+            color: var(--sigma-gold);
+        }
+        .alert-box.danger {
+            background:
+                linear-gradient(135deg, rgba(255,143,76,0.20), rgba(6,43,95,0.38)),
+                linear-gradient(180deg, rgba(255,255,255,0.035), transparent);
+            border-color: rgba(255,143,76,0.30);
+            color: var(--sigma-warm-alert);
+        }
 
         .warning-section { margin: 18px 0 22px; }
         .warning-section::before {
@@ -605,9 +619,9 @@
     <!-- ===== TSUNAMI ALERT ===== -->
     <div id="tsunamiAlert" class="alert-box safe">✅ NO TSUNAMI WARNING</div>
 
-    <!-- ===== FLOOD ALERT ===== -->
+    <!-- ===== FLOOD ALERT (SIGMA CORE) ===== -->
     <div class="warning-section">
-        <div class="warning-title">🌊 FLOOD RISK</div>
+        <div class="warning-title">🌊 FLOOD RISK (SIGMA CORE)</div>
         <div id="floodDisplay" class="data-display">⏳ Loading flood data...</div>
     </div>
 
@@ -623,13 +637,13 @@
         <div id="airQualityDisplay" class="data-display">⏳ Loading air quality data...</div>
     </div>
 
-    <!-- ===== MONTHLY WARNINGS ===== -->
+    <!-- ===== MONTHLY WARNINGS (SIGMA CORE) ===== -->
     <div class="warning-section">
-        <div class="warning-title">⚠️ MONTHLY WARNINGS</div>
+        <div class="warning-title">⚠️ SIGMA CORE WARNINGS</div>
         <div id="warningList">
-            <div class="warning-item"><span>🔴 FLOOD</span><span class="risk-low">- LOW RISK (0.2%)</span></div>
-            <div class="warning-item"><span>🟡 DROUGHT</span><span class="risk-medium">- MEDIUM RISK (35%)</span></div>
-            <div class="warning-item"><span>🟢 WILDFIRE</span><span class="risk-low">- LOW RISK (5%)</span></div>
+            <div class="warning-item"><span>🔴 FLOOD</span><span class="risk-low">- LOADING...</span></div>
+            <div class="warning-item"><span>🟡 DROUGHT</span><span class="risk-medium">- LOADING...</span></div>
+            <div class="warning-item"><span>🟢 WILDFIRE</span><span class="risk-low">- LOADING...</span></div>
         </div>
     </div>
 
@@ -667,6 +681,54 @@
 </div>
 
 <script>
+    // ==================================================================
+    // 1. SIGMA CORE CONSTANTS – TỪ DỮ LIỆU 10 NĂM
+    // ==================================================================
+    const SIGMA_CONSTANTS = {
+        // --- LŨ LỤT (từ global_flood_constants_136.csv) ---
+        flood: {
+            'Hanoi': { warning: 350, danger: 520, avg: 210 },
+            'Ho Chi Minh City': { warning: 280, danger: 410, avg: 170 },
+            'Da Nang': { warning: 220, danger: 340, avg: 130 },
+            'Tokyo': { warning: 310, danger: 460, avg: 190 },
+            'Seoul': { warning: 260, danger: 380, avg: 160 },
+            'Beijing': { warning: 200, danger: 300, avg: 120 },
+            'Shanghai': { warning: 240, danger: 360, avg: 145 },
+            'London': { warning: 180, danger: 290, avg: 110 },
+            'Paris': { warning: 190, danger: 300, avg: 115 },
+            'Berlin': { warning: 170, danger: 270, avg: 105 },
+            'New York': { warning: 220, danger: 340, avg: 135 },
+            'Los Angeles': { warning: 150, danger: 230, avg: 90 },
+            'Sydney': { warning: 200, danger: 310, avg: 120 },
+            'Bangkok': { warning: 300, danger: 450, avg: 185 },
+            'Singapore': { warning: 280, danger: 420, avg: 170 },
+            'Mumbai': { warning: 320, danger: 480, avg: 195 },
+            'Cairo': { warning: 120, danger: 190, avg: 75 },
+            'Cape Town': { warning: 140, danger: 220, avg: 85 },
+            'Mexico City': { warning: 160, danger: 250, avg: 95 }
+        },
+        // --- HẠN HÁN (từ dữ liệu lượng mưa 10 năm) ---
+        drought: {
+            threshold_low: 30,   // mm/tháng – dưới mức này là hạn nhẹ
+            threshold_medium: 20, // mm/tháng – hạn trung bình
+            threshold_high: 10    // mm/tháng – hạn nghiêm trọng
+        },
+        // --- CHÁY RỪNG (từ fire_risk_global.json) ---
+        wildfire: {
+            threshold_low: 40,    // chỉ số nguy cơ < 40 – thấp
+            threshold_medium: 60, // chỉ số nguy cơ 40-60 – trung bình
+            threshold_high: 80    // chỉ số nguy cơ > 80 – cao
+        },
+        // --- MƯA LỚN (từ dữ liệu lượng mưa 10 năm) ---
+        heavy_rain: {
+            warning: 50,  // mm/ngày – cảnh báo mưa lớn
+            danger: 80    // mm/ngày – cảnh báo mưa cực lớn
+        }
+    };
+
+    // ==================================================================
+    // 2. DANH SÁCH THÀNH PHỐ
+    // ==================================================================
     const CITIES = [
         { name: 'Hanoi', lat: 21.0285, lon: 105.8542 },
         { name: 'Ho Chi Minh City', lat: 10.8231, lon: 106.6297 },
@@ -684,13 +746,25 @@
         { name: 'Berlin', lat: 52.5200, lon: 13.4050 },
         { name: 'New York', lat: 40.7128, lon: -74.0060 },
         { name: 'Los Angeles', lat: 34.0522, lon: -118.2437 },
-        { name: 'Sydney', lat: -33.8688, lon: 151.2093 }
+        { name: 'Sydney', lat: -33.8688, lon: 151.2093 },
+        { name: 'Mumbai', lat: 19.0760, lon: 72.8777 },
+        { name: 'Cairo', lat: 30.0444, lon: 31.2357 },
+        { name: 'Cape Town', lat: -33.9249, lon: 18.4241 },
+        { name: 'Mexico City', lat: 19.4326, lon: -99.1332 }
     ];
 
     function getCityCoords(name) {
         return CITIES.find(c => c.name.toLowerCase() === name.toLowerCase().trim());
     }
 
+    function getCityFloodConstants(cityName) {
+        const constants = SIGMA_CONSTANTS.flood;
+        return constants[cityName] || { warning: 200, danger: 320, avg: 130 };
+    }
+
+    // ==================================================================
+    // 3. HÀM TÌM KIẾM & HIỂN THỊ
+    // ==================================================================
     function populateCityList() {
         const datalist = document.getElementById('cityList');
         CITIES.forEach(city => {
@@ -719,84 +793,112 @@
             const humidity = data.hourly.relative_humidity_2m[0] || '--';
             const rain = data.hourly.precipitation[0] || 0;
 
+            // Cập nhật thẻ thời tiết
             const cards = document.querySelectorAll('.weather-card');
             if (cards[0]) cards[0].querySelector('.value').textContent = temp !== undefined ? temp.toFixed(1) + '°C' : '--';
             if (cards[1]) cards[1].querySelector('.value').textContent = humidity !== '--' ? humidity + '%' : '--';
             if (cards[2]) cards[2].querySelector('.value').textContent = rain !== undefined ? rain.toFixed(1) + ' mm/h' : '--';
             if (cards[3]) cards[3].querySelector('.value').textContent = wind !== undefined ? wind.toFixed(1) + ' km/h' : '--';
 
-            updateWarnings(temp, rain, humidity);
+            // Cập nhật tất cả cảnh báo Sigma Core
+            updateSigmaWarnings(city.name, temp, rain, humidity);
             fetchEarthquake();
             fetchTsunami();
-            fetchFlood();
-            fetchRainfall();
-            fetchAirQuality();
+            fetchFloodSigma(city.name);
+            fetchRainfall(city.name);
+            fetchAirQuality(city.name);
+
         } catch (err) {
             alert('❌ DATA CONNECTION ERROR.');
             console.error(err);
         }
     }
 
-    function updateWarnings(temp, rain, humidity) {
-        let floodRisk = 'low', floodPercent = '0.2%';
-        let droughtRisk = 'medium', droughtPercent = '35%';
-        let fireRisk = 'low', firePercent = '5%';
+    // ==================================================================
+    // 4. SIGMA CORE WARNINGS – TÍCH HỢP HẰNG SỐ
+    // ==================================================================
+    function updateSigmaWarnings(cityName, temp, rain, humidity) {
+        const floodConst = getCityFloodConstants(cityName);
+        const droughtConst = SIGMA_CONSTANTS.drought;
+        const fireConst = SIGMA_CONSTANTS.wildfire;
+        const rainConst = SIGMA_CONSTANTS.heavy_rain;
 
-        if (rain > 5 && rain <= 15) { floodRisk = 'medium'; floodPercent = '45%'; }
-        else if (rain > 15) { floodRisk = 'high'; floodPercent = '85%'; }
+        // --- LŨ LỤT (dựa trên hằng số Sigma Core) ---
+        const floodLevel = rain > floodConst.danger ? 'HIGH' :
+                           rain > floodConst.warning ? 'MEDIUM' : 'LOW';
+        const floodPercent = rain > floodConst.danger ? '85%' :
+                             rain > floodConst.warning ? '45%' : '12%';
+        const floodClass = floodLevel === 'HIGH' ? 'risk-high' :
+                           floodLevel === 'MEDIUM' ? 'risk-medium' : 'risk-low';
 
-        if (temp > 35 && humidity < 30) { droughtRisk = 'high'; droughtPercent = '78%'; fireRisk = 'high'; firePercent = '82%'; }
-        else if (temp > 30 && humidity < 40) { droughtRisk = 'medium'; droughtPercent = '42%'; fireRisk = 'medium'; firePercent = '38%'; }
+        // --- HẠN HÁN (dựa trên hằng số Sigma Core) ---
+        let droughtLevel = 'LOW';
+        let droughtPercent = '15%';
+        if (rain < droughtConst.threshold_high) { droughtLevel = 'HIGH'; droughtPercent = '78%'; }
+        else if (rain < droughtConst.threshold_medium) { droughtLevel = 'MEDIUM'; droughtPercent = '42%'; }
+        else if (rain < droughtConst.threshold_low) { droughtLevel = 'LOW'; droughtPercent = '25%'; }
+        const droughtClass = droughtLevel === 'HIGH' ? 'risk-high' :
+                             droughtLevel === 'MEDIUM' ? 'risk-medium' : 'risk-low';
 
+        // --- CHÁY RỪNG (dựa trên hằng số Sigma Core) ---
+        // Tính chỉ số nguy cơ: nhiệt độ cao + độ ẩm thấp + lượng mưa thấp
+        const fireRiskScore = (temp / 45) * 40 + (100 - humidity) * 0.4 + (100 - Math.min(rain * 5, 100)) * 0.2;
+        let fireLevel = 'LOW';
+        let firePercent = '5%';
+        if (fireRiskScore > fireConst.threshold_high) { fireLevel = 'HIGH'; firePercent = '82%'; }
+        else if (fireRiskScore > fireConst.threshold_medium) { fireLevel = 'MEDIUM'; firePercent = '38%'; }
+        else if (fireRiskScore > fireConst.threshold_low) { fireLevel = 'LOW'; firePercent = '18%'; }
+        const fireClass = fireLevel === 'HIGH' ? 'risk-high' :
+                          fireLevel === 'MEDIUM' ? 'risk-medium' : 'risk-low';
+
+        // --- Cập nhật giao diện ---
         const warningList = document.getElementById('warningList');
         if (warningList) {
             warningList.innerHTML = `
-                <div class="warning-item"><span>🔴 FLOOD</span><span class="risk-${floodRisk === 'high' ? 'high' : floodRisk === 'medium' ? 'medium' : 'low'}">- ${floodRisk.toUpperCase()} RISK (${floodPercent})</span></div>
-                <div class="warning-item"><span>🟡 DROUGHT</span><span class="risk-${droughtRisk === 'high' ? 'high' : droughtRisk === 'medium' ? 'medium' : 'low'}">- ${droughtRisk.toUpperCase()} RISK (${droughtPercent})</span></div>
-                <div class="warning-item"><span>🟢 WILDFIRE</span><span class="risk-${fireRisk === 'high' ? 'high' : fireRisk === 'medium' ? 'medium' : 'low'}">- ${fireRisk.toUpperCase()} RISK (${firePercent})</span></div>
+                <div class="warning-item">
+                    <span>🔴 FLOOD</span>
+                    <span class="${floodClass}">- ${floodLevel} RISK (${floodPercent})</span>
+                </div>
+                <div class="warning-item">
+                    <span>🟡 DROUGHT</span>
+                    <span class="${droughtClass}">- ${droughtLevel} RISK (${droughtPercent})</span>
+                </div>
+                <div class="warning-item">
+                    <span>🟢 WILDFIRE</span>
+                    <span class="${fireClass}">- ${fireLevel} RISK (${firePercent})</span>
+                </div>
+            `;
+        }
+
+        // --- Cập nhật Flood Display với hằng số Sigma Core ---
+        const floodDisplay = document.getElementById('floodDisplay');
+        if (floodDisplay) {
+            const levelText = floodLevel === 'HIGH' ? '🔴 DANGER' :
+                              floodLevel === 'MEDIUM' ? '🟡 WARNING' : '🟢 NORMAL';
+            const color = floodLevel === 'HIGH' ? '#FF8F4C' :
+                          floodLevel === 'MEDIUM' ? '#F4C542' : '#8EF6FF';
+            floodDisplay.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                    <span>🚰 Current Rain: <strong style="color:#38DFFF;">${rain.toFixed(1)} mm/h</strong></span>
+                    <span style="color:${color}; font-weight:700;">${levelText}</span>
+                </div>
+                <div style="font-size:13px; color:#A9D7E6; margin-top:4px;">
+                    ⚡ Sigma Core: Warning at ${floodConst.warning} mm/h | Danger at ${floodConst.danger} mm/h
+                </div>
+                <div style="font-size:14px; color:#A9D7E6; margin-top:4px;">
+                    ${rain > floodConst.danger ? '⚠️ EVACUATION ADVISORY! Seek higher ground.' :
+                      rain > floodConst.warning ? '📊 Flood risk increasing. Monitor water levels.' :
+                      '✅ Normal conditions.'}
+                </div>
             `;
         }
     }
 
-    async function fetchEarthquake() {
-        try {
-            const url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson';
-            const res = await fetch(url);
-            const data = await res.json();
-            const quakes = data.features.filter(f => f.properties.mag >= 4.0);
-            const alertDiv = document.getElementById('earthquakeAlert');
-            if (quakes.length > 0) {
-                const latest = quakes[0].properties;
-                alertDiv.className = 'alert-box';
-                alertDiv.innerHTML = `🔴 EARTHQUAKE M${latest.mag.toFixed(1)} - ${latest.place} (${new Date(latest.time).toLocaleString()})`;
-            } else {
-                alertDiv.className = 'alert-box safe';
-                alertDiv.innerHTML = '✅ NO EARTHQUAKE WARNING';
-            }
-        } catch (e) { console.error('Earthquake fetch error:', e); }
-    }
-
-    async function fetchTsunami() {
-        try {
-            const url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson';
-            const res = await fetch(url);
-            const data = await res.json();
-            const tsunamiEvents = data.features.filter(f => f.properties.tsunami === 1 && f.properties.mag >= 6.0);
-            const alertDiv = document.getElementById('tsunamiAlert');
-            if (tsunamiEvents.length > 0) {
-                const latest = tsunamiEvents[0].properties;
-                alertDiv.className = 'alert-box';
-                alertDiv.innerHTML = `🌊 TSUNAMI WARNING! M${latest.mag.toFixed(1)} - ${latest.place}<br><span style="font-size:14px; color:#DFFBFF;">⚠️ Stay away from coastal areas!</span>`;
-            } else {
-                alertDiv.className = 'alert-box safe';
-                alertDiv.innerHTML = '✅ NO TSUNAMI WARNING';
-            }
-        } catch (e) { console.error('Tsunami fetch error:', e); }
-    }
-
-    async function fetchFlood() {
-        const city = document.getElementById('cityInput').value.trim() || 'Hanoi';
-        const coords = getCityCoords(city);
+    // ==================================================================
+    // 5. LŨ LỤT – FLOOD API + SIGMA CORE
+    // ==================================================================
+    async function fetchFloodSigma(cityName) {
+        const coords = getCityCoords(cityName);
         if (!coords) return;
         try {
             const url = `https://flood-api.open-meteo.com/v1/flood?latitude=${coords.lat}&longitude=${coords.lon}&daily=river_discharge&forecast_days=1&timezone=auto`;
@@ -805,14 +907,24 @@
             const display = document.getElementById('floodDisplay');
             if (data.daily && data.daily.river_discharge && data.daily.river_discharge.length > 0) {
                 const discharge = data.daily.river_discharge[0];
-                const level = discharge > 500 ? '🔴 HIGH' : discharge > 200 ? '🟡 MEDIUM' : '🟢 LOW';
-                const color = discharge > 500 ? '#FF8F4C' : discharge > 200 ? '#F4C542' : '#8EF6FF';
+                const constants = getCityFloodConstants(cityName);
+                const level = discharge > constants.danger ? '🔴 DANGER' :
+                              discharge > constants.warning ? '🟡 WARNING' : '🟢 NORMAL';
+                const color = discharge > constants.danger ? '#FF8F4C' :
+                              discharge > constants.warning ? '#F4C542' : '#8EF6FF';
                 display.innerHTML = `
                     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
                         <span>🚰 River Discharge: <strong style="color:#38DFFF; text-shadow:0 0 12px rgba(56,223,255,0.36);">${discharge.toFixed(0)} m³/s</strong></span>
-                        <span style="color:${color}; font-weight:700;">${level} RISK</span>
+                        <span style="color:${color}; font-weight:700;">${level}</span>
                     </div>
-                    <div style="font-size:14px; color:#A9D7E6; margin-top:4px;">${discharge > 500 ? '⚠️ Potential flooding risk. Stay alert.' : discharge > 200 ? '📊 Monitor water levels.' : '✅ Normal conditions.'}</div>
+                    <div style="font-size:13px; color:#A9D7E6; margin-top:4px;">
+                        ⚡ Sigma Core: Warning at ${constants.warning} m³/s | Danger at ${constants.danger} m³/s
+                    </div>
+                    <div style="font-size:14px; color:#A9D7E6; margin-top:4px;">
+                        ${discharge > constants.danger ? '⚠️ IMMEDIATE ACTION REQUIRED! Evacuate low-lying areas.' :
+                          discharge > constants.warning ? '📊 Flood risk increasing. Monitor water levels closely.' :
+                          '✅ Normal conditions.'}
+                    </div>
                 `;
             } else {
                 display.innerHTML = '✅ No flood data available for this region.';
@@ -823,9 +935,11 @@
         }
     }
 
-    async function fetchRainfall() {
-        const city = document.getElementById('cityInput').value.trim() || 'Hanoi';
-        const coords = getCityCoords(city);
+    // ==================================================================
+    // 6. LƯỢNG MƯA 5 NGÀY
+    // ==================================================================
+    async function fetchRainfall(cityName) {
+        const coords = getCityCoords(cityName);
         if (!coords) return;
         try {
             const url = `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&daily=precipitation_sum&forecast_days=5&timezone=auto`;
@@ -835,12 +949,14 @@
             if (data.daily && data.daily.precipitation_sum && data.daily.precipitation_sum.length > 0) {
                 const rains = data.daily.precipitation_sum;
                 const dates = data.daily.time;
+                const rainConst = SIGMA_CONSTANTS.heavy_rain;
                 let html = '<div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center;">';
                 for (let i = 0; i < rains.length; i++) {
                     const date = new Date(dates[i]);
                     const day = date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
                     const rain = rains[i] || 0;
                     const barWidth = Math.min(rain * 10, 100);
+                    const isHeavy = rain > rainConst.danger ? '🔴' : rain > rainConst.warning ? '🟡' : '🟢';
                     html += `
                         <div style="background:rgba(255,255,255,0.03); border-radius:12px; padding:10px 14px; min-width:80px; text-align:center; border:1px solid rgba(56,223,255,0.14);">
                             <div style="font-size:13px; color:#A9D7E6; font-weight:700; letter-spacing:0.04em;">${day}</div>
@@ -848,10 +964,12 @@
                             <div style="width:100%; height:4px; background:rgba(255,255,255,0.05); border-radius:4px; margin-top:6px; overflow:hidden;">
                                 <div style="width:${barWidth}%; height:100%; background:linear-gradient(90deg, #F4C542, #DFFBFF); border-radius:4px;"></div>
                             </div>
+                            <div style="font-size:11px; margin-top:4px;">${isHeavy} ${rain > rainConst.danger ? 'Extreme' : rain > rainConst.warning ? 'Heavy' : 'Normal'}</div>
                         </div>
                     `;
                 }
                 html += '</div>';
+                html += `<div style="font-size:12px; color:#88a87a; margin-top:8px;">⚡ Sigma Core: Heavy rain warning > ${rainConst.warning} mm/day | Extreme > ${rainConst.danger} mm/day</div>`;
                 display.innerHTML = html;
             } else {
                 display.innerHTML = '✅ No rainfall data available.';
@@ -862,9 +980,11 @@
         }
     }
 
-    async function fetchAirQuality() {
-        const city = document.getElementById('cityInput').value.trim() || 'Hanoi';
-        const coords = getCityCoords(city);
+    // ==================================================================
+    // 7. CHẤT LƯỢNG KHÔNG KHÍ
+    // ==================================================================
+    async function fetchAirQuality(cityName) {
+        const coords = getCityCoords(cityName);
         if (!coords) return;
         try {
             const url = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${coords.lat}&longitude=${coords.lon}&hourly=pm10,pm2_5,european_aqi&forecast_days=1&timezone=auto`;
@@ -876,9 +996,9 @@
                 const pm25 = data.hourly.pm2_5 ? Math.round(data.hourly.pm2_5[0]) : 'N/A';
                 const pm10 = data.hourly.pm10 ? Math.round(data.hourly.pm10[0]) : 'N/A';
                 let level, color, advice;
-                if (aqi > 60) { level = '🔴 UNHEALTHY'; color = '#FF8F4C'; advice = 'Limit outdoor activities.'; }
-                else if (aqi > 30) { level = '🟡 MODERATE'; color = '#F4C542'; advice = 'Sensitive groups should limit exposure.'; }
-                else { level = '🟢 GOOD'; color = '#8EF6FF'; advice = 'Air quality is satisfactory.'; }
+                if (aqi > 60) { level = '🔴 UNHEALTHY'; color = '#FF8F4C'; advice = 'Limit outdoor activities. Wear mask if going out.'; }
+                else if (aqi > 30) { level = '🟡 MODERATE'; color = '#F4C542'; advice = 'Sensitive groups should limit prolonged outdoor exertion.'; }
+                else { level = '🟢 GOOD'; color = '#8EF6FF'; advice = 'Air quality is satisfactory. Enjoy outdoor activities.'; }
                 display.innerHTML = `
                     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
                         <span>🌫️ AQI: <strong style="color:#38DFFF; text-shadow:0 0 12px rgba(56,223,255,0.34);">${aqi}</strong></span>
@@ -899,6 +1019,51 @@
         }
     }
 
+    // ==================================================================
+    // 8. ĐỘNG ĐẤT & SÓNG THẦN
+    // ==================================================================
+    async function fetchEarthquake() {
+        try {
+            const url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson';
+            const res = await fetch(url);
+            const data = await res.json();
+            const quakes = data.features.filter(f => f.properties.mag >= 4.0);
+            const alertDiv = document.getElementById('earthquakeAlert');
+            if (quakes.length > 0) {
+                const latest = quakes[0].properties;
+                const mag = latest.mag;
+                const level = mag > 6.0 ? 'danger' : mag > 5.0 ? 'warning' : 'safe';
+                const icon = mag > 6.0 ? '🔴' : mag > 5.0 ? '🟡' : '🟢';
+                alertDiv.className = `alert-box ${level}`;
+                alertDiv.innerHTML = `${icon} EARTHQUAKE M${mag.toFixed(1)} - ${latest.place} (${new Date(latest.time).toLocaleString()})`;
+            } else {
+                alertDiv.className = 'alert-box safe';
+                alertDiv.innerHTML = '✅ NO EARTHQUAKE WARNING';
+            }
+        } catch (e) { console.error('Earthquake fetch error:', e); }
+    }
+
+    async function fetchTsunami() {
+        try {
+            const url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson';
+            const res = await fetch(url);
+            const data = await res.json();
+            const tsunamiEvents = data.features.filter(f => f.properties.tsunami === 1 && f.properties.mag >= 6.0);
+            const alertDiv = document.getElementById('tsunamiAlert');
+            if (tsunamiEvents.length > 0) {
+                const latest = tsunamiEvents[0].properties;
+                alertDiv.className = 'alert-box danger';
+                alertDiv.innerHTML = `🌊 TSUNAMI WARNING! M${latest.mag.toFixed(1)} - ${latest.place}<br><span style="font-size:14px; color:#DFFBFF;">⚠️ IMMEDIATE EVACUATION FROM COASTAL AREAS!</span>`;
+            } else {
+                alertDiv.className = 'alert-box safe';
+                alertDiv.innerHTML = '✅ NO TSUNAMI WARNING';
+            }
+        } catch (e) { console.error('Tsunami fetch error:', e); }
+    }
+
+    // ==================================================================
+    // 9. DỰ BÁO 10 NĂM
+    // ==================================================================
     async function loadForecast() {
         const city = document.getElementById('cityInput').value.trim() || 'Hanoi';
         const coords = getCityCoords(city);
@@ -933,6 +1098,9 @@
         }
     }
 
+    // ==================================================================
+    // 10. KHỞI TẠO
+    // ==================================================================
     document.getElementById('cityInput').addEventListener('keydown', function(e) {
         if (e.key === 'Enter') { searchWeather(); }
     });
