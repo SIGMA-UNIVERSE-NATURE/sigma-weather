@@ -6,17 +6,10 @@
     <title>🌿 SIGMA CLIMATE – Global Intelligence</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cinzel:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <style>
-        /* ============================================================
-           RESET & BASE
-           ============================================================ */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* ===== RESET & BASE ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: 'Inter', sans-serif;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -24,9 +17,7 @@
             padding: 20px;
             background: #0a1a0a;
             line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
         }
-
         body::before {
             content: '';
             position: fixed;
@@ -38,7 +29,6 @@
             filter: brightness(0.7) saturate(0.8);
             z-index: 0;
         }
-
         .container {
             position: relative;
             z-index: 1;
@@ -48,89 +38,30 @@
             padding: 30px 35px;
         }
 
-
-/* ===== HEADER - SIGMA TYPOGRAPHY ===== */
-.header {
-    text-align: center;
-    margin-bottom: 16px;
-}
-
-.logo {
-    height: 360px;  /* TĂNG LÊN 360px */
-    display: block;
-    margin: 0 auto 12px;
-}
-
-.sigma-main-title {
-    font-family: "Cinzel", "Trajan Pro", "Times New Roman", serif;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: #f8d88a;  /* Vàng sáng */
-    text-shadow:
-        0 1px 0 #e8c86a,
-        0 2px 0 #c9a54a,
-        0 4px 0 #a8832a,
-        0 0 15px rgba(255, 215, 0, 0.5),
-        0 0 30px rgba(255, 215, 0, 0.2);
-    font-size: clamp(28px, 4.5vw, 52px);
-    line-height: 1.1;
-    margin-bottom: 2px;
-}
-
-.sigma-subtitle {
-    font-family: "Cinzel", "Montserrat", serif;
-    font-weight: 400;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: #f4c542;  /* Vàng gold */
-    text-shadow: 0 0 15px rgba(244, 197, 66, 0.4);
-    font-size: clamp(12px, 1.5vw, 18px);
-    margin-bottom: 8px;
-}
-
-/* ===== GOLDEN TEXT FOR ALL IMPORTANT MESSAGES ===== */
-.golden-text {
-    color: #f4c542;
-    text-shadow: 0 0 20px rgba(244, 197, 66, 0.3);
-}
-
-/* ===== SIGMA MESSAGE (GOLDEN) ===== */
-.sigma-message .italic-text {
-    font-size: 17px;
-    font-style: italic;
-    font-weight: 400;
-    line-height: 1.8;
-    color: #f4c542;  /* CHUYỂN SANG GOLDEN */
-    text-shadow: 0 0 20px rgba(244, 197, 66, 0.25);
-    font-family: 'Inter', serif;
-}
-.sigma-message .italic-text strong {
-    color: #f8d88a;  /* Vàng sáng hơn cho chữ đậm */
-    font-weight: 700;
-    font-style: normal;
-}
-.sigma-message .highlight-choice {
-    font-size: 17px;
-    font-weight: 700;
-    color: #f8d88a;
-    margin: 10px 0 6px;
-    letter-spacing: 1px;
-    font-family: 'Inter', sans-serif;
-    text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-}
-.sigma-message .choice-option {
-    font-size: 17px;
-    font-style: italic;
-    color: #f4c542;
-    line-height: 1.6;
-    font-family: 'Inter', serif;
-}
-.sigma-message .choice-option strong {
-    color: #f8d88a;
-    font-style: normal;
-}
-        
+        /* ===== HEADER ===== */
+        .header { text-align: center; margin-bottom: 16px; }
+        .logo { height: 360px; display: block; margin: 0 auto 12px; }
+        .sigma-main-title {
+            font-family: "Cinzel", "Trajan Pro", serif;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #f8d88a;
+            text-shadow: 0 1px 0 #e8c86a, 0 2px 0 #c9a54a, 0 4px 0 #a8832a, 0 0 15px rgba(255,215,0,0.4);
+            font-size: clamp(28px, 4.5vw, 52px);
+            line-height: 1.1;
+            margin-bottom: 2px;
+        }
+        .sigma-subtitle {
+            font-family: "Cinzel", "Montserrat", serif;
+            font-weight: 400;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: #f4c542;
+            text-shadow: 0 0 15px rgba(244,197,66,0.3);
+            font-size: clamp(12px, 1.5vw, 18px);
+            margin-bottom: 8px;
+        }
         .language-selector {
             display: flex;
             justify-content: flex-end;
@@ -138,69 +69,52 @@
             gap: 10px;
             margin: 6px 0 0;
             font-size: 14px;
-            color: #A0A0A0;
+            color: #d4a843;
         }
         .language-selector select {
             padding: 6px 14px;
             border-radius: 30px;
-            border: 1px solid rgba(192, 192, 192, 0.15);
-            background: rgba(30, 60, 30, 0.4);
-            color: #E8E8E8;
+            border: 1px solid rgba(244,197,66,0.15);
+            background: rgba(30,60,30,0.4);
+            color: #e8c86a;
             font-size: 14px;
             font-weight: 500;
             outline: none;
-            backdrop-filter: blur(4px);
             cursor: pointer;
-            max-width: 200px;
+            max-width: 220px;
         }
-        .language-selector select option {
-            background: #1a3a1a;
-            color: #E8E8E8;
-        }
-
+        .language-selector select option { background: #1a3a1a; color: #e8c86a; }
         .city-display {
-            font-size: 26px;
+            font-size: 28px;
             font-weight: 700;
-            color: #C0C0C0;
+            color: #f4c542;
             margin-top: 4px;
-            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
+            text-shadow: 0 0 30px rgba(244,197,66,0.2);
             min-height: 40px;
-            font-family: 'Inter', sans-serif;
+            letter-spacing: 2px;
         }
 
         /* ===== SEARCH ===== */
-        .search-box {
-            display: flex;
-            gap: 12px;
-            margin: 16px 0 22px;
-        }
+        .search-box { display: flex; gap: 12px; margin: 16px 0 22px; }
         .search-box input {
             flex: 1;
             padding: 14px 20px;
             border-radius: 60px;
-            border: 1px solid rgba(192, 192, 192, 0.15);
-            background: rgba(30, 60, 30, 0.35);
-            color: #E8E8E8;
+            border: 1px solid rgba(244,197,66,0.12);
+            background: rgba(30,60,30,0.3);
+            color: #e8c86a;
             font-size: 16px;
             outline: none;
             backdrop-filter: blur(6px);
             font-weight: 500;
-            font-family: 'Inter', sans-serif;
         }
-        .search-box input:focus {
-            background: rgba(40, 80, 40, 0.5);
-            border-color: #A0A0A0;
-        }
-        .search-box input::placeholder {
-            color: #A0A0A0;
-            opacity: 0.8;
-        }
+        .search-box input::placeholder { color: #8a7a4a; }
         .search-box button {
             padding: 14px 28px;
             border-radius: 60px;
-            border: none;
-            background: rgba(192, 192, 192, 0.12);
-            color: #E8E8E8;
+            border: 1px solid rgba(244,197,66,0.15);
+            background: rgba(244,197,66,0.05);
+            color: #f4c542;
             font-weight: 700;
             font-size: 16px;
             cursor: pointer;
@@ -208,64 +122,61 @@
             backdrop-filter: blur(6px);
             text-transform: uppercase;
             letter-spacing: 1px;
-            border: 1px solid rgba(192, 192, 192, 0.1);
-            font-family: 'Inter', sans-serif;
         }
-        .search-box button:hover {
-            background: rgba(192, 192, 192, 0.25);
-            transform: scale(1.02);
-        }
+        .search-box button:hover { background: rgba(244,197,66,0.15); transform: scale(1.02); }
 
         /* ===== WEATHER CARDS ===== */
-        .weather-cards {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin: 16px 0 20px;
-        }
+        .weather-cards { display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0 20px; }
         .weather-card {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255,255,255,0.02);
             backdrop-filter: blur(6px);
             padding: 14px 12px;
             border-radius: 20px;
-            border: 1px solid rgba(192, 192, 192, 0.06);
+            border: 1px solid rgba(244,197,66,0.06);
             text-align: center;
-            min-width: 90px;
             flex: 1;
+            min-width: 90px;
         }
-        .weather-card .icon {
-            font-size: 28px;
-        }
+        .weather-card .icon { font-size: 28px; }
         .weather-card .value {
             font-size: 22px;
             font-weight: 700;
-            color: #E8E8E8;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-            font-family: 'Inter', sans-serif;
+            color: #f8d88a;
+            text-shadow: 0 0 20px rgba(255,215,0,0.1);
         }
         .weather-card .label {
             font-size: 12px;
-            color: #A0A0A0;
+            color: #d4a843;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-family: 'Inter', sans-serif;
+            letter-spacing: 1.5px;
         }
 
-        /* ===== WARNINGS ===== */
-        .warning-section {
-            margin: 16px 0 20px;
+        /* ===== ALERTS ===== */
+        .alert-box {
+            margin: 12px 0 16px;
+            padding: 14px 18px;
+            border-radius: 12px;
+            background: rgba(244,197,66,0.05);
+            border: 1px solid rgba(244,197,66,0.12);
+            color: #f4c542;
+            font-weight: 600;
+            font-size: 16px;
+            text-align: center;
+            backdrop-filter: blur(4px);
+            text-shadow: 0 0 20px rgba(244,197,66,0.1);
         }
+        .alert-box.safe { background: rgba(46,204,113,0.05); border-color: rgba(46,204,113,0.12); color: #d4e8a0; }
+
+        .warning-section { margin: 16px 0 20px; }
         .warning-title {
             font-size: 18px;
             font-weight: 700;
-            color: #E8E8E8;
+            color: #f4c542;
             margin-bottom: 12px;
-            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
+            text-shadow: 0 0 30px rgba(244,197,66,0.15);
             text-transform: uppercase;
             letter-spacing: 2px;
-            font-family: 'Inter', sans-serif;
         }
         .warning-item {
             display: flex;
@@ -273,501 +184,562 @@
             padding: 10px 16px;
             border-radius: 12px;
             margin-bottom: 6px;
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0,0,0,0.2);
             backdrop-filter: blur(4px);
-            color: #E8E8E8;
+            color: #f4c542;
             font-size: 16px;
             font-weight: 600;
-            border-left: 4px solid rgba(192, 192, 192, 0.2);
-            font-family: 'Inter', sans-serif;
+            border-left: 4px solid rgba(244,197,66,0.2);
         }
-        .warning-item .risk-low { color: #A0E8D0; }
-        .warning-item .risk-medium { color: #E8E0A0; }
-        .warning-item .risk-high { color: #E8A0A0; }
+        .warning-item .risk-low { color: #e8d48a; }
+        .warning-item .risk-medium { color: #f4c542; }
+        .warning-item .risk-high { color: #f0a030; }
 
-        /* ===== EARTHQUAKE ALERT ===== */
-        .earthquake-alert {
-            margin: 12px 0 16px;
-            padding: 14px 18px;
-            border-radius: 12px;
-            background: rgba(192, 192, 192, 0.05);
-            border: 1px solid rgba(192, 192, 192, 0.1);
-            color: #C0C0C0;
-            font-weight: 600;
+        .data-display {
+            color: #e8c86a;
             font-size: 16px;
+            font-weight: 500;
             text-align: center;
-            backdrop-filter: blur(4px);
-            font-family: 'Inter', sans-serif;
-        }
-        .earthquake-alert.safe {
-            background: rgba(46, 204, 113, 0.05);
-            border-color: rgba(46, 204, 113, 0.1);
-            color: #A0E8D0;
+            padding: 8px 0;
         }
 
-        /* ===== 10-YEAR FORECAST ===== */
-        .forecast-section {
-            margin: 16px 0 20px;
-        }
         .forecast-table {
             width: 100%;
             border-collapse: collapse;
-            background: rgba(20, 40, 20, 0.3);
+            background: rgba(20,40,20,0.3);
             backdrop-filter: blur(4px);
             border-radius: 16px;
             overflow: hidden;
         }
         .forecast-table th {
-            background: rgba(192, 192, 192, 0.05);
-            color: #C0C0C0;
+            background: rgba(244,197,66,0.05);
+            color: #f4c542;
             padding: 10px 12px;
             font-weight: 600;
             font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            font-family: 'Inter', sans-serif;
         }
         .forecast-table td {
             padding: 8px 12px;
             text-align: center;
-            border-bottom: 1px solid rgba(192, 192, 192, 0.05);
-            color: #C0C0C0;
+            border-bottom: 1px solid rgba(244,197,66,0.06);
+            color: #e8c86a;
             font-size: 14px;
             font-weight: 500;
-            font-family: 'Inter', sans-serif;
         }
-        .forecast-table tr:hover td {
-            background: rgba(192, 192, 192, 0.03);
-        }
+        .forecast-table tr:hover td { background: rgba(244,197,66,0.02); }
 
         /* ===== SIGMA MESSAGE ===== */
         .sigma-message {
             margin: 20px 0 18px;
             padding: 16px 0;
-            border-top: 1px solid rgba(192, 192, 192, 0.06);
-            border-bottom: 1px solid rgba(192, 192, 192, 0.06);
+            border-top: 1px solid rgba(244,197,66,0.08);
+            border-bottom: 1px solid rgba(244,197,66,0.08);
             text-align: center;
-            color: #C0C0C0;
-            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.7);
         }
         .sigma-message .italic-text {
             font-size: 17px;
             font-style: italic;
-            font-weight: 400;
-            line-height: 1.8;
-            color: #A0A0A0;
-            font-family: 'Inter', serif;
+            color: #e8c86a;
+            text-shadow: 0 0 20px rgba(244,197,66,0.15);
         }
-        .sigma-message .italic-text strong {
-            color: #E8E8E8;
-            font-weight: 700;
-            font-style: normal;
-        }
+        .sigma-message .italic-text strong { color: #f8d88a; font-weight: 700; font-style: normal; }
         .sigma-message .highlight-choice {
             font-size: 17px;
             font-weight: 700;
-            color: #C0C0C0;
+            color: #f4c542;
             margin: 10px 0 6px;
             letter-spacing: 1px;
-            font-family: 'Inter', sans-serif;
+            text-shadow: 0 0 30px rgba(244,197,66,0.2);
         }
         .sigma-message .choice-option {
             font-size: 17px;
             font-style: italic;
-            color: #A0A0A0;
-            line-height: 1.6;
-            font-family: 'Inter', serif;
+            color: #d4a843;
+            line-height: 1.8;
         }
-        .sigma-message .choice-option strong {
-            color: #E8E8E8;
-            font-style: normal;
-        }
+        .sigma-message .choice-option strong { color: #f8d88a; font-style: normal; }
 
         /* ===== FOOTER ===== */
-        .footer {
-            text-align: center;
-            padding-top: 16px;
-            border-top: 1px solid rgba(192, 192, 192, 0.05);
-            line-height: 1.8;
-            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
-        }
+        .footer { text-align: center; padding-top: 16px; border-top: 1px solid rgba(244,197,66,0.06); }
         .footer .nonprofit {
             font-size: 18px;
             font-weight: 700;
-            color: #A0A0A0;
+            color: #d4a843;
             letter-spacing: 2px;
             text-transform: uppercase;
-            font-family: 'Inter', sans-serif;
+            text-shadow: 0 0 20px rgba(244,197,66,0.1);
         }
         .footer .motto-large {
             font-size: 28px;
             font-weight: 900;
-            color: #C0C0C0;
+            color: #f4c542;
             margin: 6px 0 4px;
-            text-shadow: 0 0 40px rgba(192, 192, 192, 0.1);
+            text-shadow: 0 0 40px rgba(244,197,66,0.15);
             letter-spacing: 2.5px;
-            font-family: 'Inter', sans-serif;
         }
         .footer .badge {
             display: inline-block;
-            background: rgba(192, 192, 192, 0.03);
+            background: rgba(244,197,66,0.04);
             padding: 4px 18px;
             border-radius: 40px;
             font-size: 13px;
             margin-top: 6px;
-            border: 1px solid rgba(192, 192, 192, 0.06);
-            color: #A0A0A0;
+            border: 1px solid rgba(244,197,66,0.06);
+            color: #d4a843;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            font-family: 'Inter', sans-serif;
         }
 
-        /* ===== RESPONSIVE ===== */
-        @media (max-wi22dth: 600px) {
+        @media (max-width: 600px) {
             .container { padding: 16px; }
+            .logo { height: 180px; }
             .sigma-main-title { font-size: 28px; }
-            .logo { height: 80px; }
+            .city-display { font-size: 22px; }
             .search-box { flex-wrap: wrap; }
-            .search-box input { min-width: 100%; font-size: 15px; padding: 12px 16px; }
-            .search-box button { width: 100%; font-size: 15px; padding: 12px; }
+            .search-box input { min-width: 100%; }
+            .search-box button { width: 100%; }
             .weather-cards { flex-direction: column; }
-            .city-display { font-size: 20px; }
-            .language-selector { justify-content: center; }
             .sigma-message .italic-text,
             .sigma-message .highlight-choice,
             .sigma-message .choice-option { font-size: 15px; }
             .footer .motto-large { font-size: 22px; }
-            .footer .nonprofit { font-size: 15px; }
-            .forecast-table th,
-            .forecast-table td { font-size: 12px; padding: 6px 8px; }
-            .sigma-subtitle { font-size: 11px; letter-spacing: 0.2em; }
+            .warning-item { font-size: 14px; flex-wrap: wrap; gap: 4px; }
         }
-
         @media (max-width: 400px) {
+            .logo { height: 120px; }
             .sigma-main-title { font-size: 22px; }
-            .logo { height: 60px; }
             .city-display { font-size: 18px; }
-            .sigma-message .italic-text,
-            .sigma-message .highlight-choice,
-            .sigma-message .choice-option { font-size: 14px; }
             .footer .motto-large { font-size: 18px; }
         }
     </style>
 </head>
 <body>
+<div class="container">
 
-    <div class="container">
-
-
-<div class="header">
-    <img src="assets/images/sigma_logo.png" alt="Sigma Logo" class="logo" />
-    <div class="sigma-main-title">SIGMA CLIMATE</div>
-    <div class="sigma-subtitle">Human Knowledge System</div>
-
-    <!-- Language selector và city display -->
-    <div class="language-selector">
-        <span style="color:#A0A0A0;">🌐</span>
-        <select id="languageSelect">
-            <!-- ... các option ngôn ngữ ... -->
-        </select>
+    <!-- ===== HEADER ===== -->
+    <div class="header">
+        <img src="assets/images/sigma_logo.png" alt="Sigma Logo" class="logo" />
+        <div class="sigma-main-title">SIGMA CLIMATE</div>
+        <div class="sigma-subtitle">Human Knowledge System</div>
+        <div class="language-selector">
+            <span style="color:#d4a843;">🌐</span>
+            <select id="languageSelect">
+                <optgroup label="🌏 Southeast Asia">
+                    <option value="vi">🇻🇳 Tiếng Việt</option>
+                    <option value="th">🇹🇭 ภาษาไทย</option>
+                    <option value="km">🇰🇭 ភាសាខ្មែរ</option>
+                    <option value="lo">🇱🇦 ພາສາລາວ</option>
+                    <option value="my">🇲🇲 မြန်မာ</option>
+                    <option value="fil">🇵🇭 Filipino</option>
+                    <option value="id">🇮🇩 Bahasa Indonesia</option>
+                </optgroup>
+                <optgroup label="🌍 Africa">
+                    <option value="sw">🇹🇿 Kiswahili</option>
+                    <option value="ha">🇳🇬 Hausa</option>
+                    <option value="am">🇪🇹 አማርኛ</option>
+                    <option value="yo">🇳🇬 Yoruba</option>
+                    <option value="ig">🇳🇬 Igbo</option>
+                    <option value="zu">🇿🇦 isiZulu</option>
+                    <option value="so">🇸🇴 Soomaali</option>
+                    <option value="rw">🇷🇼 Kinyarwanda</option>
+                </optgroup>
+                <optgroup label="🌏 South Asia">
+                    <option value="ur">🇵🇰 اردو</option>
+                    <option value="bn">🇧🇩 বাংলা</option>
+                    <option value="ta">🇮🇳 தமிழ்</option>
+                    <option value="pa">🇮🇳 ਪੰਜਾਬੀ</option>
+                    <option value="ps">🇦🇫 پښتو</option>
+                    <option value="si">🇱🇰 සිංහල</option>
+                    <option value="ne">🇳🇵 नेपाली</option>
+                </optgroup>
+                <optgroup label="🌍 Middle East">
+                    <option value="ar">🇸🇦 العربية</option>
+                    <option value="fa">🇮🇷 فارسی</option>
+                    <option value="tr">🇹🇷 Türkçe</option>
+                    <option value="ku">🇮🇶 Kurdî</option>
+                </optgroup>
+                <optgroup label="🌍 Europe & Americas">
+                    <option value="en" selected>🇬🇧 English</option>
+                    <option value="es">🇪🇸 Español</option>
+                    <option value="fr">🇫🇷 Français</option>
+                    <option value="pt">🇵🇹 Português</option>
+                    <option value="de">🇩🇪 Deutsch</option>
+                    <option value="it">🇮🇹 Italiano</option>
+                    <option value="nl">🇳🇱 Nederlands</option>
+                    <option value="pl">🇵🇱 Polski</option>
+                    <option value="el">🇬🇷 Ελληνικά</option>
+                    <option value="ru">🇷🇺 Русский</option>
+                    <option value="uk">🇺🇦 Українська</option>
+                </optgroup>
+            </select>
+        </div>
+        <div class="city-display" id="cityDisplay">HÀ NỘI</div>
     </div>
 
-    <div class="city-display" id="cityDisplay">HÀ NỘI</div>
+    <!-- ===== SEARCH ===== -->
+    <div class="search-box">
+        <input type="text" id="cityInput" placeholder="🔍 ENTER CITY OR COUNTRY..." list="cityList" />
+        <datalist id="cityList"></datalist>
+        <button onclick="searchWeather()">SEARCH</button>
+    </div>
+
+    <!-- ===== WEATHER CARDS ===== -->
+    <div class="weather-cards" id="weatherCards">
+        <div class="weather-card"><div class="icon">🌡️</div><div class="value">--</div><div class="label">TEMPERATURE</div></div>
+        <div class="weather-card"><div class="icon">💧</div><div class="value">--</div><div class="label">HUMIDITY</div></div>
+        <div class="weather-card"><div class="icon">🌧️</div><div class="value">--</div><div class="label">RAINFALL</div></div>
+        <div class="weather-card"><div class="icon">🌬️</div><div class="value">--</div><div class="label">WIND</div></div>
+    </div>
+
+    <!-- ===== EARTHQUAKE ALERT ===== -->
+    <div id="earthquakeAlert" class="alert-box safe">✅ NO EARTHQUAKE WARNING</div>
+
+    <!-- ===== TSUNAMI ALERT ===== -->
+    <div id="tsunamiAlert" class="alert-box safe">✅ NO TSUNAMI WARNING</div>
+
+    <!-- ===== FLOOD ALERT ===== -->
+    <div class="warning-section">
+        <div class="warning-title">🌊 FLOOD RISK</div>
+        <div id="floodDisplay" class="data-display">⏳ Loading flood data...</div>
+    </div>
+
+    <!-- ===== RAINFALL ===== -->
+    <div class="warning-section">
+        <div class="warning-title">🌧️ RAINFALL (NEXT 5 DAYS)</div>
+        <div id="rainfallDisplay" class="data-display">⏳ Loading rainfall data...</div>
+    </div>
+
+    <!-- ===== AIR QUALITY ===== -->
+    <div class="warning-section">
+        <div class="warning-title">💨 AIR QUALITY</div>
+        <div id="airQualityDisplay" class="data-display">⏳ Loading air quality data...</div>
+    </div>
+
+    <!-- ===== MONTHLY WARNINGS ===== -->
+    <div class="warning-section">
+        <div class="warning-title">⚠️ MONTHLY WARNINGS</div>
+        <div id="warningList">
+            <div class="warning-item"><span>🔴 FLOOD</span><span class="risk-low">- LOW RISK (0.2%)</span></div>
+            <div class="warning-item"><span>🟡 DROUGHT</span><span class="risk-medium">- MEDIUM RISK (35%)</span></div>
+            <div class="warning-item"><span>🟢 WILDFIRE</span><span class="risk-low">- LOW RISK (5%)</span></div>
+        </div>
+    </div>
+
+    <!-- ===== 10-YEAR FORECAST ===== -->
+    <div class="forecast-section">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <div style="font-size:18px; font-weight:700; color:#f4c542;">📊 10-YEAR FORECAST</div>
+            <button onclick="loadForecast()" style="padding:8px 18px; border-radius:40px; border:1px solid rgba(244,197,66,0.15); background:rgba(244,197,66,0.05); color:#f4c542; font-weight:600; cursor:pointer; font-size:14px;">LOAD DATA</button>
+        </div>
+        <table class="forecast-table">
+            <thead><tr><th>Year</th><th>Temp (°C)</th><th>Rain (mm)</th></tr></thead>
+            <tbody id="forecastBody">
+                <tr><td colspan="3" style="text-align:center; color:#d4a843; padding:20px;">⏳ Click LOAD DATA</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ===== SIGMA MESSAGE ===== -->
+    <div class="sigma-message">
+        <div class="italic-text"><strong>SIGMA</strong> operates on verified data. Powered by advanced mathematics. <strong>TRANSPARENT AND RELIABLE</strong>.</div>
+        <div class="italic-text" style="margin-top:14px;"><strong>SIGMA</strong> wants to say: Weather can change based on your choices. <strong>Right now</strong> – is your decision for the future.</div>
+        <div class="italic-text" style="margin-top:14px;"><strong>SIGMA</strong> does not claim the future will happen, if you decide to change right now.</div>
+        <div class="highlight-choice">YOU CHOOSE :</div>
+        <div class="choice-option"><strong>@EXTREME WEATHER.</strong><br /><strong>@PEACEFUL WEATHER – HAPPY HOME.</strong></div>
+        <div class="italic-text" style="margin-top:14px; font-size:16px;">It's all in your hands. Choose wisely – you have the power to create change.</div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <div class="footer">
+        <div class="nonprofit">🌍 SIGMA_UNIVERSE : NON-PROFIT</div>
+        <div class="motto-large">✨ PEACEFUL MIND. KIND HEART. KEEP GROWING.</div>
+        <div class="badge">⚡ HUMAN KNOWLEDGE SYSTEM</div>
+    </div>
+
 </div>
-        
-    
 
-        <!-- ===== SEARCH ===== -->
-        <div class="search-box">
-            <input type="text" id="cityInput" placeholder="🔍 ENTER CITY OR COUNTRY..." list="cityList" />
-            <datalist id="cityList"></datalist>
-            <button onclick="searchWeather()">SEARCH</button>
-        </div>
+<script>
+    const CITIES = [
+        { name: 'Hanoi', lat: 21.0285, lon: 105.8542 },
+        { name: 'Ho Chi Minh City', lat: 10.8231, lon: 106.6297 },
+        { name: 'Da Nang', lat: 16.0544, lon: 108.2022 },
+        { name: 'Hai Phong', lat: 20.8449, lon: 106.6881 },
+        { name: 'Can Tho', lat: 10.0452, lon: 105.7469 },
+        { name: 'Tokyo', lat: 35.6762, lon: 139.6503 },
+        { name: 'Seoul', lat: 37.5665, lon: 126.9780 },
+        { name: 'Beijing', lat: 39.9042, lon: 116.4074 },
+        { name: 'Shanghai', lat: 31.2304, lon: 121.4737 },
+        { name: 'Singapore', lat: 1.3521, lon: 103.8198 },
+        { name: 'Bangkok', lat: 13.7563, lon: 100.5018 },
+        { name: 'London', lat: 51.5074, lon: -0.1278 },
+        { name: 'Paris', lat: 48.8566, lon: 2.3522 },
+        { name: 'Berlin', lat: 52.5200, lon: 13.4050 },
+        { name: 'New York', lat: 40.7128, lon: -74.0060 },
+        { name: 'Los Angeles', lat: 34.0522, lon: -118.2437 },
+        { name: 'Sydney', lat: -33.8688, lon: 151.2093 }
+    ];
 
-        <!-- ===== WEATHER CARDS ===== -->
-        <div class="weather-cards" id="weatherCards">
-            <div class="weather-card"><div class="icon">🌡️</div><div class="value">--</div><div class="label">TEMPERATURE</div></div>
-            <div class="weather-card"><div class="icon">💧</div><div class="value">--</div><div class="label">HUMIDITY</div></div>
-            <div class="weather-card"><div class="icon">🌧️</div><div class="value">--</div><div class="label">RAINFALL</div></div>
-            <div class="weather-card"><div class="icon">🌬️</div><div class="value">--</div><div class="label">WIND</div></div>
-        </div>
+    function getCityCoords(name) {
+        return CITIES.find(c => c.name.toLowerCase() === name.toLowerCase().trim());
+    }
 
-        <!-- ===== EARTHQUAKE ALERT ===== -->
-        <div id="earthquakeAlert" class="earthquake-alert safe">
-            ✅ NO EARTHQUAKE WARNING
-        </div>
-
-        <!-- ===== WARNINGS ===== -->
-        <div class="warning-section" id="warningSection">
-            <div class="warning-title">⚠️ MONTHLY WARNINGS</div>
-            <div id="warningList">
-                <div class="warning-item"><span>🔴 FLOOD</span><span class="risk-low">- LOW RISK (0.2%)</span></div>
-                <div class="warning-item"><span>🟡 DROUGHT</span><span class="risk-medium">- MEDIUM RISK (35%)</span></div>
-                <div class="warning-item"><span>🟢 WILDFIRE</span><span class="risk-low">- LOW RISK (5%)</span></div>
-            </div>
-        </div>
-
-        <!-- ===== 10-YEAR FORECAST ===== -->
-        <div class="forecast-section">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                <div style="font-size:18px; font-weight:700; color:#C0C0C0; text-shadow:0 2px 20px rgba(0,0,0,0.6); font-family:'Inter',sans-serif;">
-                    📊 10-YEAR FORECAST
-                </div>
-                <button onclick="loadForecast()" style="padding:8px 18px; border-radius:40px; border:1px solid rgba(192,192,192,0.15); background:rgba(192,192,192,0.05); color:#C0C0C0; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif; font-size:14px;">
-                    LOAD DATA
-                </button>
-            </div>
-            <div id="forecastContainer">
-                <table class="forecast-table">
-                    <thead><tr><th>Year</th><th>Temperature (°C)</th><th>Rainfall (mm)</th></tr></thead>
-                    <tbody id="forecastBody">
-                        <tr><td colspan="3" style="text-align:center; color:#A0A0A0; padding:20px; font-family:'Inter',sans-serif;">⏳ Click "LOAD DATA" to view forecast</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- ===== SIGMA MESSAGE ===== -->
-        <div class="sigma-message">
-            <div class="italic-text">
-                <strong>SIGMA</strong> operates on verified input data. <br />
-                Powered by advanced mathematics and algorithms. <br />
-                <strong>TRANSPARENT AND RELIABLE</strong>.
-            </div>
-            <div class="italic-text" style="margin-top:14px;">
-                <strong>SIGMA</strong> wants to say: <br />
-                Weather can change based on your choices. <br />
-                Not in the future. <br />
-                <strong>Right now</strong> – is your decision for the future.
-            </div>
-            <div class="italic-text" style="margin-top:14px;">
-                <strong>SIGMA</strong> does not claim the future will happen, <br />
-                if you decide to change right now.
-            </div>
-            <div class="highlight-choice">YOU CHOOSE :</div>
-            <div class="choice-option">
-                <strong>@EXTREME WEATHER & ENVIRONMENT.</strong> <br />
-                <strong>@POSITIVE – PEACEFUL WEATHER – HAPPY HOME.</strong>
-            </div>
-            <div class="italic-text" style="margin-top:14px; font-size:16px;">
-                It's all in your hands. <br />
-                Choose wisely – because you have the power to create change.
-            </div>
-        </div>
-
-        <!-- ===== FOOTER ===== -->
-        <div class="footer">
-            <div class="nonprofit">🌍 SIGMA_UNIVERSE : NON-PROFIT ORGANIZATION</div>
-            <div class="motto-large">✨ PEACEFUL MIND. KIND HEART. KEEP GROWING.</div>
-            <div class="badge">⚡ HUMAN KNOWLEDGE SYSTEM</div>
-        </div>
-
-    </div>
-
-    <!-- ============================================================
-    JAVASCRIPT
-    ============================================================ -->
-    <script>
-        // ============================================================
-        //  DANH SÁCH THÀNH PHỐ
-        // ============================================================
-        const CITIES = [
-            { name: 'Hanoi', lat: 21.0285, lon: 105.8542 },
-            { name: 'Ho Chi Minh City', lat: 10.8231, lon: 106.6297 },
-            { name: 'Da Nang', lat: 16.0544, lon: 108.2022 },
-            { name: 'Hai Phong', lat: 20.8449, lon: 106.6881 },
-            { name: 'Can Tho', lat: 10.0452, lon: 105.7469 },
-            { name: 'Tokyo', lat: 35.6762, lon: 139.6503 },
-            { name: 'Seoul', lat: 37.5665, lon: 126.9780 },
-            { name: 'Beijing', lat: 39.9042, lon: 116.4074 },
-            { name: 'Shanghai', lat: 31.2304, lon: 121.4737 },
-            { name: 'Singapore', lat: 1.3521, lon: 103.8198 },
-            { name: 'Bangkok', lat: 13.7563, lon: 100.5018 },
-            { name: 'London', lat: 51.5074, lon: -0.1278 },
-            { name: 'Paris', lat: 48.8566, lon: 2.3522 },
-            { name: 'Berlin', lat: 52.5200, lon: 13.4050 },
-            { name: 'New York', lat: 40.7128, lon: -74.0060 },
-            { name: 'Los Angeles', lat: 34.0522, lon: -118.2437 },
-            { name: 'Sydney', lat: -33.8688, lon: 151.2093 }
-        ];
-
-        // ============================================================
-        //  HÀM TIỆN ÍCH
-        // ============================================================
-        function getCityCoords(name) {
-            return CITIES.find(c => c.name.toLowerCase() === name.toLowerCase().trim());
-        }
-
-        function populateCityList() {
-            const datalist = document.getElementById('cityList');
-            CITIES.forEach(city => {
-                const option = document.createElement('option');
-                option.value = city.name;
-                datalist.appendChild(option);
-            });
-        }
-
-        // ============================================================
-        //  1. THỜI TIẾT HIỆN TẠI
-        // ============================================================
-        async function searchWeather() {
-            const input = document.getElementById('cityInput').value.trim();
-            if (!input) { alert('PLEASE ENTER A CITY NAME.'); return; }
-            const city = getCityCoords(input);
-            if (!city) { alert('❌ CITY NOT FOUND.'); return; }
-
-            document.getElementById('cityDisplay').textContent = city.name.toUpperCase();
-
-            try {
-                const url =
-                    `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current_weather=true&hourly=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m&timezone=auto`;
-                const res = await fetch(url);
-                if (!res.ok) throw new Error('API error');
-                const data = await res.json();
-
-                const temp = data.current_weather.temperature;
-                const wind = data.current_weather.windspeed;
-                const humidity = data.hourly.relative_humidity_2m[0] || '--';
-                const rain = data.hourly.precipitation[0] || 0;
-
-                const cards = document.querySelectorAll('.weather-card');
-                if (cards[0]) cards[0].querySelector('.value').textContent = temp !== undefined ? temp.toFixed(1) +
-                    '°C' : '--';
-                if (cards[1]) cards[1].querySelector('.value').textContent = humidity !== '--' ? humidity + '%' : '--';
-                if (cards[2]) cards[2].querySelector('.value').textContent = rain !== undefined ? rain.toFixed(1) +
-                    ' mm/h' : '--';
-                if (cards[3]) cards[3].querySelector('.value').textContent = wind !== undefined ? wind.toFixed(1) +
-                    ' km/h' : '--';
-
-                updateWarnings(temp, rain, humidity);
-                fetchEarthquake();
-            } catch (err) {
-                alert('❌ DATA CONNECTION ERROR.');
-                console.error(err);
-            }
-        }
-
-        // ============================================================
-        //  2. CẢNH BÁO THIÊN TAI
-        // ============================================================
-        function updateWarnings(temp, rain, humidity) {
-            let floodRisk = 'low',
-                floodPercent = '0.2%';
-            let droughtRisk = 'medium',
-                droughtPercent = '35%';
-            let fireRisk = 'low',
-                firePercent = '5%';
-
-            if (rain > 5 && rain <= 15) { floodRisk = 'medium';
-                floodPercent = '45%'; } else if (rain > 15) { floodRisk = 'high';
-                floodPercent = '85%'; }
-            if (temp > 35 && humidity < 30) { droughtRisk = 'high';
-                droughtPercent = '78%';
-                fireRisk = 'high';
-                firePercent = '82%'; } else if (temp > 30 && humidity < 40) { droughtRisk = 'medium';
-                droughtPercent = '42%';
-                fireRisk = 'medium';
-                firePercent = '38%'; }
-
-            const warningList = document.getElementById('warningList');
-            if (warningList) {
-                warningList.innerHTML = `
-                        <div class="warning-item"><span>🔴 FLOOD</span><span class="risk-${floodRisk === 'high' ? 'high' : floodRisk === 'medium' ? 'medium' : 'low'}">- ${floodRisk.toUpperCase()} RISK (${floodPercent})</span></div>
-                        <div class="warning-item"><span>🟡 DROUGHT</span><span class="risk-${droughtRisk === 'high' ? 'high' : droughtRisk === 'medium' ? 'medium' : 'low'}">- ${droughtRisk.toUpperCase()} RISK (${droughtPercent})</span></div>
-                        <div class="warning-item"><span>🟢 WILDFIRE</span><span class="risk-${fireRisk === 'high' ? 'high' : fireRisk === 'medium' ? 'medium' : 'low'}">- ${fireRisk.toUpperCase()} RISK (${firePercent})</span></div>
-                    `;
-            }
-        }
-
-        // ============================================================
-        //  3. ĐỘNG ĐẤT (USGS)
-        // ============================================================
-        async function fetchEarthquake() {
-            try {
-                const url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson';
-                const res = await fetch(url);
-                const data = await res.json();
-                const quakes = data.features.filter(f => f.properties.mag >= 4.0);
-                const alertDiv = document.getElementById('earthquakeAlert');
-
-                if (quakes.length > 0) {
-                    const latest = quakes[0].properties;
-                    alertDiv.className = 'earthquake-alert';
-                    alertDiv.innerHTML =
-                        `🔴 EARTHQUAKE M${latest.mag.toFixed(1)} - ${latest.place} (${new Date(latest.time).toLocaleString()})`;
-                } else {
-                    alertDiv.className = 'earthquake-alert safe';
-                    alertDiv.innerHTML = '✅ NO EARTHQUAKE WARNING';
-                }
-            } catch (e) {
-                console.error('Earthquake fetch error:', e);
-            }
-        }
-
-        // ============================================================
-        //  4. DỰ BÁO 10 NĂM
-        // ============================================================
-        async function loadForecast() {
-            const city = document.getElementById('cityInput').value.trim() || 'Hanoi';
-            const coords = getCityCoords(city);
-            if (!coords) { alert('❌ Invalid city.'); return; }
-
-            const tbody = document.getElementById('forecastBody');
-            tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#A0A0A0;">⏳ Loading data...</td></tr>';
-
-            try {
-                const url =
-                    `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&forecast_days=365&timezone=auto`;
-                const res = await fetch(url);
-                const data = await res.json();
-
-                if (!data.daily) throw new Error('No data');
-
-                const yearMap = {};
-                const temps = data.daily.temperature_2m_max;
-                const rains = data.daily.precipitation_sum;
-
-                for (let i = 0; i < temps.length; i++) {
-                    const date = new Date(data.daily.time[i]);
-                    const year = date.getFullYear();
-                    if (!yearMap[year]) yearMap[year] = { sum: 0, count: 0, rain: 0 };
-                    yearMap[year].sum += temps[i];
-                    yearMap[year].count++;
-                    if (rains[i]) yearMap[year].rain += rains[i];
-                }
-
-                const sortedYears = Object.keys(yearMap).sort();
-                const rows = sortedYears.map(y => {
-                    const avg = yearMap[y].sum / yearMap[y].count;
-                    const rainTotal = yearMap[y].rain;
-                    return `<tr><td>${y}</td><td>${avg.toFixed(1)}</td><td>${rainTotal.toFixed(0)}</td></tr>`;
-                });
-
-                tbody.innerHTML = rows.join('');
-            } catch (e) {
-                tbody.innerHTML =
-                    `<tr><td colspan="3" style="text-align:center; color:#E8A0A0;">❌ Unable to load data. Please try again.</td></tr>`;
-                console.error(e);
-            }
-        }
-
-        // ============================================================
-        //  5. KHỞI TẠO
-        // ============================================================
-        document.getElementById('cityInput').addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') { searchWeather(); }
+    function populateCityList() {
+        const datalist = document.getElementById('cityList');
+        CITIES.forEach(city => {
+            const option = document.createElement('option');
+            option.value = city.name;
+            datalist.appendChild(option);
         });
+    }
 
-        window.onload = function() {
-            populateCityList();
-            document.getElementById('cityInput').value = 'Hanoi';
-            searchWeather();
-            document.getElementById('languageSelect').addEventListener('change', function() {
-                alert('🌐 Language translation feature coming soon!');
+    async function searchWeather() {
+        const input = document.getElementById('cityInput').value.trim();
+        if (!input) { alert('PLEASE ENTER A CITY NAME.'); return; }
+        const city = getCityCoords(input);
+        if (!city) { alert('❌ CITY NOT FOUND.'); return; }
+
+        document.getElementById('cityDisplay').textContent = city.name.toUpperCase();
+
+        try {
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current_weather=true&hourly=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m&timezone=auto`;
+            const res = await fetch(url);
+            if (!res.ok) throw new Error('API error');
+            const data = await res.json();
+
+            const temp = data.current_weather.temperature;
+            const wind = data.current_weather.windspeed;
+            const humidity = data.hourly.relative_humidity_2m[0] || '--';
+            const rain = data.hourly.precipitation[0] || 0;
+
+            const cards = document.querySelectorAll('.weather-card');
+            if (cards[0]) cards[0].querySelector('.value').textContent = temp !== undefined ? temp.toFixed(1) + '°C' : '--';
+            if (cards[1]) cards[1].querySelector('.value').textContent = humidity !== '--' ? humidity + '%' : '--';
+            if (cards[2]) cards[2].querySelector('.value').textContent = rain !== undefined ? rain.toFixed(1) + ' mm/h' : '--';
+            if (cards[3]) cards[3].querySelector('.value').textContent = wind !== undefined ? wind.toFixed(1) + ' km/h' : '--';
+
+            updateWarnings(temp, rain, humidity);
+            fetchEarthquake();
+            fetchTsunami();
+            fetchFlood();
+            fetchRainfall();
+            fetchAirQuality();
+        } catch (err) {
+            alert('❌ DATA CONNECTION ERROR.');
+            console.error(err);
+        }
+    }
+
+    function updateWarnings(temp, rain, humidity) {
+        let floodRisk = 'low', floodPercent = '0.2%';
+        let droughtRisk = 'medium', droughtPercent = '35%';
+        let fireRisk = 'low', firePercent = '5%';
+
+        if (rain > 5 && rain <= 15) { floodRisk = 'medium'; floodPercent = '45%'; }
+        else if (rain > 15) { floodRisk = 'high'; floodPercent = '85%'; }
+
+        if (temp > 35 && humidity < 30) { droughtRisk = 'high'; droughtPercent = '78%'; fireRisk = 'high'; firePercent = '82%'; }
+        else if (temp > 30 && humidity < 40) { droughtRisk = 'medium'; droughtPercent = '42%'; fireRisk = 'medium'; firePercent = '38%'; }
+
+        const warningList = document.getElementById('warningList');
+        if (warningList) {
+            warningList.innerHTML = `
+                <div class="warning-item"><span>🔴 FLOOD</span><span class="risk-${floodRisk === 'high' ? 'high' : floodRisk === 'medium' ? 'medium' : 'low'}">- ${floodRisk.toUpperCase()} RISK (${floodPercent})</span></div>
+                <div class="warning-item"><span>🟡 DROUGHT</span><span class="risk-${droughtRisk === 'high' ? 'high' : droughtRisk === 'medium' ? 'medium' : 'low'}">- ${droughtRisk.toUpperCase()} RISK (${droughtPercent})</span></div>
+                <div class="warning-item"><span>🟢 WILDFIRE</span><span class="risk-${fireRisk === 'high' ? 'high' : fireRisk === 'medium' ? 'medium' : 'low'}">- ${fireRisk.toUpperCase()} RISK (${firePercent})</span></div>
+            `;
+        }
+    }
+
+    async function fetchEarthquake() {
+        try {
+            const url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson';
+            const res = await fetch(url);
+            const data = await res.json();
+            const quakes = data.features.filter(f => f.properties.mag >= 4.0);
+            const alertDiv = document.getElementById('earthquakeAlert');
+            if (quakes.length > 0) {
+                const latest = quakes[0].properties;
+                alertDiv.className = 'alert-box';
+                alertDiv.innerHTML = `🔴 EARTHQUAKE M${latest.mag.toFixed(1)} - ${latest.place} (${new Date(latest.time).toLocaleString()})`;
+            } else {
+                alertDiv.className = 'alert-box safe';
+                alertDiv.innerHTML = '✅ NO EARTHQUAKE WARNING';
+            }
+        } catch (e) { console.error('Earthquake fetch error:', e); }
+    }
+
+    async function fetchTsunami() {
+        try {
+            const url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson';
+            const res = await fetch(url);
+            const data = await res.json();
+            const tsunamiEvents = data.features.filter(f => f.properties.tsunami === 1 && f.properties.mag >= 6.0);
+            const alertDiv = document.getElementById('tsunamiAlert');
+            if (tsunamiEvents.length > 0) {
+                const latest = tsunamiEvents[0].properties;
+                alertDiv.className = 'alert-box';
+                alertDiv.innerHTML = `🌊 TSUNAMI WARNING! M${latest.mag.toFixed(1)} - ${latest.place}<br><span style="font-size:14px; color:#f0a030;">⚠️ Stay away from coastal areas!</span>`;
+            } else {
+                alertDiv.className = 'alert-box safe';
+                alertDiv.innerHTML = '✅ NO TSUNAMI WARNING';
+            }
+        } catch (e) { console.error('Tsunami fetch error:', e); }
+    }
+
+    async function fetchFlood() {
+        const city = document.getElementById('cityInput').value.trim() || 'Hanoi';
+        const coords = getCityCoords(city);
+        if (!coords) return;
+        try {
+            const url = `https://flood-api.open-meteo.com/v1/flood?latitude=${coords.lat}&longitude=${coords.lon}&daily=river_discharge&forecast_days=1&timezone=auto`;
+            const res = await fetch(url);
+            const data = await res.json();
+            const display = document.getElementById('floodDisplay');
+            if (data.daily && data.daily.river_discharge && data.daily.river_discharge.length > 0) {
+                const discharge = data.daily.river_discharge[0];
+                const level = discharge > 500 ? '🔴 HIGH' : discharge > 200 ? '🟡 MEDIUM' : '🟢 LOW';
+                const color = discharge > 500 ? '#f0a030' : discharge > 200 ? '#f4c542' : '#d4e8a0';
+                display.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                        <span>🚰 River Discharge: <strong style="color:#f8d88a;">${discharge.toFixed(0)} m³/s</strong></span>
+                        <span style="color:${color}; font-weight:700;">${level} RISK</span>
+                    </div>
+                    <div style="font-size:14px; color:#d4a843; margin-top:4px;">${discharge > 500 ? '⚠️ Potential flooding risk. Stay alert.' : discharge > 200 ? '📊 Monitor water levels.' : '✅ Normal conditions.'}</div>
+                `;
+            } else {
+                display.innerHTML = '✅ No flood data available for this region.';
+            }
+        } catch (e) {
+            document.getElementById('floodDisplay').innerHTML = '⚠️ Unable to load flood data.';
+            console.error('Flood fetch error:', e);
+        }
+    }
+
+    async function fetchRainfall() {
+        const city = document.getElementById('cityInput').value.trim() || 'Hanoi';
+        const coords = getCityCoords(city);
+        if (!coords) return;
+        try {
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&daily=precipitation_sum&forecast_days=5&timezone=auto`;
+            const res = await fetch(url);
+            const data = await res.json();
+            const display = document.getElementById('rainfallDisplay');
+            if (data.daily && data.daily.precipitation_sum && data.daily.precipitation_sum.length > 0) {
+                const rains = data.daily.precipitation_sum;
+                const dates = data.daily.time;
+                let html = '<div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center;">';
+                for (let i = 0; i < rains.length; i++) {
+                    const date = new Date(dates[i]);
+                    const day = date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+                    const rain = rains[i] || 0;
+                    const barWidth = Math.min(rain * 10, 100);
+                    html += `
+                        <div style="background:rgba(255,255,255,0.03); border-radius:12px; padding:10px 14px; min-width:80px; text-align:center; border:1px solid rgba(244,197,66,0.06);">
+                            <div style="font-size:13px; color:#d4a843;">${day}</div>
+                            <div style="font-size:20px; font-weight:700; color:#f8d88a;">${rain.toFixed(1)} mm</div>
+                            <div style="width:100%; height:4px; background:rgba(255,255,255,0.05); border-radius:4px; margin-top:6px; overflow:hidden;">
+                                <div style="width:${barWidth}%; height:100%; background:linear-gradient(90deg, #f4c542, #f8d88a); border-radius:4px;"></div>
+                            </div>
+                        </div>
+                    `;
+                }
+                html += '</div>';
+                display.innerHTML = html;
+            } else {
+                display.innerHTML = '✅ No rainfall data available.';
+            }
+        } catch (e) {
+            document.getElementById('rainfallDisplay').innerHTML = '⚠️ Unable to load rainfall data.';
+            console.error('Rainfall fetch error:', e);
+        }
+    }
+
+    async function fetchAirQuality() {
+        const city = document.getElementById('cityInput').value.trim() || 'Hanoi';
+        const coords = getCityCoords(city);
+        if (!coords) return;
+        try {
+            const url = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${coords.lat}&longitude=${coords.lon}&hourly=pm10,pm2_5,european_aqi&forecast_days=1&timezone=auto`;
+            const res = await fetch(url);
+            const data = await res.json();
+            const display = document.getElementById('airQualityDisplay');
+            if (data.hourly && data.hourly.european_aqi && data.hourly.european_aqi.length > 0) {
+                const aqi = Math.round(data.hourly.european_aqi[0]);
+                const pm25 = data.hourly.pm2_5 ? Math.round(data.hourly.pm2_5[0]) : 'N/A';
+                const pm10 = data.hourly.pm10 ? Math.round(data.hourly.pm10[0]) : 'N/A';
+                let level, color, advice;
+                if (aqi > 60) { level = '🔴 UNHEALTHY'; color = '#f0a030'; advice = 'Limit outdoor activities.'; }
+                else if (aqi > 30) { level = '🟡 MODERATE'; color = '#f4c542'; advice = 'Sensitive groups should limit exposure.'; }
+                else { level = '🟢 GOOD'; color = '#d4e8a0'; advice = 'Air quality is satisfactory.'; }
+                display.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                        <span>🌫️ AQI: <strong style="color:#f8d88a;">${aqi}</strong></span>
+                        <span style="color:${color}; font-weight:700;">${level}</span>
+                    </div>
+                    <div style="display:flex; gap:20px; justify-content:center; font-size:14px; color:#d4a843; margin-top:4px;">
+                        <span>PM2.5: ${pm25} µg/m³</span>
+                        <span>PM10: ${pm10} µg/m³</span>
+                    </div>
+                    <div style="font-size:14px; color:#d4a843; margin-top:4px;">💡 ${advice}</div>
+                `;
+            } else {
+                display.innerHTML = '✅ No air quality data available.';
+            }
+        } catch (e) {
+            document.getElementById('airQualityDisplay').innerHTML = '⚠️ Unable to load air quality data.';
+            console.error('Air Quality fetch error:', e);
+        }
+    }
+
+    async function loadForecast() {
+        const city = document.getElementById('cityInput').value.trim() || 'Hanoi';
+        const coords = getCityCoords(city);
+        if (!coords) { alert('❌ Invalid city.'); return; }
+        const tbody = document.getElementById('forecastBody');
+        tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#d4a843;">⏳ Loading...</td></tr>';
+        try {
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&daily=temperature_2m_max,precipitation_sum&forecast_days=365&timezone=auto`;
+            const res = await fetch(url);
+            const data = await res.json();
+            if (!data.daily) throw new Error('No data');
+            const yearMap = {};
+            const temps = data.daily.temperature_2m_max;
+            const rains = data.daily.precipitation_sum;
+            for (let i = 0; i < temps.length; i++) {
+                const year = new Date(data.daily.time[i]).getFullYear();
+                if (!yearMap[year]) yearMap[year] = { sum: 0, count: 0, rain: 0 };
+                yearMap[year].sum += temps[i];
+                yearMap[year].count++;
+                if (rains[i]) yearMap[year].rain += rains[i];
+            }
+            const sortedYears = Object.keys(yearMap).sort();
+            const rows = sortedYears.map(y => {
+                const avg = yearMap[y].sum / yearMap[y].count;
+                const rainTotal = yearMap[y].rain;
+                return `<tr><td>${y}</td><td>${avg.toFixed(1)}</td><td>${rainTotal.toFixed(0)}</td></tr>`;
             });
-        };
-    </script>
+            tbody.innerHTML = rows.join('');
+        } catch (e) {
+            tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#e8a030;">❌ Unable to load data.</td></tr>`;
+            console.error(e);
+        }
+    }
 
+    document.getElementById('cityInput').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') { searchWeather(); }
+    });
+
+    window.onload = function() {
+        populateCityList();
+        document.getElementById('cityInput').value = 'Hanoi';
+        searchWeather();
+        document.getElementById('languageSelect').addEventListener('change', function() {
+            alert('🌐 Language translation coming soon!');
+        });
+    };
+</script>
 </body>
 </html>
