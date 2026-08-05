@@ -44,7 +44,7 @@
             width: 100%;
             height: 100%;
             background: url('assets/images/background.jpg') center/cover no-repeat fixed;
-            filter: brightness(0.58) saturate(1.08);
+            filter: brightness(0.88) saturate(1.10);
             z-index: 0;
         }
         body::after {
@@ -52,9 +52,9 @@
             position: fixed;
             inset: 0;
             background:
-                radial-gradient(circle at 50% 16%, rgba(56,223,255,0.16), transparent 30%),
-                radial-gradient(circle at 50% 44%, rgba(244,197,66,0.07), transparent 34%),
-                linear-gradient(180deg, rgba(2,10,24,0.10), rgba(2,10,24,0.84));
+                radial-gradient(circle at 50% 16%, rgba(56,223,255,0.08), transparent 30%),
+                radial-gradient(circle at 50% 44%, rgba(244,197,66,0.04), transparent 34%),
+                linear-gradient(180deg, rgba(2,10,24,0.02), rgba(2,10,24,0.28));
             z-index: 0;
         }
         .container {
@@ -62,11 +62,13 @@
             z-index: 1;
             max-width: 1100px;
             width: 100%;
-            background: transparent;
+            background:
+                linear-gradient(180deg, rgba(2,10,24,0.10), rgba(2,10,24,0.24)),
+                radial-gradient(circle at 50% 0%, rgba(56,223,255,0.10), transparent 40%);
             padding: 34px 38px 30px;
-            border: 0;
-            border-radius: 0;
-            box-shadow: none;
+            border: 1px solid rgba(216,251,255,0.08);
+            border-radius: 28px;
+            box-shadow: 0 24px 90px rgba(2,10,24,0.34);
         }
         .container::before,
         .container::after {
@@ -168,12 +170,12 @@
             flex: 1;
             padding: 14px 20px;
             border-radius: 60px;
-            border: 1px solid rgba(216,251,255,0.22);
-            background: transparent;
+            border: 1px solid rgba(216,251,255,0.18);
+            background: linear-gradient(180deg, rgba(2,10,24,0.62), rgba(6,43,95,0.24));
             color: var(--sigma-ice);
             font-size: 16px;
             outline: none;
-            backdrop-filter: none;
+            backdrop-filter: blur(6px);
             font-weight: 600;
             letter-spacing: 0.03em;
         }
@@ -182,20 +184,20 @@
             padding: 14px 28px;
             border-radius: 60px;
             border: 1px solid rgba(244,197,66,0.30);
-            background: transparent;
+            background: linear-gradient(135deg, rgba(244,197,66,0.16), rgba(56,223,255,0.12), rgba(6,43,95,0.34));
             color: var(--sigma-silver);
             font-family: "Cinzel", "Inter", serif;
             font-weight: 700;
             font-size: 15px;
             cursor: pointer;
             transition: 0.3s;
-            backdrop-filter: none;
+            backdrop-filter: blur(6px);
             text-transform: uppercase;
             letter-spacing: 0.12em;
             text-shadow: 0 0 12px rgba(56,223,255,0.35);
         }
         .search-box button:hover {
-                background: rgba(56,223,255,0.10);
+            background: linear-gradient(135deg, rgba(244,197,66,0.22), rgba(56,223,255,0.20), rgba(6,43,95,0.38));
             transform: translateY(-1px);
         }
 
@@ -203,12 +205,14 @@
         .weather-cards { display: flex; gap: 14px; flex-wrap: wrap; margin: 18px 0 24px; }
         .weather-card {
             position: relative;
-            background: transparent;
-            backdrop-filter: none;
+            background:
+                linear-gradient(180deg, rgba(216,251,255,0.075), rgba(2,10,24,0.46)),
+                radial-gradient(circle at 50% 0%, rgba(56,223,255,0.12), transparent 56%);
+            backdrop-filter: blur(7px);
             padding: 16px 12px 15px;
             border-radius: 18px;
-            border: 0;
-            box-shadow: none;
+            border: 1px solid rgba(216,251,255,0.13);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.07), 0 14px 38px rgba(2,10,24,0.25);
             text-align: center;
             flex: 1;
             min-width: 90px;
@@ -224,8 +228,8 @@
         }
         .weather-card:hover {
             transform: translateY(-2px);
-            border-color: transparent;
-            box-shadow: none;
+            border-color: rgba(56,223,255,0.28);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.09), 0 18px 46px rgba(2,10,24,0.30);
         }
         .weather-card .icon {
             display: inline-grid;
@@ -234,8 +238,8 @@
             height: 42px;
             margin-bottom: 3px;
             border-radius: 999px;
-            background: transparent;
-            border: 0;
+            background: radial-gradient(circle, rgba(56,223,255,0.14), rgba(2,10,24,0.08));
+            border: 1px solid rgba(216,251,255,0.12);
             font-size: 24px;
             filter: drop-shadow(0 0 10px rgba(56,223,255,0.18));
         }
@@ -259,17 +263,21 @@
             margin: 14px 0 16px;
             padding: 14px 18px;
             border-radius: 14px;
-            background: transparent;
-            border: 1px solid rgba(216,251,255,0.12);
+            background:
+                linear-gradient(135deg, rgba(56,223,255,0.13), rgba(6,43,95,0.32)),
+                linear-gradient(180deg, rgba(255,255,255,0.035), transparent);
+            border: 1px solid rgba(216,251,255,0.14);
             color: var(--sigma-ice);
             font-weight: 700;
             font-size: 16px;
             text-align: center;
-            backdrop-filter: none;
+            backdrop-filter: blur(4px);
             text-shadow: 0 0 16px rgba(56,223,255,0.22);
         }
         .alert-box.safe {
-            background: transparent;
+            background:
+                linear-gradient(135deg, rgba(56,223,255,0.08), rgba(2,10,24,0.34)),
+                linear-gradient(180deg, rgba(255,255,255,0.03), transparent);
             border-color: rgba(142,246,255,0.18);
             color: var(--sigma-soft-cyan);
         }
@@ -299,13 +307,13 @@
             padding: 10px 16px;
             border-radius: 14px;
             margin-bottom: 6px;
-            background: transparent;
-            backdrop-filter: none;
+            background: linear-gradient(90deg, rgba(2,10,24,0.38), rgba(6,43,95,0.18));
+            backdrop-filter: blur(4px);
             color: var(--sigma-ice);
             font-size: 16px;
             font-weight: 600;
             border-left: 3px solid rgba(56,223,255,0.36);
-            box-shadow: none;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.035);
         }
         .warning-item .risk-low { color: var(--sigma-soft-cyan); }
         .warning-item .risk-medium { color: var(--sigma-gold); }
@@ -322,15 +330,15 @@
         .forecast-table {
             width: 100%;
             border-collapse: collapse;
-            background: transparent;
-            backdrop-filter: none;
+            background: rgba(2,10,24,0.58);
+            backdrop-filter: blur(5px);
             border-radius: 16px;
             overflow: hidden;
-            border: 0;
-            box-shadow: none;
+            border: 1px solid rgba(216,251,255,0.10);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.045);
         }
         .forecast-table th {
-            background: transparent;
+            background: linear-gradient(135deg, rgba(56,223,255,0.18), rgba(6,43,95,0.30));
             color: var(--sigma-soft-gold);
             padding: 10px 12px;
             font-family: "Cinzel", "Inter", serif;
@@ -347,7 +355,7 @@
             font-size: 14px;
             font-weight: 600;
         }
-        .forecast-table tr:hover td { background: transparent; }
+        .forecast-table tr:hover td { background: rgba(56,223,255,0.045); }
 
         /* ===== SIGMA MESSAGE ===== */
         .sigma-message {
@@ -355,7 +363,7 @@
             padding: 18px 18px;
             border-top: 1px solid rgba(56,223,255,0.18);
             border-bottom: 1px solid rgba(56,223,255,0.18);
-            background: transparent;
+            background: linear-gradient(90deg, transparent, rgba(2,10,24,0.24), transparent);
             text-align: center;
         }
         .sigma-message .italic-text {
@@ -425,7 +433,7 @@
         }
         .footer .badge {
             display: inline-block;
-            background: transparent;
+            background: rgba(244,197,66,0.08);
             padding: 4px 18px;
             border-radius: 40px;
             font-size: 13px;
@@ -455,7 +463,7 @@
             padding: 8px 18px;
             border-radius: 40px;
             border: 1px solid rgba(56,223,255,0.28);
-            background: transparent;
+            background: linear-gradient(135deg, rgba(56,223,255,0.14), rgba(6,43,95,0.28));
             color: var(--sigma-silver);
             font-family: "Cinzel", "Inter", serif;
             font-weight: 700;
@@ -467,7 +475,7 @@
         .sigma-mini-button:hover {
             transform: translateY(-1px);
             border-color: rgba(244,197,66,0.32);
-            background: rgba(56,223,255,0.10);
+            background: linear-gradient(135deg, rgba(244,197,66,0.14), rgba(56,223,255,0.16), rgba(6,43,95,0.30));
         }
         .sigma-table-status {
             text-align: center;
@@ -834,7 +842,7 @@
                     const rain = rains[i] || 0;
                     const barWidth = Math.min(rain * 10, 100);
                     html += `
-                        <div style="background:transparent; border-radius:0; padding:10px 14px; min-width:80px; text-align:center; border:0;">
+                        <div style="background:rgba(255,255,255,0.03); border-radius:12px; padding:10px 14px; min-width:80px; text-align:center; border:1px solid rgba(56,223,255,0.14);">
                             <div style="font-size:13px; color:#A9D7E6; font-weight:700; letter-spacing:0.04em;">${day}</div>
                             <div style="font-size:20px; font-weight:800; color:#38DFFF; text-shadow:0 0 12px rgba(56,223,255,0.34);">${rain.toFixed(1)} mm</div>
                             <div style="width:100%; height:4px; background:rgba(255,255,255,0.05); border-radius:4px; margin-top:6px; overflow:hidden;">
