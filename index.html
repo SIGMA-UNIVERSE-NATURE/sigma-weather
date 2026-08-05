@@ -6,6 +6,22 @@
     <title>🌿 SIGMA CLIMATE – Global Intelligence</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cinzel:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <style>
+        /* ===== SIGMA COLOR SYSTEM ===== */
+        :root {
+            --sigma-midnight: #020A18;
+            --sigma-deep-blue: #062B5F;
+            --sigma-ocean-blue: #0B6FBF;
+            --sigma-cyan: #38DFFF;
+            --sigma-soft-cyan: #8EF6FF;
+            --sigma-ice: #DFFBFF;
+            --sigma-silver: #F8FBFF;
+            --sigma-gold: #F4C542;
+            --sigma-soft-gold: #F9E7A4;
+            --sigma-warm-alert: #FF8F4C;
+            --sigma-muted: #A9D7E6;
+            --sigma-glass-line: rgba(216,251,255,0.13);
+        }
+
         /* ===== RESET & BASE ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -14,9 +30,11 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
-            background: #0a1a0a;
+            padding: 28px 20px;
+            background: #020A18;
             line-height: 1.6;
+            color: var(--sigma-silver);
+            letter-spacing: 0.01em;
         }
         body::before {
             content: '';
@@ -26,7 +44,17 @@
             width: 100%;
             height: 100%;
             background: url('assets/images/background.jpg') center/cover no-repeat fixed;
-            filter: brightness(0.7) saturate(0.8);
+            filter: brightness(0.58) saturate(1.08);
+            z-index: 0;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 50% 16%, rgba(56,223,255,0.16), transparent 30%),
+                radial-gradient(circle at 50% 44%, rgba(244,197,66,0.07), transparent 34%),
+                linear-gradient(180deg, rgba(2,10,24,0.10), rgba(2,10,24,0.84));
             z-index: 0;
         }
         .container {
@@ -35,19 +63,55 @@
             max-width: 1100px;
             width: 100%;
             background: transparent;
-            padding: 30px 35px;
+            padding: 34px 38px 30px;
+            border: 0;
+            border-radius: 0;
+            box-shadow: none;
+        }
+        .container::before,
+        .container::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            width: min(760px, 74%);
+            height: 1px;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, transparent, rgba(56,223,255,0.44), rgba(244,197,66,0.38), rgba(56,223,255,0.44), transparent);
+            pointer-events: none;
+        }
+        .container::before { top: 18px; }
+        .container::after { bottom: 18px; opacity: 0.55; }
+        .header::after {
+            content: '';
+            display: block;
+            width: min(520px, 62%);
+            height: 1px;
+            margin: 14px auto 0;
+            background: linear-gradient(90deg, transparent, rgba(244,197,66,0.50), rgba(56,223,255,0.42), transparent);
         }
 
         /* ===== HEADER ===== */
-        .header { text-align: center; margin-bottom: 16px; }
-        .logo { height: 360px; display: block; margin: 0 auto 12px; }
+        .header { text-align: center; margin-bottom: 18px; }
+        .logo {
+            height: 350px;
+            display: block;
+            margin: 0 auto 10px;
+            filter: drop-shadow(0 18px 38px rgba(56,223,255,0.18));
+        }
         .sigma-main-title {
             font-family: "Cinzel", "Trajan Pro", serif;
-            font-weight: 600;
-            letter-spacing: 0.16em;
+            font-weight: 500;
+            letter-spacing: 0.18em;
             text-transform: uppercase;
-            color: #90EE90;
-            text-shadow: 0 1px 0 #e8c86a, 0 2px 0 #c9a54a, 0 4px 0 #a8832a, 0 0 15px rgba(255,215,0,0.4);
+            background: linear-gradient(180deg, #FFFFFF 0%, #F8FBFF 28%, #DFFBFF 50%, #8EF6FF 72%, #426E94 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow:
+                0 1px 0 rgba(255,255,255,0.50),
+                0 2px 0 rgba(6,43,95,0.90),
+                0 0 8px rgba(56,223,255,0.44),
+                0 0 18px rgba(56,223,255,0.24);
             font-size: clamp(28px, 4.5vw, 52px);
             line-height: 1.1;
             margin-bottom: 2px;
@@ -55,10 +119,10 @@
         .sigma-subtitle {
             font-family: "Cinzel", "Montserrat", serif;
             font-weight: 400;
-            letter-spacing: 0.32em;
+            letter-spacing: 0.34em;
             text-transform: uppercase;
-            color: #90EE90;
-            text-shadow: 0 0 15px rgba(244,197,66,0.3);
+            color: #F4C542;
+            text-shadow: 0 0 8px rgba(244,197,66,0.34), 0 0 18px rgba(56,223,255,0.13);
             font-size: clamp(12px, 1.5vw, 18px);
             margin-bottom: 8px;
         }
@@ -68,135 +132,187 @@
             align-items: center;
             gap: 10px;
             margin: 6px 0 0;
-            font-size: 14px;
-            color: #90EE90;
+            font-size: 13px;
+            color: var(--sigma-muted);
+            font-weight: 600;
+            letter-spacing: 0.04em;
         }
+        .sigma-gold-icon { color: var(--sigma-gold); filter: drop-shadow(0 0 8px rgba(244,197,66,0.35)); }
         .language-selector select {
             padding: 6px 14px;
             border-radius: 30px;
-            border: 1px solid rgba(244,197,66,0.15);
-            background: rgba(30,60,30,0.4);
-            color: #e8c86a;
+            border: 1px solid rgba(56,223,255,0.28);
+            background: rgba(2,10,24,0.62);
+            color: var(--sigma-soft-gold);
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
             outline: none;
             cursor: pointer;
             max-width: 220px;
         }
-        .language-selector select option { background: #1a3a1a; color: #90EE90; }
+        .language-selector select option { background: #020A18; color: #F8FBFF; }
         .city-display {
+            font-family: "Cinzel", "Inter", serif;
             font-size: 28px;
-            font-weight: 700;
-            color: #90EE90;
+            font-weight: 600;
+            color: var(--sigma-ice);
             margin-top: 4px;
-            text-shadow: 0 0 30px rgba(244,197,66,0.2);
+            text-shadow: 0 0 18px rgba(56,223,255,0.34);
             min-height: 40px;
-            letter-spacing: 2px;
+            letter-spacing: 0.14em;
         }
 
         /* ===== SEARCH ===== */
-        .search-box { display: flex; gap: 12px; margin: 16px 0 22px; }
+        .search-box { display: flex; gap: 12px; margin: 18px 0 24px; }
         .search-box input {
             flex: 1;
             padding: 14px 20px;
             border-radius: 60px;
-            border: 1px solid rgba(244,197,66,0.12);
-            background: rgba(30,60,30,0.3);
-            color: #90EE90;
+            border: 1px solid rgba(216,251,255,0.22);
+            background: transparent;
+            color: var(--sigma-ice);
             font-size: 16px;
             outline: none;
-            backdrop-filter: blur(6px);
-            font-weight: 500;
+            backdrop-filter: none;
+            font-weight: 600;
+            letter-spacing: 0.03em;
         }
-        .search-box input::placeholder { color: #90EE90; }
+        .search-box input::placeholder { color: rgba(216,251,255,0.70); }
         .search-box button {
             padding: 14px 28px;
             border-radius: 60px;
-            border: 1px solid rgba(244,197,66,0.15);
-            background: rgba(244,197,66,0.05);
-            color: #90EE90;
+            border: 1px solid rgba(244,197,66,0.30);
+            background: transparent;
+            color: var(--sigma-silver);
+            font-family: "Cinzel", "Inter", serif;
             font-weight: 700;
-            font-size: 16px;
+            font-size: 15px;
             cursor: pointer;
             transition: 0.3s;
-            backdrop-filter: blur(6px);
+            backdrop-filter: none;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.12em;
+            text-shadow: 0 0 12px rgba(56,223,255,0.35);
         }
-        .search-box button:hover { background: rgba(244,197,66,0.15); transform: scale(1.02); }
+        .search-box button:hover {
+                background: rgba(56,223,255,0.10);
+            transform: translateY(-1px);
+        }
 
         /* ===== WEATHER CARDS ===== */
-        .weather-cards { display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0 20px; }
+        .weather-cards { display: flex; gap: 14px; flex-wrap: wrap; margin: 18px 0 24px; }
         .weather-card {
-            background: rgba(255,255,255,0.02);
-            backdrop-filter: blur(6px);
-            padding: 14px 12px;
-            border-radius: 20px;
-            border: 1px solid rgba(244,197,66,0.06);
+            position: relative;
+            background: transparent;
+            backdrop-filter: none;
+            padding: 16px 12px 15px;
+            border-radius: 18px;
+            border: 0;
+            box-shadow: none;
             text-align: center;
             flex: 1;
             min-width: 90px;
+            overflow: hidden;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
         }
-        .weather-card .icon { font-size: 28px; }
+        .weather-card::before {
+            content: '';
+            position: absolute;
+            inset: 0 18%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(244,197,66,0.40), rgba(56,223,255,0.34), transparent);
+        }
+        .weather-card:hover {
+            transform: translateY(-2px);
+            border-color: transparent;
+            box-shadow: none;
+        }
+        .weather-card .icon {
+            display: inline-grid;
+            place-items: center;
+            width: 42px;
+            height: 42px;
+            margin-bottom: 3px;
+            border-radius: 999px;
+            background: transparent;
+            border: 0;
+            font-size: 24px;
+            filter: drop-shadow(0 0 10px rgba(56,223,255,0.18));
+        }
         .weather-card .value {
-            font-size: 22px;
-            font-weight: 700;
-            color: #90EE90;
-            text-shadow: 0 0 20px rgba(255,215,0,0.1);
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--sigma-cyan);
+            letter-spacing: 0.02em;
+            text-shadow: 0 0 14px rgba(56,223,255,0.42), 0 0 26px rgba(11,111,191,0.22);
         }
         .weather-card .label {
             font-size: 12px;
-            color: #90EE90;
-            font-weight: 600;
+            color: var(--sigma-soft-cyan);
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 0.14em;
         }
 
         /* ===== ALERTS ===== */
         .alert-box {
-            margin: 12px 0 16px;
+            margin: 14px 0 16px;
             padding: 14px 18px;
-            border-radius: 12px;
-            background: rgba(244,197,66,0.05);
-            border: 1px solid rgba(244,197,66,0.12);
-            color: #90EE90;
-            font-weight: 600;
+            border-radius: 14px;
+            background: transparent;
+            border: 1px solid rgba(216,251,255,0.12);
+            color: var(--sigma-ice);
+            font-weight: 700;
             font-size: 16px;
             text-align: center;
-            backdrop-filter: blur(4px);
-            text-shadow: 0 0 20px rgba(244,197,66,0.1);
+            backdrop-filter: none;
+            text-shadow: 0 0 16px rgba(56,223,255,0.22);
         }
-        .alert-box.safe { background: rgba(46,204,113,0.05); border-color: rgba(46,204,113,0.12); color: #d4e8a0; }
+        .alert-box.safe {
+            background: transparent;
+            border-color: rgba(142,246,255,0.18);
+            color: var(--sigma-soft-cyan);
+        }
 
-        .warning-section { margin: 16px 0 20px; }
+        .warning-section { margin: 18px 0 22px; }
+        .warning-section::before {
+            content: '';
+            display: block;
+            width: 90px;
+            height: 1px;
+            margin: 0 auto 10px;
+            background: linear-gradient(90deg, transparent, rgba(56,223,255,0.36), transparent);
+        }
         .warning-title {
+            font-family: "Cinzel", "Inter", serif;
             font-size: 18px;
-            font-weight: 700;
-            color: #90EE90;
+            font-weight: 600;
+            color: var(--sigma-soft-gold);
             margin-bottom: 12px;
-            text-shadow: 0 0 30px rgba(244,197,66,0.15);
+            text-shadow: 0 0 18px rgba(244,197,66,0.25), 0 0 22px rgba(56,223,255,0.16);
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 0.13em;
         }
         .warning-item {
             display: flex;
             justify-content: space-between;
             padding: 10px 16px;
-            border-radius: 12px;
+            border-radius: 14px;
             margin-bottom: 6px;
-            background: rgba(0,0,0,0.2);
-            backdrop-filter: blur(4px);
-            color: #90EE90;
+            background: transparent;
+            backdrop-filter: none;
+            color: var(--sigma-ice);
             font-size: 16px;
             font-weight: 600;
-            border-left: 4px solid rgba(244,197,66,0.2);
+            border-left: 3px solid rgba(56,223,255,0.36);
+            box-shadow: none;
         }
-        .warning-item .risk-low { color: #e8d48a; }
-        .warning-item .risk-medium { color: #f4c542; }
-        .warning-item .risk-high { color: #f0a030; }
+        .warning-item .risk-low { color: var(--sigma-soft-cyan); }
+        .warning-item .risk-medium { color: var(--sigma-gold); }
+        .warning-item .risk-high { color: var(--sigma-warm-alert); }
 
         .data-display {
-            color: #90EE90;
+            color: var(--sigma-ice);
             font-size: 16px;
             font-weight: 500;
             text-align: center;
@@ -206,102 +322,183 @@
         .forecast-table {
             width: 100%;
             border-collapse: collapse;
-            background: rgba(20,40,20,0.3);
-            backdrop-filter: blur(4px);
+            background: transparent;
+            backdrop-filter: none;
             border-radius: 16px;
             overflow: hidden;
+            border: 0;
+            box-shadow: none;
         }
         .forecast-table th {
-            background: rgba(244,197,66,0.05);
-            color: #90EE90;
+            background: transparent;
+            color: var(--sigma-soft-gold);
             padding: 10px 12px;
+            font-family: "Cinzel", "Inter", serif;
             font-weight: 600;
             font-size: 14px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.10em;
         }
         .forecast-table td {
             padding: 8px 12px;
             text-align: center;
-            border-bottom: 1px solid rgba(244,197,66,0.06);
-            color: #90EE90;
+            border-bottom: 1px solid rgba(56,223,255,0.14);
+            color: var(--sigma-ice);
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
         }
-        .forecast-table tr:hover td { background: rgba(244,197,66,0.02); }
+        .forecast-table tr:hover td { background: transparent; }
 
         /* ===== SIGMA MESSAGE ===== */
         .sigma-message {
-            margin: 20px 0 18px;
-            padding: 16px 0;
-            border-top: 1px solid rgba(244,197,66,0.08);
-            border-bottom: 1px solid rgba(244,197,66,0.08);
+            margin: 24px 0 20px;
+            padding: 18px 18px;
+            border-top: 1px solid rgba(56,223,255,0.18);
+            border-bottom: 1px solid rgba(56,223,255,0.18);
+            background: transparent;
             text-align: center;
         }
         .sigma-message .italic-text {
             font-size: 17px;
             font-style: italic;
-            color: #e8c86a;
-            text-shadow: 0 0 20px rgba(244,197,66,0.15);
+            color: var(--sigma-ice);
+            text-shadow: 0 0 14px rgba(56,223,255,0.20);
         }
-        .sigma-message .italic-text strong { color: #f8d88a; font-weight: 700; font-style: normal; }
+        .sigma-message .italic-text strong {
+            font-family: "Cinzel", "Inter", serif;
+            color: var(--sigma-soft-gold);
+            font-weight: 700;
+            font-style: normal;
+            letter-spacing: 0.08em;
+        }
         .sigma-message .highlight-choice {
+            font-family: "Cinzel", "Inter", serif;
             font-size: 17px;
             font-weight: 700;
-            color: #f4c542;
+            color: var(--sigma-gold);
             margin: 10px 0 6px;
-            letter-spacing: 1px;
-            text-shadow: 0 0 30px rgba(244,197,66,0.2);
+            letter-spacing: 0.16em;
+            text-shadow: 0 0 16px rgba(244,197,66,0.32);
         }
         .sigma-message .choice-option {
             font-size: 17px;
             font-style: italic;
-            color: #d4a843;
+            color: var(--sigma-ice);
             line-height: 1.8;
         }
-        .sigma-message .choice-option strong { color: #f8d88a; font-style: normal; }
+        .sigma-message .choice-option strong {
+            color: var(--sigma-cyan);
+            font-style: normal;
+            text-shadow: 0 0 14px rgba(56,223,255,0.38);
+        }
 
         /* ===== FOOTER ===== */
-        .footer { text-align: center; padding-top: 16px; border-top: 1px solid rgba(244,197,66,0.06); }
+        .footer {
+            text-align: center;
+            padding-top: 18px;
+            border-top: 1px solid rgba(56,223,255,0.14);
+        }
         .footer .nonprofit {
+            font-family: "Cinzel", "Inter", serif;
             font-size: 18px;
-            font-weight: 700;
-            color: #90EE90;
-            letter-spacing: 2px;
+            font-weight: 600;
+            color: var(--sigma-soft-gold);
+            letter-spacing: 0.12em;
             text-transform: uppercase;
-            text-shadow: 0 0 20px rgba(244,197,66,0.1);
+            text-shadow: 0 0 16px rgba(244,197,66,0.26);
         }
         .footer .motto-large {
+            font-family: "Cinzel", "Trajan Pro", serif;
             font-size: 28px;
-            font-weight: 900;
-            color: #90EE90;
+            font-weight: 600;
+            background: linear-gradient(180deg, #FFFFFF 0%, #F8FBFF 30%, #DFFBFF 55%, #8EF6FF 78%, #426E94 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             margin: 6px 0 4px;
-            text-shadow: 0 0 40px rgba(244,197,66,0.15);
-            letter-spacing: 2.5px;
+            text-shadow:
+                0 1px 0 rgba(255,255,255,0.38),
+                0 2px 0 rgba(6,43,95,0.72),
+                0 0 8px rgba(56,223,255,0.34),
+                0 0 18px rgba(56,223,255,0.20);
+            letter-spacing: 0.08em;
         }
         .footer .badge {
             display: inline-block;
-            background: rgba(244,197,66,0.04);
+            background: transparent;
             padding: 4px 18px;
             border-radius: 40px;
             font-size: 13px;
             margin-top: 6px;
-            border: 1px solid rgba(244,197,66,0.06);
-            color: #90EE90;
-            font-weight: 600;
+            border: 1px solid rgba(56,223,255,0.14);
+            color: var(--sigma-soft-cyan);
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.08em;
+        }
+
+        .forecast-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .forecast-title {
+            font-family: "Cinzel", "Inter", serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--sigma-soft-gold);
+            letter-spacing: 0.12em;
+            text-shadow: 0 0 16px rgba(244,197,66,0.22), 0 0 18px rgba(56,223,255,0.12);
+        }
+        .sigma-mini-button {
+            padding: 8px 18px;
+            border-radius: 40px;
+            border: 1px solid rgba(56,223,255,0.28);
+            background: transparent;
+            color: var(--sigma-silver);
+            font-family: "Cinzel", "Inter", serif;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 13px;
+            letter-spacing: 0.10em;
+            transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+        }
+        .sigma-mini-button:hover {
+            transform: translateY(-1px);
+            border-color: rgba(244,197,66,0.32);
+            background: rgba(56,223,255,0.10);
+        }
+        .sigma-table-status {
+            text-align: center;
+            color: var(--sigma-soft-cyan);
+            padding: 20px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+        .sigma-line-space { margin-top: 14px; }
+        .sigma-final-line {
+            margin-top: 14px;
+            font-size: 16px;
+            color: var(--sigma-muted);
         }
 
         @media (max-width: 600px) {
-            .container { padding: 16px; }
+            body { padding: 14px; }
+            .container { padding: 20px 16px; border-radius: 20px; }
+            .container::before,
+            .container::after { width: 78%; }
             .logo { height: 180px; }
             .sigma-main-title { font-size: 28px; }
+            .sigma-subtitle { letter-spacing: 0.20em; }
+            .language-selector { justify-content: center; }
             .city-display { font-size: 22px; }
             .search-box { flex-wrap: wrap; }
             .search-box input { min-width: 100%; }
             .search-box button { width: 100%; }
             .weather-cards { flex-direction: column; }
+            .forecast-header { align-items: stretch; flex-direction: column; gap: 10px; }
+            .sigma-mini-button { width: 100%; }
             .sigma-message .italic-text,
             .sigma-message .highlight-choice,
             .sigma-message .choice-option { font-size: 15px; }
@@ -325,7 +522,7 @@
         <div class="sigma-main-title">SIGMA CLIMATE</div>
         <div class="sigma-subtitle">Human Knowledge System</div>
         <div class="language-selector">
-            <span style="color:#d4a843;">🌐</span>
+            <span class="sigma-gold-icon">🌐</span>
             <select id="languageSelect">
                 <optgroup label="🌏 Southeast Asia">
                     <option value="vi">🇻🇳 Tiếng Việt</option>
@@ -430,14 +627,14 @@
 
     <!-- ===== 10-YEAR FORECAST ===== -->
     <div class="forecast-section">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <div style="font-size:18px; font-weight:700; color:#90EE90;">📊 10-YEAR FORECAST</div>
-            <button onclick="loadForecast()" style="padding:8px 18px; border-radius:40px; border:1px solid rgba(244,197,66,0.15); background:rgba(244,197,66,0.05); color:#90EE90; font-weight:600; cursor:pointer; font-size:14px;">LOAD DATA</button>
+        <div class="forecast-header">
+            <div class="forecast-title">📊 10-YEAR FORECAST</div>
+            <button onclick="loadForecast()" class="sigma-mini-button">LOAD DATA</button>
         </div>
         <table class="forecast-table">
             <thead><tr><th>Year</th><th>Temp (°C)</th><th>Rain (mm)</th></tr></thead>
             <tbody id="forecastBody">
-                <tr><td colspan="3" style="text-align:center; color:#90EE90; padding:20px;">⏳ Click LOAD DATA</td></tr>
+                <tr><td colspan="3" class="sigma-table-status">⏳ Click LOAD DATA</td></tr>
             </tbody>
         </table>
     </div>
@@ -445,11 +642,11 @@
     <!-- ===== SIGMA MESSAGE ===== -->
     <div class="sigma-message">
         <div class="italic-text"><strong>SIGMA</strong> operates on verified data. Powered by advanced mathematics. <strong>TRANSPARENT AND RELIABLE</strong>.</div>
-        <div class="italic-text" style="margin-top:14px;"><strong>SIGMA</strong> wants to say: Weather can change based on your choices. <strong>Right now</strong> – is your decision for the future.</div>
-        <div class="italic-text" style="margin-top:14px;"><strong>SIGMA</strong> does not claim the future will happen, if you decide to change right now.</div>
+        <div class="italic-text sigma-line-space"><strong>SIGMA</strong> wants to say: Weather can change based on your choices. <strong>Right now</strong> – is your decision for the future.</div>
+        <div class="italic-text sigma-line-space"><strong>SIGMA</strong> does not claim the future will happen, if you decide to change right now.</div>
         <div class="highlight-choice">YOU CHOOSE :</div>
         <div class="choice-option"><strong>@EXTREME WEATHER.</strong><br /><strong>@PEACEFUL WEATHER – HAPPY HOME.</strong></div>
-        <div class="italic-text" style="margin-top:14px; font-size:16px;">It's all in your hands. Choose wisely – you have the power to create change.</div>
+        <div class="italic-text sigma-final-line">It's all in your hands. Choose wisely – you have the power to create change.</div>
     </div>
 
     <!-- ===== FOOTER ===== -->
@@ -581,7 +778,7 @@
             if (tsunamiEvents.length > 0) {
                 const latest = tsunamiEvents[0].properties;
                 alertDiv.className = 'alert-box';
-                alertDiv.innerHTML = `🌊 TSUNAMI WARNING! M${latest.mag.toFixed(1)} - ${latest.place}<br><span style="font-size:14px; color:#90EE90;">⚠️ Stay away from coastal areas!</span>`;
+                alertDiv.innerHTML = `🌊 TSUNAMI WARNING! M${latest.mag.toFixed(1)} - ${latest.place}<br><span style="font-size:14px; color:#DFFBFF;">⚠️ Stay away from coastal areas!</span>`;
             } else {
                 alertDiv.className = 'alert-box safe';
                 alertDiv.innerHTML = '✅ NO TSUNAMI WARNING';
@@ -601,13 +798,13 @@
             if (data.daily && data.daily.river_discharge && data.daily.river_discharge.length > 0) {
                 const discharge = data.daily.river_discharge[0];
                 const level = discharge > 500 ? '🔴 HIGH' : discharge > 200 ? '🟡 MEDIUM' : '🟢 LOW';
-                const color = discharge > 500 ? '#f0a030' : discharge > 200 ? '#f4c542' : '#d4e8a0';
+                const color = discharge > 500 ? '#FF8F4C' : discharge > 200 ? '#F4C542' : '#8EF6FF';
                 display.innerHTML = `
                     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-                        <span>🚰 River Discharge: <strong style="color:#90EE90;">${discharge.toFixed(0)} m³/s</strong></span>
+                        <span>🚰 River Discharge: <strong style="color:#38DFFF; text-shadow:0 0 12px rgba(56,223,255,0.36);">${discharge.toFixed(0)} m³/s</strong></span>
                         <span style="color:${color}; font-weight:700;">${level} RISK</span>
                     </div>
-                    <div style="font-size:14px; color:#90EE90; margin-top:4px;">${discharge > 500 ? '⚠️ Potential flooding risk. Stay alert.' : discharge > 200 ? '📊 Monitor water levels.' : '✅ Normal conditions.'}</div>
+                    <div style="font-size:14px; color:#A9D7E6; margin-top:4px;">${discharge > 500 ? '⚠️ Potential flooding risk. Stay alert.' : discharge > 200 ? '📊 Monitor water levels.' : '✅ Normal conditions.'}</div>
                 `;
             } else {
                 display.innerHTML = '✅ No flood data available for this region.';
@@ -637,11 +834,11 @@
                     const rain = rains[i] || 0;
                     const barWidth = Math.min(rain * 10, 100);
                     html += `
-                        <div style="background:rgba(255,255,255,0.03); border-radius:12px; padding:10px 14px; min-width:80px; text-align:center; border:1px solid rgba(244,197,66,0.06);">
-                            <div style="font-size:13px; color:#90EE90;">${day}</div>
-                            <div style="font-size:20px; font-weight:700; color:#90EE90;">${rain.toFixed(1)} mm</div>
+                        <div style="background:transparent; border-radius:0; padding:10px 14px; min-width:80px; text-align:center; border:0;">
+                            <div style="font-size:13px; color:#A9D7E6; font-weight:700; letter-spacing:0.04em;">${day}</div>
+                            <div style="font-size:20px; font-weight:800; color:#38DFFF; text-shadow:0 0 12px rgba(56,223,255,0.34);">${rain.toFixed(1)} mm</div>
                             <div style="width:100%; height:4px; background:rgba(255,255,255,0.05); border-radius:4px; margin-top:6px; overflow:hidden;">
-                                <div style="width:${barWidth}%; height:100%; background:linear-gradient(90deg, #f4c542, #f8d88a); border-radius:4px;"></div>
+                                <div style="width:${barWidth}%; height:100%; background:linear-gradient(90deg, #F4C542, #DFFBFF); border-radius:4px;"></div>
                             </div>
                         </div>
                     `;
@@ -671,19 +868,19 @@
                 const pm25 = data.hourly.pm2_5 ? Math.round(data.hourly.pm2_5[0]) : 'N/A';
                 const pm10 = data.hourly.pm10 ? Math.round(data.hourly.pm10[0]) : 'N/A';
                 let level, color, advice;
-                if (aqi > 60) { level = '🔴 UNHEALTHY'; color = '#90EE90'; advice = 'Limit outdoor activities.'; }
-                else if (aqi > 30) { level = '🟡 MODERATE'; color = '#90EE90'; advice = 'Sensitive groups should limit exposure.'; }
-                else { level = '🟢 GOOD'; color = '#d4e8a0'; advice = 'Air quality is satisfactory.'; }
+                if (aqi > 60) { level = '🔴 UNHEALTHY'; color = '#FF8F4C'; advice = 'Limit outdoor activities.'; }
+                else if (aqi > 30) { level = '🟡 MODERATE'; color = '#F4C542'; advice = 'Sensitive groups should limit exposure.'; }
+                else { level = '🟢 GOOD'; color = '#8EF6FF'; advice = 'Air quality is satisfactory.'; }
                 display.innerHTML = `
                     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-                        <span>🌫️ AQI: <strong style="color:#90EE90;">${aqi}</strong></span>
+                        <span>🌫️ AQI: <strong style="color:#38DFFF; text-shadow:0 0 12px rgba(56,223,255,0.34);">${aqi}</strong></span>
                         <span style="color:${color}; font-weight:700;">${level}</span>
                     </div>
-                    <div style="display:flex; gap:20px; justify-content:center; font-size:14px; color:#d4a843; margin-top:4px;">
+                    <div style="display:flex; gap:20px; justify-content:center; font-size:14px; color:#F4C542; margin-top:4px; font-weight:700;">
                         <span>PM2.5: ${pm25} µg/m³</span>
                         <span>PM10: ${pm10} µg/m³</span>
                     </div>
-                    <div style="font-size:14px; color:#90EE90; margin-top:4px;">💡 ${advice}</div>
+                    <div style="font-size:14px; color:#A9D7E6; margin-top:4px;">💡 ${advice}</div>
                 `;
             } else {
                 display.innerHTML = '✅ No air quality data available.';
@@ -699,7 +896,7 @@
         const coords = getCityCoords(city);
         if (!coords) { alert('❌ Invalid city.'); return; }
         const tbody = document.getElementById('forecastBody');
-        tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#90EE90;">⏳ Loading...</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="3" class="sigma-table-status">⏳ Loading...</td></tr>';
         try {
             const url = `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&daily=temperature_2m_max,precipitation_sum&forecast_days=365&timezone=auto`;
             const res = await fetch(url);
@@ -723,7 +920,7 @@
             });
             tbody.innerHTML = rows.join('');
         } catch (e) {
-            tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#90EE90;">❌ Unable to load data.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="3" class="sigma-table-status">❌ Unable to load data.</td></tr>`;
             console.error(e);
         }
     }
