@@ -48,47 +48,89 @@
             padding: 30px 35px;
         }
 
-        /* ===== HEADER - SIGMA TYPOGRAPHY ===== */
-        .header {
-            text-align: center;
-            margin-bottom: 16px;
-        }
 
-        .logo {
-            height: 360px;
-            display: block;
-            margin: 0 auto 12px;
-        }
-
-        .sigma-main-title {
-    font-family: "Cinzel", "Trajan Pro", "Times New Roman", serif;
-    font-weight: 700;  /* Từ 500 lên 700 */
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: #f8fbff;  /* Từ #f8fbff lên #ffffff */
-    text-shadow:
-        0 1px 0 #d0dce8,
-        0 2px 0 #7a94ad,
-        0 4px 0 #1f3d5a,
-        0 6px 0 #0f2a40,
-        0 0 15px rgba(125, 215, 255, 0.8),
-        0 0 30px rgba(72, 178, 255, 0.5),
-        0 0 60px rgba(72, 178, 255, 0.2);
-    font-size: clamp(36px, 7vw, 80px);  /* Tăng kích thước */
-    line-height: 1.1;
-    margin-bottom: 4px;
+/* ===== HEADER - SIGMA TYPOGRAPHY ===== */
+.header {
+    text-align: center;
+    margin-bottom: 16px;
 }
-        .sigma-subtitle {
-            font-family: "Cinzel", "Montserrat", serif;
-            font-weight: 400;
-            letter-spacing: 0.32em;
-            text-transform: uppercase;
-            color: #f4c542;
-            text-shadow: 0 0 10px rgba(244, 197, 66, 0.35);
-            font-size: clamp(12px, 1.5vw, 18px);
-            margin-bottom: 8px;
-        }
 
+.logo {
+    height: 360px;  /* TĂNG LÊN 360px */
+    display: block;
+    margin: 0 auto 12px;
+}
+
+.sigma-main-title {
+    font-family: "Cinzel", "Trajan Pro", "Times New Roman", serif;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #f8d88a;  /* Vàng sáng */
+    text-shadow:
+        0 1px 0 #e8c86a,
+        0 2px 0 #c9a54a,
+        0 4px 0 #a8832a,
+        0 0 15px rgba(255, 215, 0, 0.5),
+        0 0 30px rgba(255, 215, 0, 0.2);
+    font-size: clamp(28px, 4.5vw, 52px);
+    line-height: 1.1;
+    margin-bottom: 2px;
+}
+
+.sigma-subtitle {
+    font-family: "Cinzel", "Montserrat", serif;
+    font-weight: 400;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: #f4c542;  /* Vàng gold */
+    text-shadow: 0 0 15px rgba(244, 197, 66, 0.4);
+    font-size: clamp(12px, 1.5vw, 18px);
+    margin-bottom: 8px;
+}
+
+/* ===== GOLDEN TEXT FOR ALL IMPORTANT MESSAGES ===== */
+.golden-text {
+    color: #f4c542;
+    text-shadow: 0 0 20px rgba(244, 197, 66, 0.3);
+}
+
+/* ===== SIGMA MESSAGE (GOLDEN) ===== */
+.sigma-message .italic-text {
+    font-size: 17px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.8;
+    color: #f4c542;  /* CHUYỂN SANG GOLDEN */
+    text-shadow: 0 0 20px rgba(244, 197, 66, 0.25);
+    font-family: 'Inter', serif;
+}
+.sigma-message .italic-text strong {
+    color: #f8d88a;  /* Vàng sáng hơn cho chữ đậm */
+    font-weight: 700;
+    font-style: normal;
+}
+.sigma-message .highlight-choice {
+    font-size: 17px;
+    font-weight: 700;
+    color: #f8d88a;
+    margin: 10px 0 6px;
+    letter-spacing: 1px;
+    font-family: 'Inter', sans-serif;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+.sigma-message .choice-option {
+    font-size: 17px;
+    font-style: italic;
+    color: #f4c542;
+    line-height: 1.6;
+    font-family: 'Inter', serif;
+}
+.sigma-message .choice-option strong {
+    color: #f8d88a;
+    font-style: normal;
+}
+        
         .language-selector {
             display: flex;
             justify-content: flex-end;
@@ -382,7 +424,7 @@
         }
 
         /* ===== RESPONSIVE ===== */
-        @media (max-width: 600px) {
+        @media (max-wi22dth: 600px) {
             .container { padding: 16px; }
             .sigma-main-title { font-size: 28px; }
             .logo { height: 80px; }
@@ -417,60 +459,24 @@
 
     <div class="container">
 
-        <!-- ===== HEADER ===== -->
-        <div class="header">
-            <img src="assets/images/sigma_logo.png" alt="Sigma Logo" class="logo" />
-            <div class="sigma-main-title">SIGMA CLIMATE</div>
-            <div class="sigma-subtitle">Human Knowledge System</div>
 
-            <div class="language-selector">
-                <span style="color:#A0A0A0;">🌐</span>
-                <select id="languageSelect">
-                    <optgroup label="🌏 Asia Pacific">
-                        <option value="vi">Tiếng Việt</option>
-                        <option value="zh">中文</option>
-                        <option value="ja">日本語</option>
-                        <option value="ko">한국어</option>
-                        <option value="id">Bahasa Indonesia</option>
-                        <option value="th">ภาษาไทย</option>
-                        <option value="km">ភាសាខ្មែរ</option>
-                        <option value="lo">ພາສາລາວ</option>
-                        <option value="my">မြန်မာ</option>
-                        <option value="fil">Filipino</option>
-                    </optgroup>
-                    <optgroup label="🌍 Europe & Americas">
-                        <option value="en" selected>English</option>
-                        <option value="es">Español</option>
-                        <option value="fr">Français</option>
-                        <option value="de">Deutsch</option>
-                        <option value="pt">Português</option>
-                        <option value="it">Italiano</option>
-                        <option value="nl">Nederlands</option>
-                        <option value="pl">Polski</option>
-                        <option value="el">Ελληνικά</option>
-                    </optgroup>
-                    <optgroup label="🌍 Middle East & Africa">
-                        <option value="ar">العربية</option>
-                        <option value="fa">فارسی</option>
-                        <option value="ur">اردو</option>
-                        <option value="sw">Kiswahili</option>
-                        <option value="ha">Hausa</option>
-                    </optgroup>
-                    <optgroup label="🌏 South Asia">
-                        <option value="hi">हिन्दी</option>
-                        <option value="bn">বাংলা</option>
-                        <option value="ta">தமிழ்</option>
-                    </optgroup>
-                    <optgroup label="🌍 Eastern Europe & Central Asia">
-                        <option value="ru">Русский</option>
-                        <option value="uk">Українська</option>
-                        <option value="tr">Türkçe</option>
-                    </optgroup>
-                </select>
-            </div>
+<div class="header">
+    <img src="assets/images/sigma_logo.png" alt="Sigma Logo" class="logo" />
+    <div class="sigma-main-title">SIGMA CLIMATE</div>
+    <div class="sigma-subtitle">Human Knowledge System</div>
 
-            <div class="city-display" id="cityDisplay">HÀ NỘI</div>
-        </div>
+    <!-- Language selector và city display -->
+    <div class="language-selector">
+        <span style="color:#A0A0A0;">🌐</span>
+        <select id="languageSelect">
+            <!-- ... các option ngôn ngữ ... -->
+        </select>
+    </div>
+
+    <div class="city-display" id="cityDisplay">HÀ NỘI</div>
+</div>
+        
+    
 
         <!-- ===== SEARCH ===== -->
         <div class="search-box">
