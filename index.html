@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>🌿 SIGMA CLIMATE – Global Intelligence</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cinzel:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <style>
         /* ============================================================
            RESET & BASE
@@ -48,29 +48,44 @@
             padding: 30px 35px;
         }
 
-        /* ===== HEADER ===== */
+        /* ===== HEADER - SIGMA TYPOGRAPHY ===== */
         .header {
             text-align: center;
             margin-bottom: 16px;
         }
 
         .logo {
-            height: 180px;
+            height: 120px;
             display: block;
-            margin: 0 auto 16px;
+            margin: 0 auto 12px;
         }
 
-        .header h1 {
-            font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
-            font-size: 42px;
-            font-weight: 700;
-            font-style: italic;
-            color: #C0C0C0;
-            text-shadow: 0 0 40px rgba(192, 192, 192, 0.15);
-            letter-spacing: 2px;
+        .sigma-main-title {
+            font-family: "Cinzel", "Trajan Pro", "Times New Roman", serif;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #f8fbff;
+            text-shadow:
+                0 1px 0 #b9c7d6,
+                0 2px 0 #5f7891,
+                0 4px 0 #17344d,
+                0 0 10px rgba(125, 215, 255, 0.65),
+                0 0 24px rgba(72, 178, 255, 0.45);
+            font-size: clamp(32px, 6vw, 72px);
+            line-height: 1.1;
+            margin-bottom: 4px;
         }
-        .header h1 span {
-            color: #E8E8E8;
+
+        .sigma-subtitle {
+            font-family: "Cinzel", "Montserrat", serif;
+            font-weight: 400;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: #f4c542;
+            text-shadow: 0 0 10px rgba(244, 197, 66, 0.35);
+            font-size: clamp(12px, 1.5vw, 18px);
+            margin-bottom: 8px;
         }
 
         .language-selector {
@@ -79,7 +94,7 @@
             align-items: center;
             gap: 10px;
             margin: 6px 0 0;
-            font-size: 15px;
+            font-size: 14px;
             color: #A0A0A0;
         }
         .language-selector select {
@@ -88,11 +103,12 @@
             border: 1px solid rgba(192, 192, 192, 0.15);
             background: rgba(30, 60, 30, 0.4);
             color: #E8E8E8;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 500;
             outline: none;
             backdrop-filter: blur(4px);
             cursor: pointer;
+            max-width: 200px;
         }
         .language-selector select option {
             background: #1a3a1a;
@@ -100,12 +116,13 @@
         }
 
         .city-display {
-            font-size: 30px;
-            font-weight: 800;
+            font-size: 26px;
+            font-weight: 700;
             color: #C0C0C0;
-            margin-top: 2px;
+            margin-top: 4px;
             text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
             min-height: 40px;
+            font-family: 'Inter', sans-serif;
         }
 
         /* ===== SEARCH ===== */
@@ -116,15 +133,16 @@
         }
         .search-box input {
             flex: 1;
-            padding: 15px 22px;
+            padding: 14px 20px;
             border-radius: 60px;
             border: 1px solid rgba(192, 192, 192, 0.15);
             background: rgba(30, 60, 30, 0.35);
             color: #E8E8E8;
-            font-size: 18px;
+            font-size: 16px;
             outline: none;
             backdrop-filter: blur(6px);
             font-weight: 500;
+            font-family: 'Inter', sans-serif;
         }
         .search-box input:focus {
             background: rgba(40, 80, 40, 0.5);
@@ -135,29 +153,30 @@
             opacity: 0.8;
         }
         .search-box button {
-            padding: 15px 32px;
+            padding: 14px 28px;
             border-radius: 60px;
             border: none;
-            background: rgba(192, 192, 192, 0.15);
+            background: rgba(192, 192, 192, 0.12);
             color: #E8E8E8;
-            font-weight: 800;
-            font-size: 18px;
+            font-weight: 700;
+            font-size: 16px;
             cursor: pointer;
             transition: 0.3s;
             backdrop-filter: blur(6px);
             text-transform: uppercase;
             letter-spacing: 1px;
             border: 1px solid rgba(192, 192, 192, 0.1);
+            font-family: 'Inter', sans-serif;
         }
         .search-box button:hover {
             background: rgba(192, 192, 192, 0.25);
-            transform: scale(1.03);
+            transform: scale(1.02);
         }
 
         /* ===== WEATHER CARDS ===== */
         .weather-cards {
             display: flex;
-            gap: 14px;
+            gap: 12px;
             justify-content: center;
             flex-wrap: wrap;
             margin: 16px 0 20px;
@@ -165,28 +184,30 @@
         .weather-card {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(6px);
-            padding: 16px 14px;
+            padding: 14px 12px;
             border-radius: 20px;
             border: 1px solid rgba(192, 192, 192, 0.06);
             text-align: center;
-            min-width: 100px;
+            min-width: 90px;
             flex: 1;
         }
         .weather-card .icon {
-            font-size: 32px;
+            font-size: 28px;
         }
         .weather-card .value {
-            font-size: 26px;
-            font-weight: 800;
+            font-size: 22px;
+            font-weight: 700;
             color: #E8E8E8;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            font-family: 'Inter', sans-serif;
         }
         .weather-card .label {
-            font-size: 14px;
+            font-size: 12px;
             color: #A0A0A0;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
+            font-family: 'Inter', sans-serif;
         }
 
         /* ===== WARNINGS ===== */
@@ -194,26 +215,28 @@
             margin: 16px 0 20px;
         }
         .warning-title {
-            font-size: 22px;
-            font-weight: 800;
+            font-size: 18px;
+            font-weight: 700;
             color: #E8E8E8;
             margin-bottom: 12px;
             text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
             text-transform: uppercase;
             letter-spacing: 2px;
+            font-family: 'Inter', sans-serif;
         }
         .warning-item {
             display: flex;
             justify-content: space-between;
-            padding: 12px 20px;
-            border-radius: 14px;
-            margin-bottom: 8px;
+            padding: 10px 16px;
+            border-radius: 12px;
+            margin-bottom: 6px;
             background: rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(4px);
             color: #E8E8E8;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
             border-left: 4px solid rgba(192, 192, 192, 0.2);
+            font-family: 'Inter', sans-serif;
         }
         .warning-item .risk-low { color: #A0E8D0; }
         .warning-item .risk-medium { color: #E8E0A0; }
@@ -222,15 +245,16 @@
         /* ===== EARTHQUAKE ALERT ===== */
         .earthquake-alert {
             margin: 12px 0 16px;
-            padding: 16px 20px;
-            border-radius: 14px;
+            padding: 14px 18px;
+            border-radius: 12px;
             background: rgba(192, 192, 192, 0.05);
             border: 1px solid rgba(192, 192, 192, 0.1);
             color: #C0C0C0;
-            font-weight: 700;
-            font-size: 18px;
+            font-weight: 600;
+            font-size: 16px;
             text-align: center;
             backdrop-filter: blur(4px);
+            font-family: 'Inter', sans-serif;
         }
         .earthquake-alert.safe {
             background: rgba(46, 204, 113, 0.05);
@@ -253,19 +277,21 @@
         .forecast-table th {
             background: rgba(192, 192, 192, 0.05);
             color: #C0C0C0;
-            padding: 12px;
-            font-weight: 700;
-            font-size: 16px;
+            padding: 10px 12px;
+            font-weight: 600;
+            font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 1px;
+            font-family: 'Inter', sans-serif;
         }
         .forecast-table td {
-            padding: 10px 12px;
+            padding: 8px 12px;
             text-align: center;
             border-bottom: 1px solid rgba(192, 192, 192, 0.05);
             color: #C0C0C0;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 500;
+            font-family: 'Inter', sans-serif;
         }
         .forecast-table tr:hover td {
             background: rgba(192, 192, 192, 0.03);
@@ -282,11 +308,12 @@
             text-shadow: 0 2px 20px rgba(0, 0, 0, 0.7);
         }
         .sigma-message .italic-text {
-            font-size: 18px;
+            font-size: 17px;
             font-style: italic;
             font-weight: 400;
             line-height: 1.8;
             color: #A0A0A0;
+            font-family: 'Inter', serif;
         }
         .sigma-message .italic-text strong {
             color: #E8E8E8;
@@ -294,17 +321,19 @@
             font-style: normal;
         }
         .sigma-message .highlight-choice {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 700;
             color: #C0C0C0;
             margin: 10px 0 6px;
             letter-spacing: 1px;
+            font-family: 'Inter', sans-serif;
         }
         .sigma-message .choice-option {
-            font-size: 18px;
+            font-size: 17px;
             font-style: italic;
             color: #A0A0A0;
             line-height: 1.6;
+            font-family: 'Inter', serif;
         }
         .sigma-message .choice-option strong {
             color: #E8E8E8;
@@ -320,62 +349,66 @@
             text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
         }
         .footer .nonprofit {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
             color: #A0A0A0;
             letter-spacing: 2px;
             text-transform: uppercase;
+            font-family: 'Inter', sans-serif;
         }
         .footer .motto-large {
-            font-size: 30px;
+            font-size: 28px;
             font-weight: 900;
             color: #C0C0C0;
-            margin: 8px 0 4px;
+            margin: 6px 0 4px;
             text-shadow: 0 0 40px rgba(192, 192, 192, 0.1);
             letter-spacing: 2.5px;
+            font-family: 'Inter', sans-serif;
         }
         .footer .badge {
             display: inline-block;
             background: rgba(192, 192, 192, 0.03);
-            padding: 4px 20px;
+            padding: 4px 18px;
             border-radius: 40px;
-            font-size: 14px;
+            font-size: 13px;
             margin-top: 6px;
             border: 1px solid rgba(192, 192, 192, 0.06);
             color: #A0A0A0;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            font-family: 'Inter', sans-serif;
         }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 600px) {
             .container { padding: 16px; }
-            .header h1 { font-size: 28px; }
-            .logo { height: 120px; }
+            .sigma-main-title { font-size: 28px; }
+            .logo { height: 80px; }
             .search-box { flex-wrap: wrap; }
-            .search-box input { min-width: 100%; font-size: 16px; padding: 14px 18px; }
-            .search-box button { width: 100%; font-size: 17px; padding: 14px; }
+            .search-box input { min-width: 100%; font-size: 15px; padding: 12px 16px; }
+            .search-box button { width: 100%; font-size: 15px; padding: 12px; }
             .weather-cards { flex-direction: column; }
-            .city-display { font-size: 24px; }
+            .city-display { font-size: 20px; }
             .language-selector { justify-content: center; }
             .sigma-message .italic-text,
             .sigma-message .highlight-choice,
-            .sigma-message .choice-option { font-size: 16px; }
-            .footer .motto-large { font-size: 24px; }
-            .footer .nonprofit { font-size: 17px; }
+            .sigma-message .choice-option { font-size: 15px; }
+            .footer .motto-large { font-size: 22px; }
+            .footer .nonprofit { font-size: 15px; }
             .forecast-table th,
-            .forecast-table td { font-size: 13px; padding: 8px 6px; }
+            .forecast-table td { font-size: 12px; padding: 6px 8px; }
+            .sigma-subtitle { font-size: 11px; letter-spacing: 0.2em; }
         }
 
         @media (max-width: 400px) {
-            .header h1 { font-size: 22px; }
-            .logo { height: 90px; }
-            .city-display { font-size: 20px; }
+            .sigma-main-title { font-size: 22px; }
+            .logo { height: 60px; }
+            .city-display { font-size: 18px; }
             .sigma-message .italic-text,
             .sigma-message .highlight-choice,
             .sigma-message .choice-option { font-size: 14px; }
-            .footer .motto-large { font-size: 20px; }
+            .footer .motto-large { font-size: 18px; }
         }
     </style>
 </head>
@@ -386,22 +419,55 @@
         <!-- ===== HEADER ===== -->
         <div class="header">
             <img src="assets/images/sigma_logo.png" alt="Sigma Logo" class="logo" />
-            <h1>🌿 SIGMA <span>CLIMATE</span></h1>
+            <div class="sigma-main-title">SIGMA CLIMATE</div>
+            <div class="sigma-subtitle">Human Knowledge System</div>
+
             <div class="language-selector">
                 <span style="color:#A0A0A0;">🌐</span>
                 <select id="languageSelect">
-                    <option value="en">English</option>
-                    <option value="vi">Tiếng Việt</option>
-                    <option value="zh">中文</option>
-                    <option value="ja">日本語</option>
-                    <option value="es">Español</option>
-                    <option value="fr">Français</option>
-                    <option value="de">Deutsch</option>
-                    <option value="ru">Русский</option>
-                    <option value="ar">العربية</option>
-                    <option value="hi">हिन्दी</option>
+                    <optgroup label="🌏 Asia Pacific">
+                        <option value="vi">Tiếng Việt</option>
+                        <option value="zh">中文</option>
+                        <option value="ja">日本語</option>
+                        <option value="ko">한국어</option>
+                        <option value="id">Bahasa Indonesia</option>
+                        <option value="th">ภาษาไทย</option>
+                        <option value="km">ភាសាខ្មែរ</option>
+                        <option value="lo">ພາສາລາວ</option>
+                        <option value="my">မြန်မာ</option>
+                        <option value="fil">Filipino</option>
+                    </optgroup>
+                    <optgroup label="🌍 Europe & Americas">
+                        <option value="en" selected>English</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                        <option value="de">Deutsch</option>
+                        <option value="pt">Português</option>
+                        <option value="it">Italiano</option>
+                        <option value="nl">Nederlands</option>
+                        <option value="pl">Polski</option>
+                        <option value="el">Ελληνικά</option>
+                    </optgroup>
+                    <optgroup label="🌍 Middle East & Africa">
+                        <option value="ar">العربية</option>
+                        <option value="fa">فارسی</option>
+                        <option value="ur">اردو</option>
+                        <option value="sw">Kiswahili</option>
+                        <option value="ha">Hausa</option>
+                    </optgroup>
+                    <optgroup label="🌏 South Asia">
+                        <option value="hi">हिन्दी</option>
+                        <option value="bn">বাংলা</option>
+                        <option value="ta">தமிழ்</option>
+                    </optgroup>
+                    <optgroup label="🌍 Eastern Europe & Central Asia">
+                        <option value="ru">Русский</option>
+                        <option value="uk">Українська</option>
+                        <option value="tr">Türkçe</option>
+                    </optgroup>
                 </select>
             </div>
+
             <div class="city-display" id="cityDisplay">HÀ NỘI</div>
         </div>
 
@@ -438,10 +504,10 @@
         <!-- ===== 10-YEAR FORECAST ===== -->
         <div class="forecast-section">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                <div style="font-size:20px; font-weight:700; color:#C0C0C0; text-shadow:0 2px 20px rgba(0,0,0,0.6);">
+                <div style="font-size:18px; font-weight:700; color:#C0C0C0; text-shadow:0 2px 20px rgba(0,0,0,0.6); font-family:'Inter',sans-serif;">
                     📊 10-YEAR FORECAST
                 </div>
-                <button onclick="loadForecast()" style="padding:8px 20px; border-radius:40px; border:1px solid rgba(192,192,192,0.15); background:rgba(192,192,192,0.05); color:#C0C0C0; font-weight:700; cursor:pointer;">
+                <button onclick="loadForecast()" style="padding:8px 18px; border-radius:40px; border:1px solid rgba(192,192,192,0.15); background:rgba(192,192,192,0.05); color:#C0C0C0; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif; font-size:14px;">
                     LOAD DATA
                 </button>
             </div>
@@ -449,7 +515,7 @@
                 <table class="forecast-table">
                     <thead><tr><th>Year</th><th>Temperature (°C)</th><th>Rainfall (mm)</th></tr></thead>
                     <tbody id="forecastBody">
-                        <tr><td colspan="3" style="text-align:center; color:#A0A0A0; padding:20px;">⏳ Click "LOAD DATA" to view forecast</td></tr>
+                        <tr><td colspan="3" style="text-align:center; color:#A0A0A0; padding:20px; font-family:'Inter',sans-serif;">⏳ Click "LOAD DATA" to view forecast</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -477,7 +543,7 @@
                 <strong>@EXTREME WEATHER & ENVIRONMENT.</strong> <br />
                 <strong>@POSITIVE – PEACEFUL WEATHER – HAPPY HOME.</strong>
             </div>
-            <div class="italic-text" style="margin-top:14px; font-size:17px;">
+            <div class="italic-text" style="margin-top:14px; font-size:16px;">
                 It's all in your hands. <br />
                 Choose wisely – because you have the power to create change.
             </div>
